@@ -1,0 +1,920 @@
+#include "stdafx.h"
+#include "IdManager.h"
+#include "System.h"
+#include "VFS.h"
+
+#include "Cell/lv2/sys_fs.h"
+
+#include "Utilities/mutex.h"
+#include "Utilities/StrUtil.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
+#include <thread>
+
+LOG_CHANNEL(vfs_log, "VFS");
+
+struct vfs_directory
+{
+	// Real path (empty if root or not exists)
+	std::string path{};
+
+	// Virtual subdirectories (vector because only vector allows incomplete types)
+	std::vector<std::pair<std::string, vfs_directory>> dirs{};
+};
+
+struct vfs_manager
+{
+	shared_mutex mutex{};
+
+	// VFS root
+	vfs_directory root{};
+};
+
+bool vfs::mount(std::string_view vpath, std::string_view path)
+{
+	// Workaround
+	g_fxo->need<vfs_manager>();
+
+	auto& table = g_fxo->get<vfs_manager>();
+
+	// TODO: scan roots of mounted devices for undeleted vfs::host::unlink remnants, and try to delete them (_WIN32 only)
+
+	std::lock_guard lock(table.mutex);
+
+	if (vpath.empty())
+	{
+		// Empty relative path, should set relative path base; unsupported
+		vfs_log.error("Cannot mount empty path to \"%s\"", path);
+		return false;
+	}
+
+	const std::string_view vpath_backup = vpath;
+
+	for (std::vector<vfs_directory*> list{&table.root};;)
+	{
+		// Skip one or more '/'
+		const auto pos = vpath.find_first_not_of('/');
+
+		if (pos == 0)
+		{
+			// Mounting relative path is not supported
+			vfs_log.error("Cannot mount relative path \"%s\" to \"%s\"", vpath_backup, path);
+			return false;
+		}
+
+		if (pos == umax)
+		{
+			// Mounting completed
+			list.back()->path = path;
+			vfs_log.notice("Mounted path \"%s\" to \"%s\"", vpath_backup, path);
+			return true;
+		}
+
+		// Get fragment name
+		const auto name = vpath.substr(pos, vpath.find_first_of('/', pos) - pos);
+		vpath.remove_prefix(name.size() + pos);
+
+		if (name == ".")
+		{
+			// Keep current
+			continue;
+		}
+
+		if (name == "..")
+		{
+			// Root parent is root
+			if (list.size() == 1)
+			{
+				continue;
+			}
+
+			// Go back one level
+			list.pop_back();
+			continue;
+		}
+
+		// Find or add
+		const auto last = list.back();
+
+		for (auto& dir : last->dirs)
+		{
+			if (dir.first == name)
+			{
+				list.push_back(&dir.second);
+				break;
+			}
+		}
+
+		if (last == list.back())
+		{
+			// Add new entry
+			list.push_back(&last->dirs.emplace_back(name, vfs_directory{}).second);
+		}
+	}
+}
+
+std::string vfs::get(std::string_view vpath, std::vector<std::string>* out_dir, std::string* out_path)
+{
+	auto& table = g_fxo->get<vfs_manager>();
+
+	reader_lock lock(table.mutex);
+
+	// Resulting path fragments: decoded ones
+	std::vector<std::string_view> result;
+	result.reserve(vpath.size() / 2);
+
+	// Mounted path
+	std::string_view result_base;
+
+	if (vpath.empty())
+	{
+		// Empty relative path (reuse further return)
+		vpath = ".";
+	}
+
+	// Fragments for out_path
+	std::vector<std::string_view> name_list;
+
+	if (out_path)
+	{
+		name_list.reserve(vpath.size() / 2);
+	}
+
+	for (std::vector<const vfs_directory*> list{&table.root};;)
+	{
+		// Skip one or more '/'
+		const auto pos = vpath.find_first_not_of('/');
+
+		if (pos == 0)
+		{
+			// Relative path: point to non-existent location
+			return fs::get_config_dir() + "delete_this_dir.../delete_this...";
+		}
+
+		if (pos == umax)
+		{
+			// Absolute path: finalize
+			for (auto it = list.rbegin(), rend = list.rend(); it != rend; it++)
+			{
+				if (auto* dir = *it; dir && (!dir->path.empty() || list.size() == 1))
+				{
+					// Save latest valid mount path
+					result_base = dir->path;
+
+					// Erase unnecessary path fragments
+					result.erase(result.begin(), result.begin() + (std::distance(it, rend) - 1));
+
+					// Extract mounted subdirectories (TODO)
+					if (out_dir)
+					{
+						for (auto& pair : dir->dirs)
+						{
+							if (!pair.second.path.empty())
+							{
+								out_dir->emplace_back(pair.first);
+							}
+						}
+					}
+
+					break;
+				}
+			}
+
+			if (!vpath.empty())
+			{
+				// Finalize path with '/'
+				result.emplace_back("");
+			}
+
+			break;
+		}
+
+		// Get fragment name
+		const auto name = vpath.substr(pos, vpath.find_first_of('/', pos) - pos);
+		vpath.remove_prefix(name.size() + pos);
+
+		// Process special directories
+		if (name == ".")
+		{
+			// Keep current
+			continue;
+		}
+
+		if (name == "..")
+		{
+			// Root parent is root
+			if (list.size() == 1)
+			{
+				continue;
+			}
+
+			// Go back one level
+			if (out_path)
+			{
+				name_list.pop_back();
+			}
+
+			list.pop_back();
+			result.pop_back();
+			continue;
+		}
+
+		const auto last = list.back();
+		list.push_back(nullptr);
+
+		if (out_path)
+		{
+			name_list.push_back(name);
+		}
+
+		result.push_back(name);
+
+		if (!last)
+		{
+			continue;
+		}
+
+		for (auto& dir : last->dirs)
+		{
+			if (dir.first == name)
+			{
+				list.back() = &dir.second;
+
+				if (dir.second.path == "/"sv)
+				{
+					if (vpath.size() <= 1)
+					{
+						return fs::get_config_dir() + "delete_this_dir.../delete_this...";
+					}
+
+					// Handle /host_root (not escaped, not processed)
+					if (out_path)
+					{
+						*out_path =  "/";
+						*out_path += fmt::merge(name_list, "/");
+						*out_path += vpath;
+					}
+
+					return std::string{vpath.substr(1)};
+				}
+
+				break;
+			}
+		}
+	}
+
+	if (result_base.empty())
+	{
+		// Not mounted
+		return {};
+	}
+
+	// Merge path fragments
+	if (out_path)
+	{
+		*out_path =  "/";
+		*out_path += fmt::merge(name_list, "/");
+	}
+
+	// Escape for host FS
+	std::vector<std::string> escaped;
+	escaped.reserve(result.size());
+	for (auto& sv : result)
+		escaped.emplace_back(vfs::escape(sv));
+
+	return std::string{result_base} + fmt::merge(escaped, "/");
+}
+
+#if __cpp_char8_t >= 201811
+using char2 = char8_t;
+#else
+using char2 = char;
+#endif
+
+std::string vfs::escape(std::string_view name, bool escape_slash)
+{
+	std::string result;
+
+	if (name.size() <= 2 && name.find_first_not_of('.') == umax)
+	{
+		// Return . or .. as is
+		result = name;
+		return result;
+	}
+
+	// Emulate NTS (limited)
+	auto get_char = [&](usz pos) -> char2
+	{
+		if (pos < name.size())
+		{
+			return name[pos];
+		}
+		else
+		{
+			return '\0';
+		}
+	};
+
+	// Escape NUL, LPT ant other trash
+	if (name.size() > 2)
+	{
+		// Pack first 3 characters
+		const u32 triple = std::bit_cast<le_t<u32>, u32>(toupper(name[0]) | toupper(name[1]) << 8 | toupper(name[2]) << 16);
+
+		switch (triple)
+		{
+		case "COM"_u32:
+		case "LPT"_u32:
+		{
+			if (name.size() >= 4 && name[3] >= '1' && name[3] <= '9')
+			{
+				if (name.size() == 4 || name[4] == '.')
+				{
+					// Escape first character (C or L)
+					result = reinterpret_cast<const char*>(u8"！");
+				}
+			}
+
+			break;
+		}
+		case "NUL"_u32:
+		case "CON"_u32:
+		case "AUX"_u32:
+		case "PRN"_u32:
+		{
+			if (name.size() == 3 || name[3] == '.')
+			{
+				result = reinterpret_cast<const char*>(u8"！");
+			}
+
+			break;
+		}
+		}
+	}
+
+	result.reserve(result.size() + name.size());
+
+	for (usz i = 0, s = name.size(); i < s; i++)
+	{
+		switch (char2 c = name[i])
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		{
+			result += reinterpret_cast<const char*>(u8"０");
+			result.back() += c;
+			break;
+		}
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 30:
+		case 31:
+		{
+			result += reinterpret_cast<const char*>(u8"Ａ");
+			result.back() += c;
+			result.back() -= 10;
+			break;
+		}
+		case '<':
+		{
+			result += reinterpret_cast<const char*>(u8"＜");
+			break;
+		}
+		case '>':
+		{
+			result += reinterpret_cast<const char*>(u8"＞");
+			break;
+		}
+		case ':':
+		{
+			result += reinterpret_cast<const char*>(u8"：");
+			break;
+		}
+		case '"':
+		{
+			result += reinterpret_cast<const char*>(u8"＂");
+			break;
+		}
+		case '\\':
+		{
+			result += reinterpret_cast<const char*>(u8"＼");
+			break;
+		}
+		case '|':
+		{
+			result += reinterpret_cast<const char*>(u8"｜");
+			break;
+		}
+		case '?':
+		{
+			result += reinterpret_cast<const char*>(u8"？");
+			break;
+		}
+		case '*':
+		{
+			result += reinterpret_cast<const char*>(u8"＊");
+			break;
+		}
+		case '/':
+		{
+			if (escape_slash)
+			{
+				result += reinterpret_cast<const char*>(u8"／");
+				break;
+			}
+
+			result += c;
+			break;
+		}
+		case '.':
+		case ' ':
+		{
+			if (!get_char(i + 1))
+			{
+				switch (c)
+				{
+				// Directory name ended with a space or a period, not allowed on Windows.
+				case '.': result += reinterpret_cast<const char*>(u8"．"); break;
+				case ' ': result += reinterpret_cast<const char*>(u8"＿"); break;
+				}
+
+				break;
+			}
+
+			result += c;
+			break;
+		}
+		case char2{u8"！"[0]}:
+		{
+			// Escape full-width characters 0xFF01..0xFF5e with ！ (0xFF01)
+			switch (get_char(i + 1))
+			{
+			case char2{u8"！"[1]}:
+			{
+				const uchar c3 = get_char(i + 2);
+
+				if (c3 >= 0x81 && c3 <= 0xbf)
+				{
+					result += reinterpret_cast<const char*>(u8"！");
+				}
+
+				break;
+			}
+			case char2{u8"｀"[1]}:
+			{
+				const uchar c3 = get_char(i + 2);
+
+				if (c3 >= 0x80 && c3 <= 0x9e)
+				{
+					result += reinterpret_cast<const char*>(u8"！");
+				}
+
+				break;
+			}
+			default: break;
+			}
+
+			result += c;
+			break;
+		}
+		default:
+		{
+			result += c;
+			break;
+		}
+		}
+	}
+
+	return result;
+}
+
+std::string vfs::unescape(std::string_view name)
+{
+	std::string result;
+	result.reserve(name.size());
+
+	// Emulate NTS
+	auto get_char = [&](usz pos) -> char2
+	{
+		if (pos < name.size())
+		{
+			return name[pos];
+		}
+		else
+		{
+			return '\0';
+		}
+	};
+
+	for (usz i = 0, s = name.size(); i < s; i++)
+	{
+		switch (char2 c = name[i])
+		{
+		case char2{u8"！"[0]}:
+		{
+			switch (get_char(i + 1))
+			{
+			case char2{u8"！"[1]}:
+			{
+				const uchar c3 = get_char(i + 2);
+
+				if (c3 >= 0x81 && c3 <= 0xbf)
+				{
+					switch (static_cast<char2>(c3))
+					{
+					case char2{u8"０"[2]}:
+					case char2{u8"１"[2]}:
+					case char2{u8"２"[2]}:
+					case char2{u8"３"[2]}:
+					case char2{u8"４"[2]}:
+					case char2{u8"５"[2]}:
+					case char2{u8"６"[2]}:
+					case char2{u8"７"[2]}:
+					case char2{u8"８"[2]}:
+					case char2{u8"９"[2]}:
+					{
+						result += static_cast<char>(c3);
+						result.back() -= u8"０"[2];
+						continue;
+					}
+					case char2{u8"Ａ"[2]}:
+					case char2{u8"Ｂ"[2]}:
+					case char2{u8"Ｃ"[2]}:
+					case char2{u8"Ｄ"[2]}:
+					case char2{u8"Ｅ"[2]}:
+					case char2{u8"Ｆ"[2]}:
+					case char2{u8"Ｇ"[2]}:
+					case char2{u8"Ｈ"[2]}:
+					case char2{u8"Ｉ"[2]}:
+					case char2{u8"Ｊ"[2]}:
+					case char2{u8"Ｋ"[2]}:
+					case char2{u8"Ｌ"[2]}:
+					case char2{u8"Ｍ"[2]}:
+					case char2{u8"Ｎ"[2]}:
+					case char2{u8"Ｏ"[2]}:
+					case char2{u8"Ｐ"[2]}:
+					case char2{u8"Ｑ"[2]}:
+					case char2{u8"Ｒ"[2]}:
+					case char2{u8"Ｓ"[2]}:
+					case char2{u8"Ｔ"[2]}:
+					case char2{u8"Ｕ"[2]}:
+					case char2{u8"Ｖ"[2]}:
+					{
+						result += static_cast<char>(c3);
+						result.back() -= u8"Ａ"[2];
+						result.back() += 10;
+						continue;
+					}
+					case char2{u8"！"[2]}:
+					{
+						if (const char2 c4 = get_char(i + 3))
+						{
+							// Escape anything but null character
+							result += c4;
+						}
+						else
+						{
+							return result;
+						}
+
+						i += 3;
+						continue;
+					}
+					case char2{u8"＿"[2]}:
+					{
+						result += ' ';
+						break;
+					}
+					case char2{u8"．"[2]}:
+					{
+						result += '.';
+						break;
+					}
+					case char2{u8"＜"[2]}:
+					{
+						result += '<';
+						break;
+					}
+					case char2{u8"＞"[2]}:
+					{
+						result += '>';
+						break;
+					}
+					case char2{u8"："[2]}:
+					{
+						result += ':';
+						break;
+					}
+					case char2{u8"＂"[2]}:
+					{
+						result += '"';
+						break;
+					}
+					case char2{u8"＼"[2]}:
+					{
+						result += '\\';
+						break;
+					}
+					case char2{u8"？"[2]}:
+					{
+						result += '?';
+						break;
+					}
+					case char2{u8"＊"[2]}:
+					{
+						result += '*';
+						break;
+					}
+					case char2{u8"＄"[2]}:
+					{
+						if (i == 0)
+						{
+							// Special case: filename starts with full-width $ likely created by vfs::host::unlink
+							result.resize(1, '.');
+							return result;
+						}
+
+						[[fallthrough]];
+					}
+					default:
+					{
+						// Unrecognized character (ignored)
+						break;
+					}
+					}
+
+					i += 2;
+				}
+				else
+				{
+					result += c;
+				}
+
+				break;
+			}
+			case char2{u8"｀"[1]}:
+			{
+				const uchar c3 = get_char(i + 2);
+
+				if (c3 >= 0x80 && c3 <= 0x9e)
+				{
+					switch (static_cast<char2>(c3))
+					{
+					case char2{u8"｜"[2]}:
+					{
+						result += '|';
+						break;
+					}
+					default:
+					{
+						// Unrecognized character (ignored)
+						break;
+					}
+					}
+
+					i += 2;
+				}
+				else
+				{
+					result += c;
+				}
+
+				break;
+			}
+			default:
+			{
+				result += c;
+				break;
+			}
+			}
+			break;
+		}
+		case 0:
+		{
+			// NTS detected
+			return result;
+		}
+		default:
+		{
+			result += c;
+			break;
+		}
+		}
+	}
+
+	return result;
+}
+
+std::string vfs::host::hash_path(const std::string& path, const std::string& dev_root)
+{
+	return fmt::format(u8"%s/＄%s%s", dev_root, fmt::base57(std::hash<std::string>()(path)), fmt::base57(utils::get_unique_tsc()));
+}
+
+bool vfs::host::rename(const std::string& from, const std::string& to, const lv2_fs_mount_point* mp, bool overwrite)
+{
+	// Lock mount point, close file descriptors, retry
+	const auto from0 = std::string_view(from).substr(0, from.find_last_not_of(fs::delim) + 1);
+	const auto escaped_from = Emu.GetCallbacks().resolve_path(from);
+
+	std::lock_guard lock(mp->mutex);
+
+	auto check_path = [&](std::string_view path)
+	{
+		return path.starts_with(from) && (path.size() == from.size() || path[from.size()] == fs::delim[0] || path[from.size()] == fs::delim[1]);
+	};
+
+	idm::select<lv2_fs_object, lv2_file>([&](u32 /*id*/, lv2_file& file)
+	{
+		if (check_path(Emu.GetCallbacks().resolve_path(file.real_path)))
+		{
+			ensure(file.mp == mp);
+
+			if (!file.file)
+			{
+				file.restore_data.seek_pos = -1;
+				return;
+			}
+
+			file.restore_data.seek_pos = file.file.pos();
+
+			if (!(file.mp->flags & (lv2_mp_flag::read_only + lv2_mp_flag::cache)) && file.flags & CELL_FS_O_ACCMODE)
+			{
+				file.file.sync(); // For cellGameContentPermit atomicity
+			}
+
+			file.file.close(); // Actually close it!
+		}
+	});
+
+	bool res = false;
+
+	for (;; std::this_thread::yield())
+	{
+		if (fs::rename(from, to, overwrite))
+		{
+			res = true;
+			break;
+		}
+
+		if (Emu.IsStopped() || fs::g_tls_error != fs::error::acces)
+		{
+			res = false;
+			break;
+		}
+	}
+
+	const auto fs_error = fs::g_tls_error;
+
+	idm::select<lv2_fs_object, lv2_file>([&](u32 /*id*/, lv2_file& file)
+	{
+		const auto escaped_real = Emu.GetCallbacks().resolve_path(file.real_path);
+
+		if (check_path(escaped_real))
+		{
+			if (file.restore_data.seek_pos == umax)
+			{
+				return;
+			}
+
+			// Update internal path
+			if (res)
+			{
+				file.real_path = to + (escaped_real != escaped_from ? '/' + file.real_path.substr(from0.size()) : ""s);
+			}
+
+			// Reopen with ignored TRUNC, APPEND, CREATE and EXCL flags
+			auto res0 = lv2_file::open_raw(file.real_path, file.flags & CELL_FS_O_ACCMODE, file.mode, file.type, file.mp);
+			file.file = std::move(res0.file);
+			ensure(file.file.operator bool());
+			file.file.seek(file.restore_data.seek_pos);
+		}
+	});
+
+	fs::g_tls_error = fs_error;
+	return res;
+}
+
+bool vfs::host::unlink(const std::string& path, [[maybe_unused]] const std::string& dev_root)
+{
+#ifdef _WIN32
+	if (auto device = fs::get_virtual_device(path))
+	{
+		return device->remove(path);
+	}
+	else
+	{
+		// Rename to special dummy name which will be ignored by VFS (but opened file handles can still read or write it)
+		const std::string dummy = hash_path(path, dev_root);
+
+		if (!fs::rename(path, dummy, true))
+		{
+			return false;
+		}
+
+		if (fs::file f{dummy, fs::read + fs::write})
+		{
+			// Set to delete on close on last handle
+			FILE_DISPOSITION_INFO disp;
+			disp.DeleteFileW = true;
+			SetFileInformationByHandle(f.get_handle(), FileDispositionInfo, &disp, sizeof(disp));
+			return true;
+		}
+
+		// TODO: what could cause this and how to handle it
+		return true;
+	}
+#else
+	return fs::remove_file(path);
+#endif
+}
+
+bool vfs::host::remove_all(const std::string& path, [[maybe_unused]] const std::string& dev_root, [[maybe_unused]] const lv2_fs_mount_point* mp, bool remove_root)
+{
+#ifdef _WIN32
+	if (remove_root)
+	{
+		// Rename to special dummy folder which will be ignored by VFS (but opened file handles can still read or write it)
+		const std::string dummy = hash_path(path, dev_root);
+
+		if (!vfs::host::rename(path, dummy, mp, false))
+		{
+			return false;
+		}
+
+		if (!vfs::host::remove_all(dummy, dev_root, mp, false))
+		{
+			return false;
+		}
+
+		if (!fs::remove_dir(dummy))
+		{
+			return false;
+		}
+	}
+	else
+	{
+		const auto root_dir = fs::dir(path);
+
+		if (!root_dir)
+		{
+			return false;
+		}
+
+		for (const auto& entry : root_dir)
+		{
+			if (entry.name == "." || entry.name == "..")
+			{
+				continue;
+			}
+
+			if (!entry.is_directory)
+			{
+				if (!vfs::host::unlink(path + '/' + entry.name, dev_root))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (!vfs::host::remove_all(path + '/' + entry.name, dev_root, mp))
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
+#else
+	return fs::remove_all(path, remove_root);
+#endif
+}

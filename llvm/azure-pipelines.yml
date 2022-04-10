@@ -1,0 +1,138 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+jobs:
+- job: build_ubuntu
+  displayName: Linux Build
+  timeoutInMinutes: 0
+
+  pool:
+    vmImage: 'ubuntu-18.04'
+
+  steps:
+  - script: |
+      wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+      sudo apt-add-repository -s "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+      sudo apt-get update
+      sudo apt-get -y install cmake ccache ninja-build clang-11 lld-11 libllvm-11-ocaml-dev libllvm11 llvm-11 llvm-11-dev llvm-11-tools llvm-11-runtime
+    displayName: Install clang-11 and other dependencies
+
+  - script: |
+      mkdir build
+      cd build
+      CC=clang-11 CXX=clang++-11 CXXFLAGS="-msse -msse2 -mcx16" cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX="" -DLLVM_CCACHE_DIR=$HOME/.ccache -DLLVM_CCACHE_BUILD=ON -DLLVM_TARGETS_TO_BUILD="X86" -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_RUNTIME=OFF -DLLVM_BUILD_TOOLS=OFF -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_TOOLS=OFF -DLLVM_INCLUDE_UTILS=OFF -DLLVM_USE_INTEL_JITEVENTS=ON -DLLVM_USE_PERF=ON -DLLVM_ENABLE_Z3_SOLVER=OFF -DCMAKE_CXX_STANDARD=17
+    displayName: Configure LLVM
+
+  - script: |
+      cd build
+      ninja
+    displayName: Build LLVM
+
+  - script: |
+      cd build
+      DESTDIR=./dest ninja install
+      cd dest
+      tar -czf llvmlibs-linux.tar.gz lib include bin
+      sha256sum ./llvmlibs-linux.tar.gz | awk '{ print $1 }' >> llvmlibs-linux.tar.gz.sha256
+    displayName: Package LLVM Libraries
+
+  - task: GitHubRelease@0
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      gitHubConnection: RPCS3-Token
+      repositoryName: RPCS3/llvm-mirror
+      action: edit # Options: create, edit, delete
+      target: '$(Build.SourceVersion)' # Required when action == Create || Action == Edit
+      tagSource: auto # Required when action == Create# Options: auto, manual
+      #tagPattern: # Optional
+      tag: 'custom-build' # Required when action == Edit || Action == Delete || TagSource == Manual
+      title: 'Linux Build' # Optional
+      #releaseNotesSource: 'file' # Optional. Options: file, input
+      #releaseNotesFile: # Optional
+      #releaseNotes: # Optional
+      assets: 'build/dest/llvmlibs-linux*' # Optional
+      assetUploadMode: delete # Optional. Options: delete, replace
+      #isDraft: false # Optional
+      #isPreRelease: true # Optional
+      #addChangeLog: true # Optional
+      #compareWith: 'lastFullRelease' # Required when addChangeLog == True. Options: lastFullRelease, lastRelease, lastReleaseByTag
+      #releaseTag: # Required when compareWith == LastReleaseByTag
+
+- job: build_win32
+  displayName: Win32 Build
+  timeoutInMinutes: 0
+
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+  - script: |
+      mkdir llvm_build
+      cd llvm_build
+      cmake -G "Visual Studio 16 2019" .. -Thost=x64 -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_DEFAULT_TARGET_TRIPLE:STRING=x86_64-pc-windows-msvc -DLLVM_HOST_TRIPLE:STRING=x86_64-pc-windows-msvc -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_RUNTIME=OFF -DLLVM_BUILD_TOOLS=OFF -DLLVM_INCLUDE_DOCS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_UTILS=OFF -DLLVM_USE_INTEL_JITEVENTS=ON -DLLVM_ENABLE_Z3_SOLVER=OFF -DCMAKE_SYSTEM_VERSION=6.1 -DCMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION=10.0 -DLLVM_USE_CRT_DEBUG=MTd -DLLVM_USE_CRT_RELEASE=MT
+    displayName: Configure LLVM
+
+  - script: |
+      cd llvm_build
+      cmake --build . --config Release -- /maxcpucount
+    displayName: Build LLVM
+
+  - script: |
+      mkdir llvm_out
+      cd llvm_out
+      mkdir build
+      cd build
+      mkdir llvm
+      cd llvm
+      mkdir cmake
+      mkdir include
+      mkdir tools
+      xcopy "..\..\..\cmake" ".\cmake" /E
+      xcopy "..\..\..\include" ".\include" /E
+      cd ..\
+      mkdir llvm_build
+      cd llvm_build
+      mkdir Release
+      mkdir include
+      mkdir lib
+      cd lib
+      mkdir cmake
+      cd ..\
+      xcopy "..\..\..\llvm_build\Release" ".\Release" /E
+      xcopy  "..\..\..\llvm_build\include" ".\include" /E
+      xcopy  "..\..\..\llvm_build\lib\cmake" ".\lib\cmake" /E
+      cd ..\
+      7z a -t7z -m0=lzma2 -mx=9 -aoa -r "llvmlibs_mt.7z" *
+    displayName: Package LLVM Libraries
+
+  - bash: |
+      cd llvm_out/build
+      sha256sum llvmlibs_mt.7z | awk '{ print $1 }' > llvmlibs_mt.7z.sha256
+    displayName: Generate sha256
+
+  - task: GitHubRelease@0
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    inputs:
+      gitHubConnection: RPCS3-Token
+      repositoryName: RPCS3/llvm-mirror
+      action: edit # Options: create, edit, delete
+      target: '$(Build.SourceVersion)' # Required when action == Create || Action == Edit
+      tagSource: auto # Required when action == Create# Options: auto, manual
+      #tagPattern: # Optional
+      tag: 'custom-build-win' # Required when action == Edit || Action == Delete || TagSource == Manual
+      title: 'Windows Build' # Optional
+      #releaseNotesSource: 'file' # Optional. Options: file, input
+      #releaseNotesFile: # Optional
+      #releaseNotes: # Optional
+      assets: 'llvm_out/build/llvmlibs_mt.*' # Optional
+      assetUploadMode: delete # Optional. Options: delete, replace
+      #isDraft: false # Optional
+      #isPreRelease: true # Optional
+      #addChangeLog: true # Optional
+      #compareWith: 'lastFullRelease' # Required when addChangeLog == True. Options: lastFullRelease, lastRelease, lastReleaseByTag
+      #releaseTag: # Required when compareWith == LastReleaseByTag

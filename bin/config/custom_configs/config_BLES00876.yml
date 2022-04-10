@@ -1,0 +1,233 @@
+Core:
+  PPU Decoder: Recompiler (LLVM)
+  PPU Threads: 2
+  PPU Debug: false
+  PPU Calling History: false
+  Save LLVM logs: false
+  Use LLVM CPU: ""
+  Max LLVM Compile Threads: 3
+  PPU LLVM Greedy Mode: false
+  PPU LLVM Precompilation: false
+  Thread Scheduler Mode: Operating System
+  Set DAZ and FTZ: false
+  SPU Decoder: Recompiler (LLVM)
+  SPU GETLLAR polling detection: false
+  SPU Debug: false
+  MFC Debug: false
+  Preferred SPU Threads: 2
+  SPU delay penalty: 3
+  SPU loop detection: false
+  Max SPURS Threads: 4
+  SPU Block Size: Safe
+  Accurate GETLLAR: false
+  Accurate SPU DMA: false
+  Accurate Cache Line Stores: false
+  Accurate RSX reservation access: true
+  SPU Verification: true
+  SPU Cache: true
+  SPU Profiler: false
+  MFC Commands Shuffling Limit: 0
+  MFC Commands Timeout: 0
+  MFC Commands Shuffling In Steps: false
+  Enable TSX: Disabled
+  Accurate xfloat: false
+  Approximate xfloat: true
+  Relaxed xfloat: true
+  Accurate PPU 128-byte Reservation Op Max Length: 0
+  Stub PPU Traps: 0
+  Full Width AVX-512: false
+  PPU LLVM Java Mode Handling: true
+  Use Accurate DFMA: true
+  PPU Set Saturation Bit: true
+  PPU Accurate Non-Java Mode: false
+  PPU Fixup Vector NaN Values: true
+  PPU Accurate Vector NaN Values: false
+  PPU Set FPCC Bits: false
+  Debug Console Mode: false
+  Hook static functions: false
+  Libraries Control:
+    - libad_async.sprx:hle
+    - libad_billboard_util.sprx:hle
+    - libad_core.sprx:hle
+    - libapostsrc_mini.sprx:hle
+    - libasfparser2_astd.sprx:hle
+    - libbeisobmf.sprx:hle
+    - libbemp2sys.sprx:hle
+    - libfont.sprx:hle
+    - libfontFT.sprx:hle
+    - libfreetype.sprx:hle
+    - libfreetypeTT.sprx:hle
+    - libkey2char.sprx:hle
+    - libl10n.sprx:hle
+    - liblv2.sprx:hle
+    - liblv2coredump.sprx:hle
+    - liblv2dbg_for_cex.sprx:hle
+    - libnet.sprx:hle
+    - libpamf.sprx:hle
+    - libresc.sprx:hle
+    - librtc.sprx:hle
+    - librudp.sprx:hle
+    - libsjvtd.sprx:hle
+    - libspurs_jq.sprx:hle
+    - libssl.sprx:hle
+    - libsvc1d.sprx:hle
+    - libsync2.sprx:hle
+    - libusbd.sprx:hle
+    - libusbpspcm.sprx:hle
+    - libvdec.sprx:lle
+    - libvpost.sprx:hle
+    - libvpost2.sprx:hle
+  HLE lwmutex: false
+  SPU LLVM Lower Bound: 0
+  SPU LLVM Upper Bound: 18446744073709551615
+  TSX Transaction First Limit: 800
+  TSX Transaction Second Limit: 2000
+  Clocks scale: 100
+  Sleep Timers Accuracy: As Host
+  Performance Report Threshold: 500
+  Enable Performance Report: false
+  LLVM Accurate DFMA: true
+  PPU LLVM Accurate Vector NaN values: true
+  Lower SPU thread priority: true
+VFS:
+  Enable /host_root/: false
+  Initialize Directories: true
+  Limit disk cache size: false
+  Disk cache maximum size (MB): 5120
+Video:
+  Renderer: Vulkan
+  Resolution: 1280x720
+  Aspect ratio: 16:9
+  Frame limit: Auto
+  MSAA: Auto
+  Shader Mode: Async Shader Recompiler
+  Write Color Buffers: false
+  Write Depth Buffer: false
+  Read Color Buffers: false
+  Read Depth Buffer: false
+  Log shader programs: false
+  VSync: true
+  Debug output: false
+  Debug overlay: false
+  Renderdoc Compatibility Mode: false
+  Use GPU texture scaling: true
+  Stretch To Display Area: true
+  Force High Precision Z buffer: false
+  Strict Rendering Mode: true
+  Disable ZCull Occlusion Queries: false
+  Disable Vertex Cache: false
+  Disable FIFO Reordering: true
+  Enable Frame Skip: false
+  Force CPU Blit: false
+  Disable On-Disk Shader Cache: false
+  Disable Vulkan Memory Allocator: true
+  Use full RGB output range: true
+  Strict Texture Flushing: false
+  Disable native float16 support: false
+  Multithreaded RSX: false
+  Relaxed ZCULL Sync: false
+  Enable 3D: false
+  Debug Program Analyser: false
+  Accurate ZCULL stats: false
+  Consecutive Frames To Draw: 1
+  Consecutive Frames To Skip: 1
+  Resolution Scale: 100
+  Anisotropic Filter Override: 0
+  Texture LOD Bias Addend: 0
+  Minimum Scalable Dimension: 16
+  Shader Compiler Threads: 1
+  Driver Recovery Timeout: 1000000
+  Driver Wake-Up Delay: 1
+  Vblank Rate: 60
+  Vblank NTSC Fixup: false
+  DECR memory layout: false
+  Vulkan:
+    Adapter: NVIDIA GeForce GTX 1660
+    Force FIFO present mode: false
+    Force primitive restart flag: false
+    Force Disable Exclusive Fullscreen Mode: false
+    Asynchronous Texture Streaming 2: false
+    Enable FidelityFX Super Resolution Upscaling: false
+    FidelityFX CAS Sharpening Intensity: 50
+    Asynchronous Queue Scheduler: Safe
+  Performance Overlay:
+    Enabled: false
+    Enable Framerate Graph: false
+    Enable Frametime Graph: false
+    Framerate datapoints: 50
+    Frametime datapoints: 170
+    Detail level: High
+    Framerate graph detail level: All
+    Frametime graph detail level: All
+    Metrics update interval (ms): 350
+    Font size (px): 10
+    Position: Top Left
+    Font: n023055ms.ttf
+    Horizontal Margin (px): 50
+    Vertical Margin (px): 50
+    Center Horizontally: false
+    Center Vertically: false
+    Opacity (%): 70
+    Body Color (hex): "#FFE138FF"
+    Body Background (hex): "#002339FF"
+    Title Color (hex): "#F26C24FF"
+    Title Background (hex): "#00000000"
+  Shader Compilation Hint:
+    Position X (px): 20
+    Position Y (px): 690
+  Shader Loading Dialog:
+    Allow custom background: true
+    Darkening effect strength: 30
+    Blur effect strength: 0
+Audio:
+  Renderer: Cubeb
+  Audio provider: CellAudio
+  Dump to file: false
+  Convert to 16 bit: false
+  Audio Channels: Downmix to Stereo
+  Master Volume: 100
+  Enable Buffering: true
+  Desired Audio Buffer Duration: 100
+  Enable Time Stretching: false
+  Time Stretching Threshold: 75
+  Microphone Type: "Null"
+  Microphone Devices: "@@@@@@@@@@@@"
+  Start Threshold: 1
+  Sampling Period Multiplier: 100
+Input/Output:
+  Keyboard: "Null"
+  Mouse: Basic
+  Camera: "Null"
+  Camera type: Unknown
+  Camera flip: None
+  Camera ID: Default
+  Move: "Null"
+  Buzz emulated controller: "Null"
+  Turntable emulated controller: "Null"
+  GHLtar emulated controller: "Null"
+  Pad handler mode: Single-threaded
+  Pad handler sleep (microseconds): 1000
+System:
+  License Area: SCEA
+  Language: English (US)
+  Keyboard Type: English keyboard (US standard)
+  Enter button assignment: Enter with cross
+  Console time offset (s): 0
+Net:
+  Internet enabled: Disconnected
+  IP address: 192.168.1.1
+  DNS address: 8.8.8.8
+  IP swap list: ""
+  PSN status: Disconnected
+Miscellaneous:
+  Automatically start games after boot: true
+  Exit RPCS3 when process finishes: false
+  Start games in fullscreen mode: false
+  Prevent display sleep while running games: true
+  Show trophy popups: true
+  Show shader compilation hint: true
+  Use native user interface: true
+  GDB Server: 127.0.0.1:2345
+  Silence All Logs: false
+  Window Title Format: "FPS: %F | %R | %V | %T [%t]"
+Log: {"": Fatal, cellDaisy: Fatal, cellDmux: Fatal, cellFiber: Fatal, cellFont: Fatal, cellFontFT: Fatal, cellFs: Fatal, cellGame: Fatal, cellGameExec: Fatal, cellGcmSys: Fatal, cellGem: Fatal, cellGifDec: Fatal, cellHttp: Fatal, cellHttpUtil: Fatal, cellImeJp: Fatal, cellJpgDec: Fatal, cellJpgEnc: Fatal, cellKey2char: Fatal, cellL10n: Fatal, cellLibprof: Fatal, cellMic: Fatal, cellMusic: Fatal, cellMusicDecode: Fatal, cellMusicExport: Fatal, cellNetCtl: Fatal, cellOskDialog: Fatal, cellOvis: Fatal, cellPamf: Fatal, cellPhotoDecode: Fatal, cellScreenshot: Fatal, cellSearch: Fatal, cellSheap: Fatal, cellSpudll: Fatal, cellSpurs: Fatal, cellSpursJq: Fatal, cellSsl: Fatal, cellSubdisplay: Fatal, cellSync: Fatal, cellSync2: Fatal, cellSysconf: Fatal, cellSysmodule: Fatal, cellSysutil: Fatal, cellSysutilAp: Fatal, libmixer: Fatal, libnet: Fatal, libsnd3: Fatal, libsynth2: Fatal, sceAppMgr: Fatal, sceAppUtil: Fatal, sceAudio: Fatal, sceAudioIn: Fatal, sceAudiodec: Fatal, sceAudioenc: Fatal, sceCamera: Fatal, sceCodecEngine: Fatal, sceCommonDialog: Fatal, sceCtrl: Fatal, cellSysutilAvc: Fatal, cellSysutilAvc2: Fatal, cellSysutilMisc: Fatal, cellSysutilNpEula: Fatal, cellUsbPspcm: Fatal, cellUsbd: Fatal, cellUserInfo: Fatal, cellVdec: Fatal, cellVideoExport: Fatal, cellVideoUpload: Fatal, cellVoice: Fatal, cellVpost: Fatal, cell_FreeType2: Fatal, libmedi: Fatal, cellPhotoExport: Fatal, cellPhotoImportUtil: Fatal, cellPngDec: Fatal, cellPngEnc: Fatal, cellPrint: Fatal, cellRec: Fatal, cellRemotePlay: Fatal, cellResc: Fatal, cellRtc: Fatal, cellRtcAlarm: Fatal, cellRudp: Fatal, cellSail: Fatal, cellSailRec: Fatal, cellSaveData: Fatal, sceDbg: Fatal, sceDeci4p: Fatal, sceDeflt: Fatal, sceDisplay: Fatal, sceFiber: Fatal, sceFios: Fatal, sceFpu: Fatal, sceGxm: Fatal, sceHttp: Fatal, sceIme: Fatal, sceJpeg: Fatal, sceJpegEnc: Fatal, sceLibKernel: Fatal, sceLibXml: Fatal, cellCrossController: Fatal, cellCelpEnc: Fatal, cellCelp8Enc: Fatal, cellCamera: Fatal, cellBGDL: Fatal, cellAvconfExt: Fatal, cellAudio: Fatal, cellAtracMulti: Fatal, cellAtrac: Fatal, cellAdec: Fatal, sceLibc: Fatal, sceLibm: Fatal, sceLibstdcxx: Fatal, sceLiveArea: Fatal, sceLocation: Fatal, sceMd5: Fatal, sceMotion: Fatal, sceMt19937: Fatal, sceNet: Fatal, sceNetCtl: Fatal, sceNgs: Fatal, sceNp: Fatal, sceNp2: Fatal, sceNpBasic: Fatal, sceNpClans: Fatal, sceNpCommerce2: Fatal, sceNpCommon: Fatal, sceNpManager: Fatal, sceNpMatching: Fatal, sceNpScore: Fatal, sceNpSns: Fatal, sceNpTrophy: Fatal, sceNpTus: Fatal, sceNpUtil: Fatal, sceNpUtility: Fatal, scePerf: Fatal, scePgf: Fatal, scePhotoExport: Fatal, sys_lwmutex: Fatal, sys_memory: Fatal, sys_mmapper: Fatal, sys_mutex: Fatal, sys_ppu_thread: Fatal, sys_process: Fatal, sys_prx: Fatal, sys_rsx: Fatal, sys_rwlock: Fatal, sys_semaphore: Fatal, sys_spu: Fatal, sys_time: Fatal, sys_timer: Fatal, sys_Fatal: Fatal, sys_tty: Fatal, sys_vm: Fatal, sceRazorCapture: Fatal, sceRtc: Fatal, sceSas: Fatal, sceScreenShot: Fatal, sceSfmt: Fatal, sceSha: Fatal, sceSqlite: Fatal, sceSsl: Fatal, sceSulpha: Fatal, sceSysmodule: Fatal, sceSystemGesture: Fatal, sceTouch: Fatal, sceUlt: Fatal, sceVideodec: Fatal, sceVoice: Fatal, sceVoiceQoS: Fatal, sysPrxForUser: Fatal, sys_cond: Fatal, sys_dbg: Fatal, sys_event: Fatal, sys_event_flag: Fatal, sys_fs: Fatal, sys_gamepad: Fatal, sys_interrupt: Fatal, sys_io: Fatal, sys_libc: Fatal, sys_lv2dbg: Fatal, sys_lwcond: Fatal}

@@ -1,0 +1,2053 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Crypto">
+      <UniqueIdentifier>{d614f6ff-cd3b-40c4-8a76-1ff82b68d3d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu">
+      <UniqueIdentifier>{ad58328f-b041-41e0-ad17-dbad7d193051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Io">
+      <UniqueIdentifier>{1df5b438-f263-4ff4-9b86-a9ea368f2106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\CPU">
+      <UniqueIdentifier>{037247b4-0370-4193-a25d-bc9d075bf0a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Audio">
+      <UniqueIdentifier>{5a18e5b1-2632-4849-ba94-e7a2ea0b78fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Memory">
+      <UniqueIdentifier>{960c535f-dabe-4f7e-b73f-fb0fac60d7c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{cd540262-1ecb-4160-a69f-95704e32f2d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{be701b55-2a3d-4692-a3bf-347681ab1c7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Io\Null">
+      <UniqueIdentifier>{fcac6852-b45f-4cf2-afee-cf56bcea14e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU">
+      <UniqueIdentifier>{6674e2ab-90cd-47de-a852-d21643ab18c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX">
+      <UniqueIdentifier>{fadb4b36-57af-4583-891d-d22ff369e266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Null">
+      <UniqueIdentifier>{4adca4fa-b90f-4662-9eb0-1d29cf3cd2eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Audio\Null">
+      <UniqueIdentifier>{1eae80f6-5aef-4049-81a0-bbfd7602f8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Common">
+      <UniqueIdentifier>{2a8841dc-bce0-41bb-9fcb-5bf1f8dda213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Cell">
+      <UniqueIdentifier>{13d20086-2188-425a-9856-0440fe6f79f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Cell\lv2">
+      <UniqueIdentifier>{269371f1-45b7-4ca9-a4a7-376e6e62a8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Cell\Modules">
+      <UniqueIdentifier>{4317ac27-38e4-4f8d-9bac-496f9b00f615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Capture">
+      <UniqueIdentifier>{3f233c0b-4ee1-4c02-963f-0109d3d9c705}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Overlays">
+      <UniqueIdentifier>{7536c5ad-d58f-40a7-96db-74d959fa4c02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Overlays\Shaders">
+      <UniqueIdentifier>{f368580d-07bc-4c8b-b488-a4198f2dd17d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\NP">
+      <UniqueIdentifier>{652ce43e-72db-42cd-831a-0e194f67e731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Common\Interpreter">
+      <UniqueIdentifier>{bc97b324-1eea-445a-8fa9-6fc49e3df47c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\Audio\FAudio">
+      <UniqueIdentifier>{7555ff6f-67a9-4d02-b744-0bf896751edb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Emu\GPU\RSX\Program">
+      <UniqueIdentifier>{d055ca32-157a-4d8c-895e-29509858fcb0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Crypto\aes.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\key_vault.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\lz.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\sha1.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\sha256.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\unedat.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\unpkg.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\unself.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\utils.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\System.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\MFC.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUThread.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\RawSPUThread.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPUThread.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\CPU\CPUThread.cpp">
+      <Filter>Emu\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Audio\AudioDumper.cpp">
+      <Filter>Emu\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Memory\vm.cpp">
+      <Filter>Emu\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\PSF.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TROPUSR.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TRP.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\simple_ringbuf.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\StrFmt.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\GSRender.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\RSXTexture.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\RSXThread.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\rXml.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\ec.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\Thread.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUInterpreter.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPUInterpreter.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\File.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="util\vm_native.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPURecompiler.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPUAnalyser.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPUASMJITRecompiler.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Common\TextureUtils.cpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Common\BufferUtils.cpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Null\NullGSRender.cpp">
+      <Filter>Emu\GPU\RSX\Null</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\rsx_utils.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\rsx_methods.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Common\surface_store.cpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\SPUDisAsm.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUDisAsm.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\lv2.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_cond.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_dbg.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_event.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_event_flag.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_fs.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_interrupt.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_lwcond.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_lwmutex.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_memory.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_mmapper.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_mutex.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_ppu_thread.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_process.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_prx.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_rsx.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_rwlock.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_semaphore.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_spu.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_time.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_timer.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_trace.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_tty.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_usbd.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_vm.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_uart.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_storage.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_sm.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_hid.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_io.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_rsxaudio.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_console.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_bdemu.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_btsetting.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAdec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAtrac.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAtracMulti.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAudio.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAudioOut.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAuthDialog.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellAvconfExt.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellBgdl.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellCamera.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellCelp8Enc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellCelpEnc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellCrossController.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellDaisy.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellDmux.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellDtcpIpUtility.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellFiber.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellFont.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellFontFT.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cell_FreeType2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellFs.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellGame.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellGameExec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellGcmSys.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellGem.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellGifDec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellHttp.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellHttpUtil.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellImeJp.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellJpgDec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellJpgEnc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellKb.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellKey2char.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellL10n.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellLibprof.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMic.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMouse.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMsgDialog.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMusic.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMusicDecode.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellMusicExport.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellNetAoi.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellNetCtl.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellOskDialog.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellOvis.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPad.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPamf.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPesmUtility.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPhotoDecode.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPhotoExport.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPhotoImport.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPngDec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPngEnc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellPrint.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellRec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellRemotePlay.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellResc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellRtc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellRtcAlarm.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellRudp.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSail.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSailRec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSaveData.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellScreenshot.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSearch.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSheap.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSpudll.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSpurs.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSpursJq.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSpursSpu.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSsl.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellStorage.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSubDisplay.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSync.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSync2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysconf.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysCache.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysmodule.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutil.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilAp.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilAvc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilAvc2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilAvcExt.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilMisc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellSysutilNpEula.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellUsbd.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellUsbpspcm.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellUserInfo.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVdec.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVideoExport.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVideoOut.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVideoPlayerUtility.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVideoUpload.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVoice.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellVpost.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\cellWebBrowser.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libad_async.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libad_core.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libmedi.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libmixer.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libsnd3.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libsynth2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNp.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNp2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpClans.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpCommerce2.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpMatchingInt.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpSns.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpTrophy.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpTus.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sceNpUtil.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_game.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_heap.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_io_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_libc.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_lv2dbg.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_lwcond_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_lwmutex_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_mempool.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_mmapper_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_ppu_thread_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_prx_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_rsxaudio_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_spinlock.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_spu_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sysPrxForUser.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUFunction.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUModule.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUTranslator.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\CPU\CPUTranslator.cpp">
+      <Filter>Emu\CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_libc_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\Config.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\VFS.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\IdManager.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="util\dyn_lib.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\JIT.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\PPUAnalyser.cpp">
+      <Filter>Emu\Cell</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\gcm_enums.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\ELF.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\gcm_printing.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\mutex.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\cond.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\sema.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\PUP.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\TAR.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Loader\mself.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\GDB.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\bin_patch.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_ss.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="util\sysinfo.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_gamepad.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_net_.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_net.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\PadHandler.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_gpio.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Capture\rsx_replay.cpp">
+      <Filter>Emu\GPU\RSX\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Capture\rsx_capture.cpp">
+      <Filter>Emu\GPU\RSX\Capture</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlays.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_animation.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_perf_metrics.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\RSXFIFO.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\StaticHLE.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_osk.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_config.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\Skylander.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_overlay.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_save_dialog.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_message_dialog.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_shader_compile_notification.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_trophy_notification.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_list_view.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_edit_text.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_progress_bar.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\RSXOffload.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\KeyboardHandler.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\md5.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\usb_device.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="util\atomic.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="util\yaml.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="util\cpu_stats.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypto\aesni.cpp">
+      <Filter>Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\Shaders\shader_loading_dialog_native.cpp">
+      <Filter>Emu\GPU\RSX\Overlays\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\Shaders\shader_loading_dialog.cpp">
+      <Filter>Emu\GPU\RSX\Overlays\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\GHLtar.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\Buzz.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\usio.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\lv2\sys_crypto_engine.cpp">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\title.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\system_config.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Audio\AudioBackend.cpp">
+      <Filter>Emu\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\pad_config.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\system_config_types.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_fonts.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\pad_config_types.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_utils.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\fb_helpers.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_cache.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_contexts.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_dnshook.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_handler.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_helpers.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_notifications.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_requests.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\signaling_handler.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_osk_panel.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="util\logs.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Audio\FAudio\FAudioBackend.cpp">
+      <Filter>Emu\Audio\FAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\cheat_info.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\np_structs_extra.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\rpcn_client.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\NP\rpcn_config.cpp">
+      <Filter>Emu\NP</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\localized_string.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\perf_meter.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\interception.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\RSXDisAsm.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Common\texture_cache.cpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\sys_crashdump.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\Turntable.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_user_list_dialog.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\system_utils.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\cache_utils.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\system_progress.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\version.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utilities\LUrlParser.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="rpcs3_version.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="Emu\RSX\Program\FragmentProgramDecompiler.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\GLSLCommon.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\VertexProgramDecompiler.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\CgBinaryFragmentProgram.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\CgBinaryVertexProgram.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\ProgramStateCache.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Program\program_util.cpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\Overlays\overlay_controls.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+    <ClCompile Include="util\media_utils.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Cell\Modules\libfs_utility_init.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Audio\audio_device_listener.cpp">
+      <Filter>Emu\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\vfs_config.cpp">
+      <Filter>Emu</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Io\camera_config.cpp">
+      <Filter>Emu\Io</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\RSX\rsx_vertex_data.cpp">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClCompile>
+    <ClCompile Include="Emu\Audio\audio_resampler.cpp">
+      <Filter>Emu\Audio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Crypto\aes.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\key_vault.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\lz.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\sha1.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\sha256.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\unedat.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\unpkg.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\unself.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\utils.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\GameInfo.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\System.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\KeyboardHandler.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\MouseHandler.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\PadHandler.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\MFC.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPCDisAsm.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUDisAsm.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUInterpreter.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUOpcodes.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUThread.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\RawSPUThread.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUDisAsm.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUInterpreter.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUOpcodes.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPURecompiler.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUThread.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\CPU\CPUDisAsm.h">
+      <Filter>Emu\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\CPU\CPUThread.h">
+      <Filter>Emu\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\AudioDumper.h">
+      <Filter>Emu\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\PSF.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\TROPUSR.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="util\v128.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\simd.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\to_endian.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\StrFmt.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\Timer.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Null\NullGSRender.h">
+      <Filter>Emu\GPU\RSX\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\GSRender.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\RSXFragmentProgram.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\RSXTexture.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\RSXThread.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\CgBinaryProgram.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\RSXVertexProgram.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\GCM.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\IdManager.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Null\NullPadHandler.h">
+      <Filter>Emu\Io\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Null\NullKeyboardHandler.h">
+      <Filter>Emu\Io\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Null\NullMouseHandler.h">
+      <Filter>Emu\Io\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\rXml.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\TRP.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Memory\vm.h">
+      <Filter>Emu\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Memory\vm_ptr.h">
+      <Filter>Emu\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Memory\vm_ref.h">
+      <Filter>Emu\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Memory\vm_var.h">
+      <Filter>Emu\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\ec.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\Thread.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\File.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Common.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="util\vm.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\asm.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUASMJITRecompiler.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\SPUAnalyser.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="util\atomic.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\TextureUtils.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\BufferUtils.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="util\types.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\BitField.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\rsx_utils.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\rsx_methods.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\surface_store.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\ring_buffer_helper.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\ELF.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_cond.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_dbg.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_event.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_event_flag.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_fs.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_interrupt.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_lwcond.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_lwmutex.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_memory.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_mmapper.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_mutex.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_ppu_thread.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_process.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_prx.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_rsx.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_rwlock.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_semaphore.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_spu.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_sync.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_time.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_timer.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_trace.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_tty.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_usbd.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_vm.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_uart.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_storage.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_sm.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_hid.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_io.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_rsxaudio.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_console.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_bdemu.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_crypto_engine.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_btsetting.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAdec.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAtrac.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAtracMulti.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAudio.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAudioIn.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellAudioOut.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellBgdl.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellCamera.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellDmux.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellFiber.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellFont.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellFontFT.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellFs.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellGame.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellGcmSys.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellGem.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellGifDec.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellImeJp.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellJpgDec.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellKb.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellL10n.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellMic.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellMouse.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellMsgDialog.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellMusic.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellNetCtl.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellPad.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellPamf.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellPng.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellPngDec.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellPngEnc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellResc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellRtc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellRudp.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSail.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSaveData.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellScreenshot.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSearch.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSpudll.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSpurs.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSpursJq.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSubDisplay.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSync.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSync2.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSysconf.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSysutil.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSysutilAvc2.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellUsbd.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellUserInfo.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellVdec.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellVideoOut.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellVideoUpload.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellVpost.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellWebBrowser.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\libmixer.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\libsnd3.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\libsynth2.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNp.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNp2.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpClans.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpCommerce2.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpSns.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpTrophy.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpTus.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sceNpUtil.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sys_crashdump.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sys_lv2dbg.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sysPrxForUser.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\ErrorCodes.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUCallback.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUFunction.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUModule.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUAnalyser.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\PPUTranslator.h">
+      <Filter>Emu\Cell</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\CPU\CPUTranslator.h">
+      <Filter>Emu\CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\Config.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\VFS.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\StrUtil.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\geometry.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\IPC.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\lockless.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\sync.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\rsx_cache.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\JIT.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\rsx_vertex_data.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\rsx_decode.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\gcm_enums.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\cfmt.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\bit_set.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\gcm_printing.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\TextGlyphs.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\mutex.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\cond.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\sema.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellOskDialog.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\PUP.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\TAR.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\GDB.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\bin_patch.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_ss.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\CRC.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\sysinfo.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\fnv_hash.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_gamepad.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\sys_net_.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_net.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_overlay.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_gpio.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellVoice.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellCelp8Enc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellCelpEnc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellDaisy.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellHttp.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellHttpUtil.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellJpgEnc.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Capture\rsx_replay.h">
+      <Filter>Emu\GPU\RSX\Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Capture\rsx_trace.h">
+      <Filter>Emu\GPU\RSX\Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Capture\rsx_capture.h">
+      <Filter>Emu\GPU\RSX\Capture</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_animation.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_controls.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlays.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\date_time.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\address_range.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache_checker.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache_utils.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\RSXFIFO.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache_predictor.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\StaticHLE.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\AudioBackend.h">
+      <Filter>Emu\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\Null\NullAudioBackend.h">
+      <Filter>Emu\Audio\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\lv2\sys_config.h">
+      <Filter>Emu\Cell\lv2</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\surface_utils.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\RSXOffload.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Keyboard.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Skylander.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\md5.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\usb_device.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Crypto\aesni.h">
+      <Filter>Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache_helpers.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellSsl.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_perf_metrics.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellCrossController.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellRemotePlay.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\cellStorage.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\Shaders\shader_loading_dialog_native.h">
+      <Filter>Emu\GPU\RSX\Overlays\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\Shaders\shader_loading_dialog.h">
+      <Filter>Emu\GPU\RSX\Overlays\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\title.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\system_config.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\pad_config.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\system_config_types.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_fonts.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\pad_config_types.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\pad_types.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_osk.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_utils.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_save_dialog.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_message_dialog.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_trophy_notification.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_shader_compile_notification.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\GHLtar.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Buzz.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\usio.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_handler.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\signaling_handler.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_osk_panel.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="util\yaml.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\endian.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\fixed_typemap.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\auto_typemap.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\init_mutex.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\slow_mutex.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\fifo_mutex.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\logs.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\shared_ptr.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\typeindices.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\cpu_stats.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\FAudio\FAudioBackend.h">
+      <Filter>Emu\Audio\FAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\cheat_info.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_structs_extra.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\rpcn_client.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\generated\np2_structs_generated.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\rpcn_config.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\localized_string.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\localized_string_id.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\perf_meter.hpp">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\interception.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\GSFrameBase.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\display.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\RSXDisAsm.h">
+      <Filter>Emu\GPU\RSX</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\texture_cache_types.h">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Turntable.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Loader\mself.hpp">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_user_list_dialog.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\system_utils.hpp">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\cache_utils.hpp">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\system_progress.hpp">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="rpcs3_version.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utilities\version.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\timers.hpp">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdparty\stblib\include\stb_image.h" />
+    <ClInclude Include="Emu\RSX\Program\FragmentProgramDecompiler.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\GLSLCommon.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\program_state_cache2.hpp">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\program_util.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\ShaderInterpreter.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\ShaderParam.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\VertexProgramDecompiler.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\GLSLTypes.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Program\ProgramStateCache.h">
+      <Filter>Emu\GPU\RSX\Program</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_list_view.hpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_edit_text.hpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_progress_bar.hpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+    <ClInclude Include="util\serialization.hpp">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="util\media_utils.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Cell\Modules\libfs_utility_init.h">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\audio_device_listener.h">
+      <Filter>Emu\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\vfs_config.h">
+      <Filter>Emu</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\simple_array.hpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\profiling_timer.hpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Common\bitfield.hpp">
+      <Filter>Emu\GPU\RSX\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\camera_handler_base.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Null\null_camera_handler.h">
+      <Filter>Emu\Io\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\camera_config.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Audio\audio_resampler.h">
+      <Filter>Emu\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_allocator.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_cache.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_dnshook.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_event_data.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\NP\np_helpers.h">
+      <Filter>Emu\NP</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Emu\RSX\Common\Interpreter\FragmentInterpreter.glsl">
+      <Filter>Emu\GPU\RSX\Common\Interpreter</Filter>
+    </None>
+    <None Include="Emu\RSX\Common\Interpreter\VertexInterpreter.glsl">
+      <Filter>Emu\GPU\RSX\Common\Interpreter</Filter>
+    </None>
+  </ItemGroup>
+</Project>

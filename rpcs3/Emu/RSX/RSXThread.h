@@ -1,0 +1,1036 @@
+#pragma once
+
+#include <thread>
+#include <queue>
+#include <deque>
+#include <variant>
+#include <stack>
+#include <unordered_map>
+
+#include "GCM.h"
+#include "rsx_cache.h"
+#include "RSXFIFO.h"
+#include "RSXOffload.h"
+#include "rsx_utils.h"
+#include "Common/bitfield.hpp"
+#include "Common/profiling_timer.hpp"
+#include "Common/texture_cache_types.h"
+#include "Program/RSXVertexProgram.h"
+#include "Program/RSXFragmentProgram.h"
+
+#include "Utilities/Thread.h"
+#include "Utilities/geometry.h"
+#include "Capture/rsx_trace.h"
+#include "Capture/rsx_replay.h"
+
+#include "Emu/Cell/lv2/sys_rsx.h"
+#include "Emu/IdManager.h"
+#include "Emu/system_config.h"
+
+extern atomic_t<bool> g_user_asked_for_frame_capture;
+extern rsx::frame_trace_data frame_debug;
+extern rsx::frame_capture_data frame_capture;
+
+namespace rsx
+{
+	namespace overlays
+	{
+		class display_manager;
+	}
+
+	struct rsx_iomap_table
+	{
+		std::array<atomic_t<u32>, 4096> ea;
+		std::array<atomic_t<u32>, 4096> io;
+		std::array<shared_mutex, 4096> rs{};
+
+		rsx_iomap_table() noexcept
+			: ea(fill_array(-1))
+			, io(fill_array(-1))
+		{
+		}
+
+		// Try to get the real address given a mapped address
+		// Returns -1 on failure
+		u32 get_addr(u32 offs) const noexcept
+		{
+			return this->ea[offs >> 20] | (offs & 0xFFFFF);
+		}
+
+		template<bool IsFullLock>
+		bool lock(u32 addr, u32 len) noexcept
+		{
+			if (len <= 1) return false;
+			const u32 end = addr + len - 1;
+
+			for (u32 block = (addr >> 20); block <= (end >> 20); ++block)
+			{
+				if constexpr (IsFullLock)
+				{
+					rs[block].lock();
+				}
+				else
+				{
+					rs[block].lock_shared();
+				}
+			}
+
+			return true;
+		}
+
+		template<bool IsFullLock>
+		void unlock(u32 addr, u32 len) noexcept
+		{
+			ensure(len >= 1);
+			const u32 end = addr + len - 1;
+
+			for (u32 block = (addr >> 20); block <= (end >> 20); ++block)
+			{
+				if constexpr (IsFullLock)
+				{
+					rs[block].unlock();
+				}
+				else
+				{
+					rs[block].unlock_shared();
+				}
+			}
+		}
+	};
+
+	enum framebuffer_creation_context : u8
+	{
+		context_draw = 0,
+		context_clear_color = 1,
+		context_clear_depth = 2,
+		context_clear_all = context_clear_color | context_clear_depth
+	};
+
+	enum pipeline_state : u32
+	{
+		fragment_program_ucode_dirty = 0x1,   // Fragment program ucode changed
+		vertex_program_ucode_dirty = 0x2,     // Vertex program ucode changed
+		fragment_program_state_dirty = 0x4,   // Fragment program state changed
+		vertex_program_state_dirty = 0x8,     // Vertex program state changed
+		fragment_state_dirty = 0x10,          // Fragment state changed (alpha test, etc)
+		vertex_state_dirty = 0x20,            // Vertex state changed (scale_offset, clip planes, etc)
+		transform_constants_dirty = 0x40,     // Transform constants changed
+		fragment_constants_dirty = 0x80,      // Fragment constants changed
+		framebuffer_reads_dirty = 0x100,      // Framebuffer contents changed
+		fragment_texture_state_dirty = 0x200, // Fragment texture parameters changed
+		vertex_texture_state_dirty = 0x400,   // Fragment texture parameters changed
+		scissor_config_state_dirty = 0x800,   // Scissor region changed
+		zclip_config_state_dirty = 0x1000,    // Viewport Z clip changed
+
+		scissor_setup_invalid = 0x2000,       // Scissor configuration is broken
+		scissor_setup_clipped = 0x4000,       // Scissor region is cropped by viewport constraint
+
+		polygon_stipple_pattern_dirty = 0x8000,  // Rasterizer stippling pattern changed
+		line_stipple_pattern_dirty = 0x10000,    // Line stippling pattern changed
+
+		fragment_program_dirty = fragment_program_ucode_dirty | fragment_program_state_dirty,
+		vertex_program_dirty = vertex_program_ucode_dirty | vertex_program_state_dirty,
+		invalidate_pipeline_bits = fragment_program_dirty | vertex_program_dirty,
+		invalidate_zclip_bits = vertex_state_dirty | zclip_config_state_dirty,
+		memory_barrier_bits = framebuffer_reads_dirty,
+		all_dirty = ~0u
+	};
+
+	enum FIFO_state : u8
+	{
+		running = 0,
+		empty = 1,    // PUT == GET
+		spinning = 2, // Puller continuously jumps to self addr (synchronization technique)
+		nop = 3,      // Puller is processing a NOP command
+		lock_wait = 4 // Puller is processing a lock acquire
+	};
+
+	enum FIFO_hint : u8
+	{
+		hint_conditional_render_eval = 1,
+		hint_zcull_sync = 2
+	};
+
+	enum result_flags: u8
+	{
+		result_none = 0,
+		result_error = 1,
+		result_zcull_intr = 2
+	};
+
+	enum ROP_control : u32
+	{
+		alpha_test_enable       = (1u << 0),
+		framebuffer_srgb_enable = (1u << 1),
+		csaa_enable             = (1u << 4),
+		msaa_mask_enable        = (1u << 5),
+		msaa_config_mask        = (3u << 6),
+		polygon_stipple_enable  = (1u << 9),
+		alpha_func_mask         = (7u << 16)
+	};
+
+	u32 get_vertex_type_size_on_host(vertex_base_type type, u32 size);
+
+	u32 get_address(u32 offset, u32 location, u32 size_to_check = 0,
+		u32 line = __builtin_LINE(),
+		u32 col = __builtin_COLUMN(),
+		const char* file = __builtin_FILE(),
+		const char* func = __builtin_FUNCTION());
+
+	struct tiled_region
+	{
+		u32 address;
+		u32 base;
+		GcmTileInfo *tile;
+		u8 *ptr;
+
+		void write(const void *src, u32 width, u32 height, u32 pitch);
+		void read(void *dst, u32 width, u32 height, u32 pitch);
+	};
+
+	struct vertex_array_buffer
+	{
+		rsx::vertex_base_type type;
+		u8 attribute_size;
+		u8 stride;
+		std::span<const std::byte> data;
+		u8 index;
+		bool is_be;
+	};
+
+	struct vertex_array_register
+	{
+		rsx::vertex_base_type type;
+		u8 attribute_size;
+		std::array<u32, 4> data;
+		u8 index;
+	};
+
+	struct empty_vertex_array
+	{
+		u8 index;
+	};
+
+	struct draw_array_command
+	{
+		u32 __dummy;
+	};
+
+	struct draw_indexed_array_command
+	{
+		std::span<const std::byte> raw_index_buffer;
+	};
+
+	struct draw_inlined_array
+	{
+		u32 __dummy;
+		u32 __dummy2;
+	};
+
+	struct interleaved_attribute_t
+	{
+		u8 index;
+		bool modulo;
+		u16 frequency;
+	};
+
+	struct interleaved_range_info
+	{
+		bool interleaved = false;
+		bool single_vertex = false;
+		u32  base_offset = 0;
+		u32  real_offset_address = 0;
+		u8   memory_location = 0;
+		u8   attribute_stride = 0;
+
+		rsx::simple_array<interleaved_attribute_t> locations;
+
+		// Check if we need to upload a full unoptimized range, i.e [0-max_index]
+		std::pair<u32, u32> calculate_required_range(u32 first, u32 count) const;
+	};
+
+	enum attribute_buffer_placement : u8
+	{
+		none = 0,
+		persistent = 1,
+		transient = 2
+	};
+
+	struct vertex_input_layout
+	{
+		std::vector<interleaved_range_info> interleaved_blocks{};  // Interleaved blocks to be uploaded as-is
+		std::vector<std::pair<u8, u32>> volatile_blocks{};         // Volatile data blocks (immediate draw vertex data for example)
+		rsx::simple_array<u8> referenced_registers{};              // Volatile register data
+
+		std::array<attribute_buffer_placement, 16> attribute_placement = fill_array(attribute_buffer_placement::none);
+
+		vertex_input_layout() = default;
+
+		void clear()
+		{
+			interleaved_blocks.clear();
+			volatile_blocks.clear();
+			referenced_registers.clear();
+		}
+
+		bool validate() const
+		{
+			// Criteria: At least one array stream has to be defined to feed vertex positions
+			// This stream cannot be a const register as the vertices cannot create a zero-area primitive
+
+			if (!interleaved_blocks.empty() && interleaved_blocks.front().attribute_stride != 0)
+				return true;
+
+			if (!volatile_blocks.empty())
+				return true;
+
+			for (u8 index = 0; index < limits::vertex_count; ++index)
+			{
+				switch (attribute_placement[index])
+				{
+				case attribute_buffer_placement::transient:
+				{
+					// Ignore register reference
+					if (std::find(referenced_registers.begin(), referenced_registers.end(), index) != referenced_registers.end())
+						continue;
+
+					// The source is inline array or immediate draw push buffer
+					return true;
+				}
+				case attribute_buffer_placement::persistent:
+				{
+					return true;
+				}
+				case attribute_buffer_placement::none:
+				{
+					continue;
+				}
+				default:
+				{
+					fmt::throw_exception("Unreachable");
+				}
+				}
+			}
+
+			return false;
+		}
+
+		u32 calculate_interleaved_memory_requirements(u32 first_vertex, u32 vertex_count) const
+		{
+			u32 mem = 0;
+			for (auto &block : interleaved_blocks)
+			{
+				const auto range = block.calculate_required_range(first_vertex, vertex_count);
+				mem += range.second * block.attribute_stride;
+			}
+
+			return mem;
+		}
+	};
+
+	struct framebuffer_layout
+	{
+		u16 width;
+		u16 height;
+		std::array<u32, 4> color_addresses;
+		std::array<u32, 4> color_pitch;
+		std::array<u32, 4> actual_color_pitch;
+		std::array<bool, 4> color_write_enabled;
+		u32 zeta_address;
+		u32 zeta_pitch;
+		u32 actual_zeta_pitch;
+		bool zeta_write_enabled;
+		rsx::surface_target target;
+		rsx::surface_color_format color_format;
+		rsx::surface_depth_format2 depth_format;
+		rsx::surface_antialiasing aa_mode;
+		rsx::surface_raster_type raster_type;
+		u32 aa_factors[2];
+		bool ignore_change;
+	};
+
+	namespace reports
+	{
+		struct occlusion_query_info
+		{
+			u32 driver_handle;
+			u32 result;
+			u32 num_draws;
+			u32 data_type;
+			u64 sync_tag;
+			u64 timestamp;
+			bool pending;
+			bool active;
+			bool owned;
+		};
+
+		struct queued_report_write
+		{
+			u32 type = CELL_GCM_ZPASS_PIXEL_CNT;
+			u32 counter_tag;
+			occlusion_query_info* query;
+			queued_report_write* forwarder;
+
+			vm::addr_t sink;                      // Memory location of the report
+			std::vector<vm::addr_t> sink_alias;   // Aliased memory addresses
+		};
+
+		struct query_search_result
+		{
+			bool found;
+			u32  raw_zpass_result;
+			std::vector<occlusion_query_info*> queries;
+		};
+
+		enum sync_control
+		{
+			sync_none = 0,
+			sync_defer_copy = 1, // If set, return a zcull intr code instead of forcefully reading zcull data
+			sync_no_notify = 2   // If set, backend hint notifications will not be made
+		};
+
+		class ZCULL_control
+		{
+		protected:
+			// Delay before a report update operation is forced to retire
+			const u32 max_zcull_delay_us = 300;
+			const u32 min_zcull_tick_us = 100;
+
+			// Number of occlusion query slots available. Real hardware actually has far fewer units before choking
+			const u32 occlusion_query_count = 1024;
+			const u32 max_safe_queue_depth = 892;
+
+			bool unit_enabled = false;           // The ZCULL unit is on
+			bool write_enabled = false;          // A surface in the ZCULL-monitored tile region has been loaded for rasterization
+			bool stats_enabled = false;          // Collecting of ZCULL statistics is enabled (not same as pixels passing Z test!)
+			bool zpass_count_enabled = false;    // Collecting of ZPASS statistics is enabled. If this is off, the counter does not increment
+			bool host_queries_active = false;    // The backend/host is gathering Z data for the ZCULL unit
+
+			std::array<occlusion_query_info, 1024> m_occlusion_query_data = {};
+			std::stack<occlusion_query_info*> m_free_occlusion_pool{};
+
+			occlusion_query_info* m_current_task = nullptr;
+			u32 m_statistics_tag_id = 0;
+
+			// Scheduling clock. Granunlarity is min_zcull_tick value.
+			u64 m_tsc = 0;
+			u64 m_next_tsc = 0;
+
+			// Incremental tag used for tracking sync events. Hardware clock resolution is too low for the job.
+			u64 m_sync_tag = 0;
+			u64 m_timer = 0;
+
+			std::vector<queued_report_write> m_pending_writes{};
+			std::unordered_map<u32, u32> m_statistics_map{};
+
+			// Enables/disables the ZCULL unit
+			void set_active(class ::rsx::thread* ptimer, bool state, bool flush_queue);
+
+			// Checks current state of the unit and applies changes
+			void check_state(class ::rsx::thread* ptimer, bool flush_queue);
+
+			// Sets up a new query slot and sets it to the current task
+			void allocate_new_query(class ::rsx::thread* ptimer);
+
+			// Free a query slot in use
+			void free_query(occlusion_query_info* query);
+
+			// Write report to memory
+			void write(vm::addr_t sink, u64 timestamp, u32 type, u32 value);
+			void write(queued_report_write* writer, u64 timestamp, u32 value);
+
+			// Retire operation
+			void retire(class ::rsx::thread* ptimer, queued_report_write* writer, u32 result);
+
+		public:
+
+			ZCULL_control();
+			virtual ~ZCULL_control();
+
+			ZCULL_control(const ZCULL_control&) = delete;
+			ZCULL_control& operator=(const ZCULL_control&) = delete;
+
+			void set_enabled(class ::rsx::thread* ptimer, bool state, bool flush_queue = false);
+			void set_status(class ::rsx::thread* ptimer, bool surface_active, bool zpass_active, bool zcull_stats_active, bool flush_queue = false);
+
+			// Read current zcull statistics into the address provided
+			void read_report(class ::rsx::thread* ptimer, vm::addr_t sink, u32 type);
+
+			// Clears current stat block and increments stat_tag_id
+			void clear(class ::rsx::thread* ptimer, u32 type);
+
+			// Forcefully flushes all
+			void sync(class ::rsx::thread* ptimer);
+
+			// Conditionally sync any pending writes if range overlaps
+			flags32_t read_barrier(class ::rsx::thread* ptimer, u32 memory_address, u32 memory_range, flags32_t flags);
+			flags32_t read_barrier(class ::rsx::thread* ptimer, u32 memory_address, occlusion_query_info* query);
+
+			// Call once every 'tick' to update, optional address provided to partially sync until address is processed
+			void update(class ::rsx::thread* ptimer, u32 sync_address = 0, bool hint = false);
+
+			// Draw call notification
+			void on_draw();
+
+			// Sync hint notification
+			void on_sync_hint(void* args);
+
+			// Check for pending writes
+			bool has_pending() const { return !m_pending_writes.empty(); }
+
+			// Search for query synchronized at address
+			query_search_result find_query(vm::addr_t sink_address, bool all);
+
+			// Copies queries in range rebased from source range to destination range
+			u32 copy_reports_to(u32 start, u32 range, u32 dest);
+
+			// Backend methods (optional, will return everything as always visible by default)
+			virtual void begin_occlusion_query(occlusion_query_info* /*query*/) {}
+			virtual void end_occlusion_query(occlusion_query_info* /*query*/) {}
+			virtual bool check_occlusion_query_status(occlusion_query_info* /*query*/) { return true; }
+			virtual void get_occlusion_query_result(occlusion_query_info* query) { query->result = -1; }
+			virtual void discard_occlusion_query(occlusion_query_info* /*query*/) {}
+		};
+
+		// Helper class for conditional rendering
+		struct conditional_render_eval
+		{
+			bool enabled = false;
+			bool eval_failed = false;
+			bool hw_cond_active = false;
+			bool reserved = false;
+
+			std::vector<occlusion_query_info*> eval_sources;
+			u64 eval_sync_tag = 0;
+			u32 eval_address = 0;
+
+			// Resets common data
+			void reset();
+
+			// Returns true if rendering is disabled as per conditional render test
+			bool disable_rendering() const;
+
+			// Returns true if a conditional render is active but not yet evaluated
+			bool eval_pending() const;
+
+			// Enable conditional rendering
+			void enable_conditional_render(thread* pthr, u32 address);
+
+			// Disable conditional rendering
+			void disable_conditional_render(thread* pthr);
+
+			// Sets data sources for predicate evaluation
+			void set_eval_sources(std::vector<occlusion_query_info*>& sources);
+
+			// Sets evaluation result. Result is true if conditional evaluation failed
+			void set_eval_result(thread* pthr, bool failed);
+
+			// Evaluates the condition by accessing memory directly
+			void eval_result(thread* pthr);
+		};
+	}
+
+	struct frame_statistics_t
+	{
+		u32 draw_calls;
+		s64 setup_time;
+		s64 vertex_upload_time;
+		s64 textures_upload_time;
+		s64 draw_exec_time;
+		s64 flip_time;
+	};
+
+	struct display_flip_info_t
+	{
+		std::deque<u32> buffer_queue;
+		u32 buffer;
+		bool skip_frame;
+		bool emu_flip;
+		bool in_progress;
+		frame_statistics_t stats;
+
+		inline void push(u32 _buffer)
+		{
+			buffer_queue.push_back(_buffer);
+		}
+
+		inline bool pop(u32 _buffer)
+		{
+			if (buffer_queue.empty())
+			{
+				return false;
+			}
+
+			do
+			{
+				const auto index = buffer_queue.front();
+				buffer_queue.pop_front();
+
+				if (index == _buffer)
+				{
+					buffer = _buffer;
+					return true;
+				}
+			}
+			while (!buffer_queue.empty());
+
+			// Need to observe this happening in the wild
+			rsx_log.error("Display queue was discarded while not empty!");
+			return false;
+		}
+	};
+
+	struct backend_configuration
+	{
+		bool supports_multidraw;             // Draw call batching
+		bool supports_hw_a2c;                // Alpha to coverage
+		bool supports_hw_renormalization;    // Should be true on NV hardware which matches PS3 texture renormalization behaviour
+		bool supports_hw_a2one;              // Alpha to one
+		bool supports_hw_conditional_render; // Conditional render
+		bool supports_passthrough_dma;       // DMA passthrough
+		bool supports_asynchronous_compute;  // Async compute
+	};
+
+	struct sampled_image_descriptor_base;
+
+	class thread : public cpu_thread
+	{
+		u64 timestamp_ctrl = 0;
+		u64 timestamp_subvalue = 0;
+
+		display_flip_info_t m_queued_flip{};
+
+		void cpu_task() override;
+	protected:
+		atomic_t<bool> m_rsx_thread_exiting{ true };
+
+		std::array<push_buffer_vertex_info, 16> vertex_push_buffers;
+		std::vector<u32> element_push_buffer;
+
+		s32 m_skip_frame_ctr = 0;
+		bool skip_current_frame = false;
+		frame_statistics_t stats{};
+
+		backend_configuration backend_config{};
+
+		// FIFO
+	public:
+		std::unique_ptr<FIFO::FIFO_control> fifo_ctrl;
+		std::vector<std::pair<u32, u32>> dump_callstack_list() const override;
+
+	protected:
+		FIFO::flattening_helper m_flattener;
+		u32 fifo_ret_addr = RSX_CALL_STACK_EMPTY;
+		u32 saved_fifo_ret = RSX_CALL_STACK_EMPTY;
+
+		// Occlusion query
+		bool zcull_surface_active = false;
+		std::unique_ptr<reports::ZCULL_control> zcull_ctrl;
+
+		// Framebuffer setup
+		rsx::gcm_framebuffer_info m_surface_info[rsx::limits::color_buffers_count];
+		rsx::gcm_framebuffer_info m_depth_surface_info;
+		framebuffer_layout m_framebuffer_layout{};
+		bool framebuffer_status_valid = false;
+
+		// Overlays
+		rsx::overlays::display_manager* m_overlay_manager = nullptr;
+
+		// Invalidated memory range
+		address_range m_invalidated_memory_range;
+
+		// Profiler
+		rsx::profiling_timer m_profiler;
+		frame_statistics_t m_frame_stats;
+
+	public:
+		RsxDmaControl* ctrl = nullptr;
+		u32 dma_address{0};
+		rsx_iomap_table iomap_table;
+		u32 restore_point = 0;
+		u32 dbg_step_pc = 0;
+		atomic_t<u32> external_interrupt_lock{ 0 };
+		atomic_t<bool> external_interrupt_ack{ false };
+		atomic_t<bool> is_inited{ false };
+		bool is_fifo_idle() const;
+		void flush_fifo();
+
+		void recover_fifo(u32 line = __builtin_LINE(),
+			u32 col = __builtin_COLUMN(),
+			const char* file = __builtin_FILE(),
+			const char* func = __builtin_FUNCTION());
+
+		static void fifo_wake_delay(u64 div = 1);
+		u32 get_fifo_cmd() const;
+
+		std::string dump_regs() const override;
+		void cpu_wait(bs_t<cpu_flag> old) override;
+
+		static constexpr u32 id_base = 0x5555'5555; // See get_current_cpu_thread()
+
+		// Performance approximation counters
+		struct
+		{
+			atomic_t<u64> idle_time{ 0 };  // Time spent idling in microseconds
+			u64 last_update_timestamp = 0; // Timestamp of last load update
+			u64 FIFO_idle_timestamp = 0;   // Timestamp of when FIFO queue becomes idle
+			FIFO_state state = FIFO_state::running;
+			u32 approximate_load = 0;
+			u32 sampled_frames = 0;
+		}
+		performance_counters;
+
+		enum class flip_request : u32
+		{
+			emu_requested = 1,
+			native_ui = 2,
+
+			any = emu_requested | native_ui
+		};
+
+		atomic_bitmask_t<flip_request> async_flip_requested{};
+		u8 async_flip_buffer{ 0 };
+
+		GcmTileInfo tiles[limits::tiles_count];
+		GcmZcullInfo zculls[limits::zculls_count];
+
+		void capture_frame(const std::string &name);
+		const backend_configuration& get_backend_config() const { return backend_config; }
+
+	public:
+		std::shared_ptr<named_thread<class ppu_thread>> intr_thread;
+
+		// I hate this flag, but until hle is closer to lle, its needed
+		bool isHLE{ false };
+
+		u32 flip_status;
+		int debug_level;
+
+		atomic_t<bool> requested_vsync{false};
+		atomic_t<bool> enable_second_vhandler{false};
+
+		RsxDisplayInfo display_buffers[8];
+		u32 display_buffers_count{0};
+		u32 current_display_buffer{0};
+
+		shared_mutex sys_rsx_mtx;
+		u32 device_addr{0};
+		u32 label_addr{0};
+		u32 main_mem_size{0};
+		u32 local_mem_size{0};
+		u32 rsx_event_port{0};
+		u32 driver_info{0};
+
+		void send_event(u64, u64, u64) const;
+
+		bool m_rtts_dirty = true;
+		std::array<bool, 16> m_textures_dirty;
+		std::array<bool, 4> m_vertex_textures_dirty;
+		bool m_framebuffer_state_contested = false;
+		rsx::framebuffer_creation_context m_current_framebuffer_context = rsx::framebuffer_creation_context::context_draw;
+
+		u32 m_graphics_state = 0;
+		u64 ROP_sync_timestamp = 0;
+
+		program_hash_util::fragment_program_utils::fragment_program_metadata current_fp_metadata = {};
+		program_hash_util::vertex_program_utils::vertex_program_metadata current_vp_metadata = {};
+
+	protected:
+		std::array<u32, 4> get_color_surface_addresses() const;
+		u32 get_zeta_surface_address() const;
+
+		void get_framebuffer_layout(rsx::framebuffer_creation_context context, framebuffer_layout &layout);
+		bool get_scissor(areau& region, bool clip_viewport);
+
+		/**
+		 * Analyze vertex inputs and group all interleaved blocks
+		 */
+		void analyse_inputs_interleaved(vertex_input_layout&);
+
+		RSXVertexProgram current_vertex_program = {};
+		RSXFragmentProgram current_fragment_program = {};
+
+		vertex_program_texture_state current_vp_texture_state = {};
+		fragment_program_texture_state current_fp_texture_state = {};
+
+		// Runs shader prefetch and resolves pipeline status flags
+		void analyse_current_rsx_pipeline();
+
+		// Prefetch and analyze the currently active fragment program ucode
+		void prefetch_fragment_program();
+
+		// Prefetch and analyze the currently active vertex program ucode
+		void prefetch_vertex_program();
+
+		void get_current_vertex_program(const std::array<std::unique_ptr<rsx::sampled_image_descriptor_base>, rsx::limits::vertex_textures_count>& sampler_descriptors);
+
+		/**
+		 * Gets current fragment program and associated fragment state
+		 */
+		void get_current_fragment_program(const std::array<std::unique_ptr<rsx::sampled_image_descriptor_base>, rsx::limits::fragment_textures_count>& sampler_descriptors);
+
+	public:
+		bool invalidate_fragment_program(u32 dst_dma, u32 dst_offset, u32 size);
+		void on_framebuffer_options_changed(u32 opt);
+
+	public:
+		u64 target_rsx_flip_time = 0;
+		u64 int_flip_index = 0;
+		u64 last_flip_time = 0;
+		vm::ptr<void(u32)> flip_handler = vm::null;
+		vm::ptr<void(u32)> user_handler = vm::null;
+		vm::ptr<void(u32)> vblank_handler = vm::null;
+		atomic_t<u64> vblank_count{0};
+		bool capture_current_frame = false;
+
+	public:
+		atomic_t<bool> sync_point_request = false;
+		bool in_begin_end = false;
+
+		struct desync_fifo_cmd_info
+		{
+			u32 cmd;
+			u64 timestamp;
+		};
+
+		std::queue<desync_fifo_cmd_info> recovered_fifo_cmds_history;
+
+		atomic_t<s32> async_tasks_pending{ 0 };
+
+		bool zcull_stats_enabled = false;
+		bool zcull_rendering_enabled = false;
+		bool zcull_pixel_cnt_enabled = false;
+
+		reports::conditional_render_eval cond_render_ctrl;
+
+		virtual u64 get_cycles() = 0;
+		virtual ~thread();
+
+		static constexpr auto thread_name = "rsx::thread"sv;
+
+	protected:
+		thread();
+		virtual void on_task();
+		virtual void on_exit();
+
+		/**
+		 * Execute a backend local task queue
+		 */
+		virtual void do_local_task(FIFO_state state);
+
+		virtual void emit_geometry(u32) {}
+
+		void run_FIFO();
+
+	public:
+		thread(const thread&) = delete;
+		thread& operator=(const thread&) = delete;
+
+		virtual void clear_surface(u32 /*arg*/) {}
+		virtual void begin();
+		virtual void end();
+		virtual void execute_nop_draw();
+
+		virtual void on_init_thread() = 0;
+		virtual void on_frame_end(u32 buffer, bool forced = false);
+		virtual void flip(const display_flip_info_t& info) = 0;
+		virtual u64 timestamp();
+		virtual bool on_access_violation(u32 /*address*/, bool /*is_writing*/) { return false; }
+		virtual void on_invalidate_memory_range(const address_range & /*range*/, rsx::invalidation_cause) {}
+		virtual void notify_tile_unbound(u32 /*tile*/) {}
+
+		// control
+		virtual void renderctl(u32 /*request_code*/, void* /*args*/) {}
+
+		// zcull
+		void notify_zcull_info_changed();
+		void clear_zcull_stats(u32 type);
+		void check_zcull_status(bool framebuffer_swap);
+		void get_zcull_stats(u32 type, vm::addr_t sink);
+		u32  copy_zcull_stats(u32 memory_range_start, u32 memory_range, u32 destination);
+
+		void enable_conditional_rendering(vm::addr_t ref);
+		void disable_conditional_rendering();
+		virtual void begin_conditional_rendering(const std::vector<reports::occlusion_query_info*>& sources);
+		virtual void end_conditional_rendering();
+
+		// sync
+		void sync();
+		flags32_t read_barrier(u32 memory_address, u32 memory_range, bool unconditional);
+		virtual void sync_hint(FIFO_hint hint, void* args);
+
+		std::span<const std::byte> get_raw_index_array(const draw_clause& draw_indexed_clause) const;
+
+		std::variant<draw_array_command, draw_indexed_array_command, draw_inlined_array>
+		get_draw_command(const rsx::rsx_state& state) const;
+
+		/**
+		* Immediate mode rendering requires a temp push buffer to hold attrib values
+		* Appends a value to the push buffer (currently only supports 32-wide types)
+		*/
+		void append_to_push_buffer(u32 attribute, u32 size, u32 subreg_index, vertex_base_type type, u32 value);
+		u32 get_push_buffer_vertex_count() const;
+
+		void append_array_element(u32 index);
+		u32 get_push_buffer_index_count() const;
+
+	protected:
+
+		/**
+		 * Computes VRAM requirements needed to upload raw vertex streams
+		 * result.first contains persistent memory requirements
+		 * result.second contains volatile memory requirements
+		 */
+		std::pair<u32, u32> calculate_memory_requirements(const vertex_input_layout& layout, u32 first_vertex, u32 vertex_count);
+
+		/**
+		 * Generates vertex input descriptors as an array of 16x4 s32s
+		 */
+		void fill_vertex_layout_state(const vertex_input_layout& layout, u32 first_vertex, u32 vertex_count, s32* buffer, u32 persistent_offset = 0, u32 volatile_offset = 0);
+
+		/**
+		 * Uploads vertex data described in the layout descriptor
+		 * Copies from local memory to the write-only output buffers provided in a sequential manner
+		 */
+		void write_vertex_data_to_memory(const vertex_input_layout& layout, u32 first_vertex, u32 vertex_count, void *persistent_data, void *volatile_data);
+
+	private:
+		shared_mutex m_mtx_task;
+
+		void handle_emu_flip(u32 buffer);
+		void handle_invalidated_memory_range();
+
+	public:
+		/**
+		 * Fill buffer with 4x4 scale offset matrix.
+		 * Vertex shader's position is to be multiplied by this matrix.
+		 * if flip_y is set, the matrix is modified to use d3d convention.
+		 */
+		void fill_scale_offset_data(void *buffer, bool flip_y) const;
+
+		/**
+		 * Fill buffer with user clip information
+		 */
+		void fill_user_clip_data(void *buffer) const;
+
+		/**
+		* Fill buffer with vertex program constants.
+		* Buffer must be at least 512 float4 wide.
+		*/
+		void fill_vertex_program_constants_data(void* buffer);
+
+		/**
+		 * Fill buffer with fragment rasterization state.
+		 * Fills current fog values, alpha test parameters and texture scaling parameters
+		 */
+		void fill_fragment_state_buffer(void* buffer, const RSXFragmentProgram& fragment_program);
+
+		/**
+		 * Notify that a section of memory has been mapped
+		 * If there is a notify_memory_unmapped request on this range yet to be handled,
+		 * handles it immediately.
+		 */
+		void on_notify_memory_mapped(u32 address_base, u32 size);
+
+		/**
+		 * Notify that a section of memory has been unmapped
+		 * Any data held in the defined range is discarded
+		 */
+		void on_notify_memory_unmapped(u32 address_base, u32 size);
+
+		/**
+		 * Notify to check internal state during semaphore wait
+		 */
+		virtual void on_semaphore_acquire_wait() {}
+
+		virtual std::pair<std::string, std::string> get_programs() const { return std::make_pair("", ""); }
+
+		virtual bool scaled_image_from_memory(blit_src_info& /*src_info*/, blit_dst_info& /*dst_info*/, bool /*interpolate*/) { return false; }
+
+	public:
+		void reset();
+		void init(u32 ctrlAddress);
+
+		// Emu App/Game flip, only immediately flips when called from rsxthread
+		void request_emu_flip(u32 buffer);
+
+		void pause();
+		void unpause();
+		void wait_pause();
+
+		// Get RSX approximate load in %
+		u32 get_load();
+
+		// Returns true if the current thread is the active RSX thread
+		inline bool is_current_thread() const
+		{
+			return !!cpu_thread::get_current<rsx::thread>();
+		}
+	};
+
+	inline thread* get_current_renderer()
+	{
+		return g_fxo->try_get<rsx::thread>();
+	}
+
+	template<bool IsFullLock = false>
+	class reservation_lock
+	{
+		u32 addr = 0, length = 0;
+		bool locked = false;
+
+		inline void lock_range(u32 addr, u32 length)
+		{
+			this->addr = addr;
+			this->length = length;
+
+			auto renderer = get_current_renderer();
+			this->locked = renderer->iomap_table.lock<IsFullLock>(addr, length);
+		}
+
+	public:
+		reservation_lock(u32 addr, u32 length)
+		{
+			if (g_cfg.core.rsx_accurate_res_access &&
+				addr < constants::local_mem_base)
+			{
+				lock_range(addr, length);
+			}
+		}
+
+		// Multi-range lock. If ranges overlap, the combined range will be acquired.
+		// If ranges do not overlap, the first range that is in main memory will be acquired.
+		reservation_lock(u32 dst_addr, u32 dst_length, u32 src_addr, u32 src_length)
+		{
+			if (g_cfg.core.rsx_accurate_res_access)
+			{
+				const auto range1 = utils::address_range::start_length(dst_addr, dst_length);
+				const auto range2 = utils::address_range::start_length(src_addr, src_length);
+				utils::address_range target_range;
+
+				if (!range1.overlaps(range2)) [[likely]]
+				{
+					target_range = (dst_addr < constants::local_mem_base) ? range1 : range2;
+				}
+				else
+				{
+					// Very unlikely
+					target_range = range1.get_min_max(range2);
+				}
+
+				if (target_range.start < constants::local_mem_base)
+				{
+					lock_range(target_range.start, target_range.length());
+				}
+			}
+		}
+
+		~reservation_lock()
+		{
+			if (locked)
+			{
+				get_current_renderer()->iomap_table.unlock<IsFullLock>(addr, length);
+			}
+		}
+	};
+}
