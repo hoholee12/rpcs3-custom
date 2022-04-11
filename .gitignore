@@ -40,6 +40,8 @@
 
 #!/bin
 #/bin/*
+!/bin/*.exe
+!/bin/*.dll
 
 # Audio DLLs
 !/bin/soft_oal.dll
