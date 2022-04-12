@@ -136,7 +136,7 @@ Video:
   Minimum Scalable Dimension: 16
   Shader Compiler Threads: 1
   Driver Recovery Timeout: 1000000
-  Driver Wake-Up Delay: 1
+  Driver Wake-Up Delay: 200
   Vblank Rate: 60
   Vblank NTSC Fixup: false
   DECR memory layout: false
