@@ -1939,6 +1939,9 @@ settings_dialog::settings_dialog(std::shared_ptr<gui_settings> gui_settings, std
 	m_emu_settings->EnhanceCheckBox(ui->disableVulkanMemAllocator, emu_settings_type::DisableVulkanMemAllocator);
 	SubscribeTooltip(ui->disableVulkanMemAllocator, tooltips.settings.disable_vulkan_mem_allocator);
 
+	m_emu_settings->EnhanceCheckBox(ui->disableVulkanFence, emu_settings_type::DisableVulkanFence);
+	SubscribeTooltip(ui->disableVulkanFence, tooltips.settings.disable_vulkan_fence);
+
 	m_emu_settings->EnhanceCheckBox(ui->disableFIFOReordering, emu_settings_type::DisableFIFOReordering);
 	SubscribeTooltip(ui->disableFIFOReordering, tooltips.settings.disable_fifo_reordering);
 

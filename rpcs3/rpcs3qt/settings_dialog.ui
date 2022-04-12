@@ -3737,6 +3737,13 @@
                </property>
               </widget>
              </item>
+			 <item>
+              <widget class="QCheckBox" name="disableVulkanFence">
+               <property name="text">
+                <string>Disable Vulkan Fence</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QCheckBox" name="disableFIFOReordering">
                <property name="text">

@@ -121,6 +121,7 @@ Video:
   Force CPU Blit: true
   Disable On-Disk Shader Cache: false
   Disable Vulkan Memory Allocator: true
+  Disable Vulkan Fence: true
   Use full RGB output range: true
   Strict Texture Flushing: false
   Disable native float16 support: false

@@ -262,7 +262,8 @@ namespace vk
 			AUDIT(synchronized);
 
 			// Synchronize, reset dma_fence after waiting
-			if (!g_cfg.video.write_color_buffers) vk::wait_for_event(dma_fence.get(), GENERAL_WAIT_TIMEOUT);
+			if (!g_cfg.video.disable_vulkan_fence)
+				vk::wait_for_event(dma_fence.get(), GENERAL_WAIT_TIMEOUT);
 
 			// Calculate smallest range to flush - for framebuffers, the raster region is enough
 			const auto range = (context == rsx::texture_upload_context::framebuffer_storage) ? get_section_range() : get_confirmed_range();

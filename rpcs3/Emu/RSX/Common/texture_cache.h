@@ -3039,7 +3039,7 @@ namespace rsx
 
 				lock.upgrade();
 
-				if (g_cfg.video.write_color_buffers && !g_cfg.video.force_cpu_blit_processing)
+				if (g_cfg.video.disable_vulkan_fence && !g_cfg.video.force_cpu_blit_processing)
 					cached_dest->reprotect(utils::protection::ro, {mem_offset, dst_payload_length});
 				else
 					cached_dest->reprotect(utils::protection::no, {mem_offset, dst_payload_length});
