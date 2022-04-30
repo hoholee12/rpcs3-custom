@@ -768,7 +768,7 @@ namespace rsx
 		g_access_violation_handler = nullptr;
 
 		// Clear any pending flush requests to release threads
-		std::this_thread::sleep_for(10ms);
+		std::this_thread::sleep_for(1ms);
 		do_local_task(rsx::FIFO_state::lock_wait);
 
 		m_rsx_thread_exiting = true;

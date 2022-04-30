@@ -338,7 +338,7 @@ namespace spu
 
 				if (timeout_ms > 0)
 				{
-					const u64 timeout = timeout_ms * 1000u; //convert to microseconds
+					const u64 timeout = timeout_ms * 10000 * 1000u; //convert to microseconds
 					const u64 start = get_system_time();
 					auto remaining = timeout;
 
