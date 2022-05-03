@@ -449,6 +449,7 @@ using CellSpursJobChainExceptionEventHandler = void(vm::ptr<CellSpurs> spurs, vm
 
 struct alignas(128) CellSpursJobChain
 {
+	static constexpr size_t MAX_NUM_URGENT_CMDS = 4;
 	vm::bcptr<u64, u64> pc;                                                      // 0x00
 	vm::bcptr<u64, u64> linkRegister[3];                                         // 0x08
 	u8 unk0[0x3];                                                                // 0x20

@@ -1281,6 +1281,11 @@ void ppu_thread::cpu_sleep()
 	lv2_obj::awake(this);
 }
 
+void ppu_thread::cpu_mem()
+{
+	vm::passive_lock(*this);
+}
+
 void ppu_thread::cpu_on_stop()
 {
 	if (current_function)

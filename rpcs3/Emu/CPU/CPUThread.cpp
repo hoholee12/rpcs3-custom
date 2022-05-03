@@ -597,6 +597,7 @@ bool cpu_thread::check_state() noexcept
 	bool cpu_sleep_called = false;
 	bool cpu_can_stop = true;
 	bool escape, retval;
+	bool cpu_flag_memory = false;
 
 	while (true)
 	{
@@ -737,6 +738,18 @@ bool cpu_thread::check_state() noexcept
 			ensure(cpu_can_stop || !retval);
 			return retval;
 		}
+
+		if (state0 & cpu_flag::memory)
+		{
+			if (auto& ptr = vm::g_tls_locked)
+			{
+				ptr->compare_and_swap(this, nullptr);
+				ptr = nullptr;
+			}
+			cpu_flag_memory = true;
+			state -= cpu_flag::memory;
+		}
+		state += cpu_flag::memory;
 
 		if (cpu_can_stop && !cpu_sleep_called && state0 & cpu_flag::suspend)
 		{

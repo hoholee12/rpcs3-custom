@@ -170,6 +170,9 @@ public:
 	// Callback for cpu_flag::suspend
 	virtual void cpu_sleep() {}
 
+	// Callback for cpu_flag::memory
+	virtual void cpu_mem() {}
+
 	// Callback for cpu_flag::pending
 	virtual void cpu_work() {}
 

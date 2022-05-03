@@ -5122,6 +5122,38 @@ s32 cellSpursAddUrgentCommand(ppu_thread& ppu, vm::ptr<CellSpursJobChain> jobCha
 	if (jobChain->workloadId >= CELL_SPURS_MAX_WORKLOAD2)
 		return CELL_SPURS_JOB_ERROR_INVAL;
 
+	CellSpursJobChain& jobChainvm = *jobChain;
+	if (jobChainvm.workloadId >= 32)
+		return CELL_SPURS_JOB_ERROR_INVAL;
+
+	const size_t max_num_urgent_cmds = std::min(size_t(g_cfg.core.spurs_urgent_queue_size), CellSpursJobChain::MAX_NUM_URGENT_CMDS);
+	for (;;)
+	{
+		size_t currIdx;
+		for (currIdx = 0; currIdx < max_num_urgent_cmds; currIdx++)
+		{
+			be_t<u64> currCmd   = jobChainvm.urgentCmds[currIdx].load();
+			u64 cmdToStore      = currCmd;
+			bool foundEmptySlot = false;
+			if (currCmd == 0)
+			{
+				if (currIdx != 0 && jobChainvm.urgentCmds[currIdx - 1].load() == 0)
+					break; //restart search, someone emptied out the previous one
+
+				foundEmptySlot = true;
+				cmdToStore     = newCmd;
+			}
+			if (!jobChainvm.urgentCmds[currIdx].compare_exchange(currCmd, cmdToStore))
+				break; //someone changed this one, restart search
+
+			if (foundEmptySlot)
+				return CELL_OK; //success
+		}
+
+		if (currIdx >= max_num_urgent_cmds)
+			return CELL_SPURS_JOB_ERROR_BUSY; //exausted all slots
+	}
+
 	s32 result = CELL_OK;
 
 	vm::reservation_op(ppu, vm::unsafe_ptr_cast<CellSpursJobChain_x00>(jobChain), [&](CellSpursJobChain_x00& jch)

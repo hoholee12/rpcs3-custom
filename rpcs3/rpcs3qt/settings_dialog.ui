@@ -2199,6 +2199,24 @@
               </layout>
              </widget>
             </item>
+			<item>
+             <widget class="QGroupBox" name="gb_spurs_urgent_queue_size">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="title">
+               <string>SPURS Urgent Queue Size</string>
+              </property>
+              <layout class="QVBoxLayout" name="gb_spurs_urgent_queue_size_layout">
+               <item>
+                <widget class="QComboBox" name="SPURSUrgentQueueSize"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
             <item>
              <spacer name="advancedTabSpacerLeft">
               <property name="orientation">

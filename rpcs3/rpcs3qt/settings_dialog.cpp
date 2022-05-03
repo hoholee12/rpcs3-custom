@@ -1226,6 +1226,10 @@ settings_dialog::settings_dialog(std::shared_ptr<gui_settings> gui_settings, std
 	ui->maxSPURSThreads->setItemText(ui->maxSPURSThreads->findData(6), tr("Unlimited (Default)", "Max SPURS threads"));
 	SubscribeTooltip(ui->gb_max_spurs_threads, tooltips.settings.max_spurs_threads);
 
+	m_emu_settings->EnhanceComboBox(ui->SPURSUrgentQueueSize, emu_settings_type::SPURSUrgentQueueSize, true);
+	ui->SPURSUrgentQueueSize->setItemText(ui->SPURSUrgentQueueSize->findData(0), tr("None (Default)", "SPURS Urgent Queue Size"));
+	SubscribeTooltip(ui->gb_spurs_urgent_queue_size, tooltips.settings.spurs_urgent_queue_size);
+
 	m_emu_settings->EnhanceComboBox(ui->sleepTimersAccuracy, emu_settings_type::SleepTimersAccuracy);
 	SubscribeTooltip(ui->gb_sleep_timers_accuracy, tooltips.settings.sleep_timers_accuracy);
 

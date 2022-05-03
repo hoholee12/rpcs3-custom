@@ -137,6 +137,7 @@ public:
 	virtual std::string dump_all() const override;
 	virtual void cpu_task() override final;
 	virtual void cpu_sleep() override;
+	virtual void cpu_mem() override;
 	virtual void cpu_on_stop() override;
 	virtual ~ppu_thread() override;
 

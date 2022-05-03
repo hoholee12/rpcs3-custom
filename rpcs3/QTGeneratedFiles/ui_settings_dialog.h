@@ -369,6 +369,9 @@ public:
     QGroupBox *gb_max_spurs_threads;
     QVBoxLayout *gb_max_spurs_threads_layout;
     QComboBox *maxSPURSThreads;
+    QGroupBox *gb_spurs_urgent_queue_size;
+    QVBoxLayout *gb_spurs_urgent_queue_size_layout;
+    QComboBox *SPURSUrgentQueueSize;
     QSpacerItem *advancedTabSpacerLeft;
     QVBoxLayout *advancedTabLayoutMiddle;
     QGroupBox *gb_libs;
@@ -2174,6 +2177,20 @@ public:
 
         advancedTabLayoutLeft->addWidget(gb_max_spurs_threads);
 
+        gb_spurs_urgent_queue_size = new QGroupBox(advancedTab);
+        gb_spurs_urgent_queue_size->setObjectName(QString::fromUtf8("gb_spurs_urgent_queue_size"));
+        sizePolicy1.setHeightForWidth(gb_spurs_urgent_queue_size->sizePolicy().hasHeightForWidth());
+        gb_spurs_urgent_queue_size->setSizePolicy(sizePolicy1);
+        gb_spurs_urgent_queue_size_layout = new QVBoxLayout(gb_spurs_urgent_queue_size);
+        gb_spurs_urgent_queue_size_layout->setObjectName(QString::fromUtf8("gb_spurs_urgent_queue_size_layout"));
+        SPURSUrgentQueueSize = new QComboBox(gb_spurs_urgent_queue_size);
+        SPURSUrgentQueueSize->setObjectName(QString::fromUtf8("SPURSUrgentQueueSize"));
+
+        gb_spurs_urgent_queue_size_layout->addWidget(SPURSUrgentQueueSize);
+
+
+        advancedTabLayoutLeft->addWidget(gb_spurs_urgent_queue_size);
+
         advancedTabSpacerLeft = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
 
         advancedTabLayoutLeft->addItem(advancedTabSpacerLeft);
@@ -3491,6 +3508,7 @@ public:
         silenceAllLogs->setText(QCoreApplication::translate("settings_dialog", "Silence All Logs", nullptr));
         gb_sleep_timers_accuracy->setTitle(QCoreApplication::translate("settings_dialog", "Sleep Timers Accuracy", nullptr));
         gb_max_spurs_threads->setTitle(QCoreApplication::translate("settings_dialog", "Maximum Number of SPURS Threads", nullptr));
+        gb_spurs_urgent_queue_size->setTitle(QCoreApplication::translate("settings_dialog", "SPURS Urgent Queue Size", nullptr));
         gb_libs->setTitle(QCoreApplication::translate("settings_dialog", "Firmware Libraries", nullptr));
         resetLleList->setText(QCoreApplication::translate("settings_dialog", "Reset", nullptr));
         gb_advanced_gpu->setTitle(QCoreApplication::translate("settings_dialog", "GPU", nullptr));
