@@ -454,7 +454,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 		if ((a4 & 0x80000000) != 0)
 		{
 			// NOTE: There currently seem to only be 2 active heads on PS3
-			//ensure(a3 < 2);
+			ensure(a3 < 2);
 
 			// last half byte gives buffer, 0xf seems to trigger just last queued
 			u8 idx_check = a4 & 0xf;
@@ -494,7 +494,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 	case 0x103: // Display Queue
 	{
 		// NOTE: There currently seem to only be 2 active heads on PS3
-		//ensure(a3 < 2);
+		ensure(a3 < 2);
 
 		driverInfo.head[a3].lastQueuedBufferId = static_cast<u32>(a4);
 		driverInfo.head[a3].flipFlags |= 0x40000000 | (1 << a4);
@@ -553,7 +553,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 		}
 
 		// NOTE: There currently seem to only be 2 active heads on PS3
-		//ensure(a3 < 2);
+		ensure(a3 < 2);
 
 		driverInfo.head[a3].flipFlags.atomic_op([&](be_t<u32>& flipStatus)
 		{
@@ -572,7 +572,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 		//a5 high bits = ret.pitch = (pitch / 0x100) << 8;
 		//a5 low bits = ret.format = base | ((base + ((size - 1) / 0x10000)) << 13) | (comp << 26) | (1 << 30);
 
-		//ensure(a3 < std::size(render->tiles));
+		ensure(a3 < std::size(render->tiles));
 
 		if (!render->is_fifo_idle())
 		{
@@ -614,7 +614,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 			}
 
 			// Hardcoded value in gcm
-			//ensure(a5 & (1 << 30));
+			ensure(a5 & (1 << 30));
 		}
 
 		std::lock_guard lock(render->sys_rsx_mtx);
@@ -657,7 +657,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 		//a6 high = status0 = (zcullDir << 1) | (zcullFormat << 2) | ((sFunc & 0xF) << 12) | (sRef << 16) | (sMask << 24);
 		//a6 low = status1 = (0x2000 << 0) | (0x20 << 16);
 
-		//ensure(a3 < std::size(render->zculls));
+		ensure(a3 < std::size(render->zculls));
 
 		if (!render->is_fifo_idle())
 		{
@@ -687,8 +687,8 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 			}
 
 			// Hardcoded values in gcm
-			//ensure(a4 & (1ull << 32));
-			//ensure((a6 & 0xFFFFFFFF) == 0u + ((0x2000 << 0) | (0x20 << 16)));
+			ensure(a4 & (1ull << 32));
+			ensure((a6 & 0xFFFFFFFF) == 0u + ((0x2000 << 0) | (0x20 << 16)));
 		}
 
 		std::lock_guard lock(render->sys_rsx_mtx);
@@ -747,7 +747,7 @@ error_code sys_rsx_context_attribute(u32 context_id, u32 package_id, u64 a3, u64
 		}
 
 		// NOTE: There currently seem to only be 2 active heads on PS3
-		//ensure(a3 < 2);
+		ensure(a3 < 2);
 
 		// todo: this is wrong and should be 'second' vblank handler and freq, but since currently everything is reported as being 59.94, this should be fine
 		vm::_ref<u32>(render->device_addr + 0x30) = 1;
