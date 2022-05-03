@@ -18,6 +18,7 @@ Core:
   SPU delay penalty: 3
   SPU loop detection: false
   Max SPURS Threads: 4
+  SPURS Urgent Queue Size: 2
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false

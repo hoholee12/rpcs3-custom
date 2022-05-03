@@ -7,7 +7,7 @@ Core:
   Use LLVM CPU: ""
   Max LLVM Compile Threads: 3
   PPU LLVM Greedy Mode: false
-  PPU LLVM Precompilation: false
+  PPU LLVM Precompilation: true
   Thread Scheduler Mode: Operating System
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
@@ -73,9 +73,6 @@ Core:
   Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
-  LLVM Accurate DFMA: true
-  PPU LLVM Accurate Vector NaN values: true
-  Lower SPU thread priority: true
 VFS:
   Enable /host_root/: false
   Initialize Directories: true
@@ -100,8 +97,8 @@ Video:
   Use GPU texture scaling: true
   Stretch To Display Area: true
   Force High Precision Z buffer: false
-  Strict Rendering Mode: true
-  Disable ZCull Occlusion Queries: false
+  Strict Rendering Mode: false
+  Disable ZCull Occlusion Queries: true
   Disable Vertex Cache: false
   Disable FIFO Reordering: true
   Enable Frame Skip: false
@@ -139,12 +136,12 @@ Video:
     FidelityFX CAS Sharpening Intensity: 50
     Asynchronous Queue Scheduler: Safe
   Performance Overlay:
-    Enabled: true
+    Enabled: false
     Enable Framerate Graph: false
     Enable Frametime Graph: false
     Framerate datapoints: 50
     Frametime datapoints: 170
-    Detail level: High
+    Detail level: Medium
     Framerate graph detail level: All
     Frametime graph detail level: All
     Metrics update interval (ms): 350
@@ -180,8 +177,6 @@ Audio:
   Time Stretching Threshold: 75
   Microphone Type: "Null"
   Microphone Devices: "@@@@@@@@@@@@"
-  Start Threshold: 1
-  Sampling Period Multiplier: 100
 Input/Output:
   Keyboard: "Null"
   Mouse: Basic
@@ -203,7 +198,7 @@ System:
   Console time offset (s): 0
 Net:
   Internet enabled: Disconnected
-  IP address: 192.168.1.1
+  IP address: 0.0.0.0
   DNS address: 8.8.8.8
   IP swap list: ""
   PSN status: Disconnected

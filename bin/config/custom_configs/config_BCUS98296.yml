@@ -18,6 +18,7 @@ Core:
   SPU delay penalty: 3
   SPU loop detection: false
   Max SPURS Threads: 4
+  SPURS Urgent Queue Size: 2
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
@@ -143,7 +144,7 @@ Video:
     Enable Frametime Graph: false
     Framerate datapoints: 50
     Frametime datapoints: 170
-    Detail level: Minimal
+    Detail level: High
     Framerate graph detail level: All
     Frametime graph detail level: All
     Metrics update interval (ms): 350
