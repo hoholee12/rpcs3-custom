@@ -7,8 +7,8 @@ Core:
   Use LLVM CPU: ""
   Max LLVM Compile Threads: 3
   PPU LLVM Greedy Mode: false
-  PPU LLVM Precompilation: false
-  Thread Scheduler Mode: Operating System
+  PPU LLVM Precompilation: true
+  Thread Scheduler Mode: RSX focused
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
@@ -139,7 +139,7 @@ Video:
     FidelityFX CAS Sharpening Intensity: 50
     Asynchronous Queue Scheduler: Safe
   Performance Overlay:
-    Enabled: true
+    Enabled: false
     Enable Framerate Graph: false
     Enable Frametime Graph: false
     Framerate datapoints: 50

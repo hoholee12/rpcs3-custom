@@ -7,8 +7,8 @@ Core:
   Use LLVM CPU: ""
   Max LLVM Compile Threads: 3
   PPU LLVM Greedy Mode: false
-  PPU LLVM Precompilation: false
-  Thread Scheduler Mode: Operating System
+  PPU LLVM Precompilation: true
+  Thread Scheduler Mode: SPU focused
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
