@@ -235,8 +235,8 @@ enum class vk_gpu_scheduler_mode
 enum class thread_scheduler_mode
 {
 	os,
-	old,
-	alt
+	spu,
+	rsx
 };
 
 enum class perf_graph_detail_level

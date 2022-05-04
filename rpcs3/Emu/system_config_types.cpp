@@ -536,9 +536,9 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 	{
 		switch (value)
 		{
-		case thread_scheduler_mode::old: return "RPCS3 Scheduler";
-		case thread_scheduler_mode::alt: return "RPCS3 Alternative Scheduler";
-		case thread_scheduler_mode::os: return "Operating System";
+		case thread_scheduler_mode::spu: return "SPU focused";
+		case thread_scheduler_mode::rsx: return "RSX focused";
+		case thread_scheduler_mode::os: return "Default";
 		}
 
 		return unknown;

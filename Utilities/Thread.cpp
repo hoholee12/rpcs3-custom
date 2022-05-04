@@ -2673,201 +2673,48 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	{
 		const u64 all_cores_mask = process_affinity_mask;
 
-		switch (g_native_core_layout)
-		{
-		default:
-		case native_core_arrangement::generic:
-		{
-			return all_cores_mask;
-		}
-		case native_core_arrangement::amd_ccx:
-		{
-			if (thread_count <= 8)
-			{
-				// Single CCX or not enough threads, do nothing
+		switch (g_cfg.core.thread_scheduler){
+		case thread_scheduler_mode::os:		//default
+			switch(group){
+			case thread_class::general:
+			case thread_class::ppu:
+			case thread_class::spu:
+			case thread_class::rsx:
 				return all_cores_mask;
 			}
-
-			u64 spu_mask, ppu_mask, rsx_mask;
-			spu_mask = ppu_mask = rsx_mask = all_cores_mask; // Fallback, in case someone is messing with core config
-
-			const auto system_id = utils::get_cpu_brand();
-			const auto family_id = utils::get_cpu_family();
-			const auto model_id = utils::get_cpu_model();
-
-			switch (family_id)
-			{
-			case 0x17: // Zen, Zen+, Zen2
-			case 0x18: // Dhyana core (Zen)
-			{
-				if (model_id > 0x30)
-				{
-					// Zen2 (models 49, 96, 113, 144)
-					// Much improved inter-CCX latency
-					switch (thread_count)
-					{
-					case 128:
-					case 64:
-					case 48:
-					case 32:
-						// TR 3000 series, or R9 3950X, Assign threads 9-32
-						ppu_mask = 0b11111111000000000000000000000000;
-						spu_mask = 0b00000000111111110000000000000000;
-						rsx_mask = 0b00000000000000001111111100000000;
-						break;
-					case 24:
-						// 3900X, Assign threads 7-24
-						ppu_mask = 0b111111000000000000000000;
-						spu_mask = 0b000000111111000000000000;
-						rsx_mask = 0b000000000000111111000000;
-						break;
-					case 16:
-						// 3700, 3800 family, Assign threads 1-16
-						ppu_mask = 0b0000000011110000;
-						spu_mask = 0b1111111100000000;
-						rsx_mask = 0b0000000000001111;
-						break;
-					case 12:
-						// 3600 family, Assign threads 1-12
-						ppu_mask = 0b000000111000;
-						spu_mask = 0b111111000000;
-						rsx_mask = 0b000000000111;
-						break;
-					default:
-						break;
-					}
-				}
-				else
-				{
-					// Zen, Zen+ (models 1, 8(+), 17, 24(+), 32)
-					switch (thread_count)
-					{
-					case 64:
-						// TR 2990WX, Assign threads 17-32
-						ppu_mask = 0b00000000111111110000000000000000;
-						spu_mask = ppu_mask;
-						rsx_mask = 0b11111111000000000000000000000000;
-						break;
-					case 48:
-						// TR 2970WX, Assign threads 9-24
-						ppu_mask = 0b000000111111000000000000;
-						spu_mask = ppu_mask;
-						rsx_mask = 0b111111000000000000000000;
-						break;
-					case 32:
-						// TR 2950X, TR 1950X, Assign threads 17-32
-						ppu_mask = 0b00000000111111110000000000000000;
-						spu_mask = ppu_mask;
-						rsx_mask = 0b11111111000000000000000000000000;
-						break;
-					case 24:
-						// TR 1920X, 2920X, Assign threads 13-24
-						ppu_mask = 0b000000111111000000000000;
-						spu_mask = ppu_mask;
-						rsx_mask = 0b111111000000000000000000;
-						break;
-					case 16:
-						// 1700, 1800, 2700, TR 1900X family
-						if (g_cfg.core.thread_scheduler == thread_scheduler_mode::alt)
-						{
-							ppu_mask = 0b0010000010000000;
-							spu_mask = 0b0000101010101010;
-							rsx_mask = 0b1000000000000000;
-						}
-						else
-						{
-							ppu_mask = 0b1111111100000000;
-							spu_mask = ppu_mask;
-							rsx_mask = 0b0000000000111100;
-						}
-						break;
-					case 12:
-						// 1600, 2600 family, Assign threads 3-12
-						ppu_mask = 0b111111000000;
-						spu_mask = ppu_mask;
-						rsx_mask = 0b000000111100;
-						break;
-					default:
-						break;
-					}
-				}
-				break;
-			}
-			case 0x19: // Zen3
-			{
-				// Single-CCX architecture, just disable SMT if wide enough
-				// CCX now holds upto 16 threads
-				// Lack of hw availability makes testing difficult
-				switch (thread_count)
-				{
-				case 24:
-					// 5900X, Use same scheduler as 3900X
-					// Unverified on windows, may be worse than just disabling SMT and scheduler
-					ppu_mask = 0b111111000000000000000000;
-					spu_mask = 0b000000111111000000000000;
-					rsx_mask = 0b000000000000111111000000;
-					break;
-				case 16:
-					// 5800X
-					if (g_cfg.core.thread_scheduler == thread_scheduler_mode::alt)
-					{
-						ppu_mask = 0b0000000011110000;
-						spu_mask = 0b1111111100000000;
-						rsx_mask = 0b0000000000001111;
-					}
-					else
-					{
-						// Verified by more than one windows user on 16-thread CPU
-						ppu_mask = spu_mask = rsx_mask = (0b10101010101010101010101010101010 & all_cores_mask);
-					}
-					break;
-				case 12:
-					// 5600X
-					if (g_cfg.core.thread_scheduler == thread_scheduler_mode::alt)
-					{
-						ppu_mask = 0b000000001100;
-						spu_mask = 0b111111110000;
-						rsx_mask = 0b000000000011;
-					}
-					else
-					{
-						ppu_mask = spu_mask = rsx_mask = all_cores_mask;
-					}
-					break;
-				default:
-					if (thread_count > 24)
-					{
-						ppu_mask = spu_mask = rsx_mask = (0b10101010101010101010101010101010 & all_cores_mask);
-					}
-					break;
-				}
-				break;
-			}
-			default:
-			{
-				break;
-			}
-			}
-
+		case thread_scheduler_mode::spu:	//spu focused
 			switch (group)
 			{
-			default:
 			case thread_class::general:
+			case thread_class::ppu:
+			case thread_class::spu:
 				return all_cores_mask;
 			case thread_class::rsx:
-				return rsx_mask;
-			case thread_class::ppu:
-				return ppu_mask;
-			case thread_class::spu:
-				return spu_mask;
+				switch(g_native_core_layout){
+				case native_core_arrangement::intel_ht:
+				case native_core_arrangement::amd_ccx:
+					return 0b11;
+				default:
+					return 0b1;
+				}
 			}
-		}
-		case native_core_arrangement::intel_ht:
-		{
-			if (thread_count >= 12 && g_cfg.core.thread_scheduler == thread_scheduler_mode::alt)
-				return (0b10101010101010101010101010101010 & all_cores_mask); // Potentially improves performance by mimicking HT off
-			return all_cores_mask;
-		}
+		case thread_scheduler_mode::rsx:	//rsx focused
+			switch (group)
+			{
+			case thread_class::general:
+			case thread_class::ppu:
+			case thread_class::rsx:
+				return all_cores_mask;
+			case thread_class::spu:
+				switch (g_native_core_layout)
+				{
+				case native_core_arrangement::intel_ht:
+				case native_core_arrangement::amd_ccx:
+					return 0b11;
+				default:
+					return 0b1;
+				}
+			}
 		}
 	}
 
