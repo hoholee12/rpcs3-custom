@@ -7,6 +7,6 @@ Implemented "SPURS Urgent Queue Size". You can use it to reduce crashes.
 
 Implemented "Thread Scheduler". You can use it to reduce desyncs.
 
-Precompiled exe file is provided in /bin folder.
+Precompiled exe file is provided in /bin folder. Recommended config.yml is also provided in the same folder.
 
 Credits to the RPCS3 team(https://github.com/RPCS3) and illusion0001(https://github.com/illusion0001) for these awesome emulator & tweaks.
