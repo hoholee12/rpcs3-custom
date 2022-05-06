@@ -8,7 +8,7 @@ Core:
   Max LLVM Compile Threads: 3
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
-  Thread Scheduler Mode: PPU + SPU focused
+  Thread Scheduler Mode: PPU + SPU + RSX focused
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
@@ -18,7 +18,7 @@ Core:
   SPU delay penalty: 3
   SPU loop detection: false
   Max SPURS Threads: 4
-  SPURS Urgent Queue Size: 2
+  SPURS Urgent Queue Size: 0
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
