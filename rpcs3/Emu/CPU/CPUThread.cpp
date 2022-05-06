@@ -409,6 +409,12 @@ void cpu_thread::operator()()
 	g_tls_this_thread = this;
 
 	thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(id_type() == 1 ? thread_class::ppu : thread_class::spu));
+	//i have no idea how to reduce shader recompiler thread priority. so i resorted to upping everything else instead.
+	//also, rsx desyncs seem to happen alot if its higher than shader thread.
+	if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu || g_cfg.core.thread_scheduler == thread_scheduler_mode::rsx)
+	{
+		thread_ctrl::set_native_priority(1);
+	}
 
 	while (!g_fxo->is_init<cpu_profiler>())
 	{

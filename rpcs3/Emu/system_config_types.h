@@ -236,7 +236,7 @@ enum class thread_scheduler_mode
 {
 	os,
 	spu,
-	rsx
+	rsx,
 };
 
 enum class perf_graph_detail_level

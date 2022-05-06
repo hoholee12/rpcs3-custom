@@ -2672,50 +2672,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	if (const auto thread_count = utils::get_thread_count())
 	{
 		const u64 all_cores_mask = process_affinity_mask;
-
-		switch (g_cfg.core.thread_scheduler){
-		case thread_scheduler_mode::os:		//default
-			switch(group){
-			case thread_class::general:
-			case thread_class::ppu:
-			case thread_class::spu:
-			case thread_class::rsx:
-				return all_cores_mask;
-			}
-		case thread_scheduler_mode::spu:	//spu focused
-			switch (group)
-			{
-			case thread_class::general:
-			case thread_class::ppu:
-			case thread_class::spu:
-				return all_cores_mask;
-			case thread_class::rsx:
-				switch(g_native_core_layout){
-				case native_core_arrangement::intel_ht:
-				case native_core_arrangement::amd_ccx:
-					return 0b11;
-				default:
-					return 0b1;
-				}
-			}
-		case thread_scheduler_mode::rsx:	//rsx focused
-			switch (group)
-			{
-			case thread_class::general:
-			case thread_class::ppu:
-			case thread_class::rsx:
-				return all_cores_mask;
-			case thread_class::spu:
-				switch (g_native_core_layout)
-				{
-				case native_core_arrangement::intel_ht:
-				case native_core_arrangement::amd_ccx:
-					return 0b11;
-				default:
-					return 0b1;
-				}
-			}
-		}
+		return all_cores_mask;
 	}
 
 	return -1;
