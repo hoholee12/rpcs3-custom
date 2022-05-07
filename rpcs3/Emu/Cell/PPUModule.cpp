@@ -588,10 +588,6 @@ static auto ppu_load_exports(ppu_linkage_info* link, u32 exports_start, u32 expo
 			ppu_loader.fatal("Unexpected num_tlsvar (%u)!", lib.num_tlsvar);
 		}
 
-		bool requires_perfect = false;
-		if (g_cfg.core.spurs_urgent_queue_size != 0 && module_name == "cellSpurs")
-			requires_perfect = true;
-
 		// Static module
 		const auto _sm = ppu_module_manager::get_module(module_name);
 
