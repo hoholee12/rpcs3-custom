@@ -3213,7 +3213,7 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
-		if (addr == raddr && !g_use_rtm && g_cfg.core.spu_getllar_polling_detection && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data))
+		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data))
 		{
 			// Spinning, might as well yield cpu resources
 			std::this_thread::yield();
