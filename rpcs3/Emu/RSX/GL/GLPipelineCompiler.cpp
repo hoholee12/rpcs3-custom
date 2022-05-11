@@ -96,6 +96,8 @@ namespace gl
 		std::function<void(draw_context_t)> context_destroy_func,
 		int num_worker_threads)
 	{
+		// Set low priority
+		thread_ctrl::scoped_priority low_prio(-1);
 		if (num_worker_threads == 0)
 		{
 			// Select optimal number of compiler threads
