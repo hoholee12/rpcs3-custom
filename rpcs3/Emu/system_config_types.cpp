@@ -536,8 +536,9 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 	{
 		switch (value)
 		{
-		case thread_scheduler_mode::spu: return "PPU + SPU focused";
-		case thread_scheduler_mode::rsx: return "PPU + SPU + RSX focused";
+		case thread_scheduler_mode::spu: return "SPU focused";
+		case thread_scheduler_mode::ppuspu: return "PPU + SPU focused";
+		case thread_scheduler_mode::ppuspursx: return "PPU + SPU + RSX focused";
 		case thread_scheduler_mode::os: return "Default";
 		}
 
