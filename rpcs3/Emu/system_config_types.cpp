@@ -539,7 +539,7 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 		case thread_scheduler_mode::spu: return "SPU focused";
 		case thread_scheduler_mode::ppuspu: return "PPU + SPU focused";
 		case thread_scheduler_mode::ppuspursx: return "PPU + SPU + RSX focused";
-		case thread_scheduler_mode::os: return "Default";
+		case thread_scheduler_mode::os: return "None(All low)";
 		}
 
 		return unknown;

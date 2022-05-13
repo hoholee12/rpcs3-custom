@@ -919,7 +919,7 @@ QString emu_settings::GetLocalizedSetting(const QString& original, emu_settings_
 		case thread_scheduler_mode::spu: return tr("SPU focused", "Thread Scheduler Mode");
 		case thread_scheduler_mode::ppuspu: return tr("PPU + SPU focused", "Thread Scheduler Mode");
 		case thread_scheduler_mode::ppuspursx: return tr("PPU + SPU + RSX focused", "Thread Scheduler Mode");
-		case thread_scheduler_mode::os: return tr("Default", "Thread Scheduler Mode");
+		case thread_scheduler_mode::os: return tr("None(All low)", "Thread Scheduler Mode");
 		}
 		break;
 	case emu_settings_type::EnableTSX:
