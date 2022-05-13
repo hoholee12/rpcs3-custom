@@ -728,7 +728,7 @@ namespace rsx
 		});
 
 		thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::rsx));
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu)
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::some)
 		{
 			thread_ctrl::set_native_priority(-1);
 		}

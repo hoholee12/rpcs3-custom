@@ -538,7 +538,7 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 		{
 		case thread_scheduler_mode::none: return "Default";
 		case thread_scheduler_mode::all: return "REC/shader>PPU/SPU/RSX";
-		case thread_scheduler_mode::spu: return "REC/shader>SPU>PPU/RSX";
+		case thread_scheduler_mode::some: return "REC/shader>PPU/SPU>RSX";
 		
 		}
 
