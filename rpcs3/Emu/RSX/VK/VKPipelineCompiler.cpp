@@ -210,8 +210,12 @@ namespace vk
 
 	void initialize_pipe_compiler(int num_worker_threads)
 	{
-		// Set low priority
-		thread_ctrl::scoped_priority low_prio(-1);
+		// Set high priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::scoped_priority high_prio(+1);
+		}
+		
 		if (num_worker_threads == 0)
 		{
 			// Select optimal number of compiler threads

@@ -234,10 +234,9 @@ enum class vk_gpu_scheduler_mode
 
 enum class thread_scheduler_mode
 {
-	os,
+	none,
+	all,
 	spu,
-	ppuspu,
-	ppuspursx
 };
 
 enum class perf_graph_detail_level

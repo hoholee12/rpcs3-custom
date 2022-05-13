@@ -439,8 +439,15 @@ void spu_cache::initialize()
 
 	named_thread_group workers("SPU Worker ", worker_count, [&]() -> uint
 	{
-		// Set high priority
-		thread_ctrl::scoped_priority high_prio(1);
+		//set priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::scoped_priority high_prio(+1);
+		}
+		else
+		{
+			thread_ctrl::scoped_priority low_prio(-1);
+		}
 
 		// Initialize compiler instances for parallel compilation
 		std::unique_ptr<spu_recompiler_base> compiler;

@@ -414,14 +414,7 @@ void cpu_thread::operator()()
 	switch (id_type())
 	{
 	case 1:	//ppu
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu
-			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::os)
-		{
-			thread_ctrl::set_native_priority(-1);
-		}
-		break;
-	case 2:	//spu
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::os)
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu)
 		{
 			thread_ctrl::set_native_priority(-1);
 		}
