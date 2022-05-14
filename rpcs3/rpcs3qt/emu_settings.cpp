@@ -917,8 +917,8 @@ QString emu_settings::GetLocalizedSetting(const QString& original, emu_settings_
 		switch (static_cast<thread_scheduler_mode>(index))
 		{
 		case thread_scheduler_mode::none: return tr("Default", "Thread Scheduler Mode");
-		case thread_scheduler_mode::all: return tr("REC/shader>PPU/SPU/RSX", "Thread Scheduler Mode");
-		case thread_scheduler_mode::some: return tr("REC/shader>PPU/SPU>RSX", "Thread Scheduler Mode");
+		case thread_scheduler_mode::one: return tr("SPU>PPU/REC/RSX>shader", "Thread Scheduler Mode");
+		case thread_scheduler_mode::two: return tr("PPU/SPU>REC/RSX>shader", "Thread Scheduler Mode");
 		}
 		break;
 	case emu_settings_type::EnableTSX:
