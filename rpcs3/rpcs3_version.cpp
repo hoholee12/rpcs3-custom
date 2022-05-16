@@ -28,7 +28,7 @@ namespace rpcs3
 	// Currently accessible by Windows and Linux build scripts, see implementations when doing MACOSX
 	const utils::version& get_version()
 	{
-		static constexpr utils::version version{0, 0, 20, utils::version_type::custom, 1, "13283-v3"};
+		static constexpr utils::version version{0, 0, 20, utils::version_type::custom, 1, "13283-v4"};
 		return version;
 	}
 

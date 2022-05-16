@@ -437,10 +437,21 @@ void spu_cache::initialize()
 		worker_count = rpcs3::utils::get_max_threads();
 	}
 
+	//full power
+	if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
+	{
+		worker_count = utils::get_thread_count();
+	}
+
 	named_thread_group workers("SPU Worker ", worker_count, [&]() -> uint
 	{
+
 		//set priority
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::none)
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(+1);
+		}
+		else
 		{
 			thread_ctrl::set_native_priority(-1);
 		}

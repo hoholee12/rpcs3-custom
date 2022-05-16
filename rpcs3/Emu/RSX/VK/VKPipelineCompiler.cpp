@@ -27,6 +27,12 @@ namespace vk
 
 	void pipe_compiler::initialize(const vk::render_device* pdev)
 	{
+		// Set low priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(-1);
+		}
+
 		m_device = pdev;
 	}
 
@@ -210,11 +216,6 @@ namespace vk
 
 	void initialize_pipe_compiler(int num_worker_threads)
 	{
-		// Set low priority
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
-		{
-			thread_ctrl::set_native_priority(-1);
-		}
 		
 		if (num_worker_threads == 0)
 		{
@@ -236,6 +237,12 @@ namespace vk
 			{
 				num_worker_threads = 1;
 			}
+		}
+
+		// Set low priority
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
+		{
+			num_worker_threads = 1;
 		}
 
 		ensure(num_worker_threads >= 1);
