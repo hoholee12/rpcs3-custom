@@ -30,6 +30,11 @@ namespace rsx
 			ensure(current_thread_);
 
 			thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::rsx));
+			// Set low priority
+			if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+			{
+				thread_ctrl::set_native_priority(0);
+			}
 
 			while (thread_ctrl::state() != thread_state::aborting)
 			{
