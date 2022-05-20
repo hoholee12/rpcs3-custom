@@ -23,7 +23,9 @@ enum class thread_class : u32
 	general,
 	rsx,
 	spu,
-	ppu
+	ppu,
+	rec,
+	sha
 };
 
 enum class thread_state : u32

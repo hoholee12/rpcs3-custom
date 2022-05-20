@@ -731,7 +731,7 @@ namespace rsx
 		// Set low priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(0);
+			thread_ctrl::set_native_priority(+1);
 		}
 
 		while (!test_stopped())

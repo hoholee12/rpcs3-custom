@@ -537,8 +537,8 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 		switch (value)
 		{
 		case thread_scheduler_mode::none: return "Default";
-		case thread_scheduler_mode::one: return "Change thread priority";
-		case thread_scheduler_mode::two: return "Change thread count";
+		case thread_scheduler_mode::one: return "Subtle";
+		case thread_scheduler_mode::two: return "Harsh";
 		}
 
 		return unknown;

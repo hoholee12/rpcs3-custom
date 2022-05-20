@@ -27,17 +27,17 @@ namespace vk
 
 	void pipe_compiler::initialize(const vk::render_device* pdev)
 	{
-		// Set low priority
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
-		{
-			thread_ctrl::set_native_priority(-1);
-		}
-
 		m_device = pdev;
 	}
 
 	void pipe_compiler::operator()()
 	{
+		thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::sha));
+		// Set low priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(+1);
+		}
 		while (thread_ctrl::state() != thread_state::aborting)
 		{
 			for (auto&& job : m_work_queue.pop_all())

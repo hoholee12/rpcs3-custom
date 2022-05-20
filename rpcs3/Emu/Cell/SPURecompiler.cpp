@@ -437,24 +437,8 @@ void spu_cache::initialize()
 		worker_count = rpcs3::utils::get_max_threads();
 	}
 
-	//full power
-	if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
-	{
-		worker_count = utils::get_thread_count();
-	}
-
 	named_thread_group workers("SPU Worker ", worker_count, [&]() -> uint
 	{
-
-		//set priority
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
-		{
-			thread_ctrl::set_native_priority(+1);
-		}
-		else
-		{
-			thread_ctrl::set_native_priority(-1);
-		}
 
 		// Initialize compiler instances for parallel compilation
 		std::unique_ptr<spu_recompiler_base> compiler;
@@ -9950,6 +9934,12 @@ struct spu_llvm_worker
 
 	void operator()()
 	{
+		thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::rec));
+		//set priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(+1);
+		}
 		// SPU LLVM Recompiler instance
 		const auto compiler = spu_recompiler_base::make_llvm_recompiler();
 		compiler->init();
@@ -10113,6 +10103,12 @@ struct spu_llvm
 		}
 
 		u32 worker_index = 0;
+
+		//full power
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
+		{
+			worker_count = utils::get_thread_count() - 3;
+		}
 
 		named_thread_group<spu_llvm_worker> workers("SPUW.", worker_count);
 

@@ -30,12 +30,6 @@ namespace gl
 		std::function<void(draw_context_t)> context_bind_func,
 		std::function<void(draw_context_t)> context_destroy_func)
 	{
-		// Set low priority
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
-		{
-			thread_ctrl::set_native_priority(-1);
-		}
-
 		m_context_bind_func = context_bind_func;
 		m_context_destroy_func = context_destroy_func;
 
@@ -44,6 +38,12 @@ namespace gl
 
 	void pipe_compiler::operator()()
 	{
+		thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::sha));
+		// Set low priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(+1);
+		}
 		while (thread_ctrl::state() != thread_state::aborting)
 		{
 			for (auto&& job : m_work_queue.pop_all())
