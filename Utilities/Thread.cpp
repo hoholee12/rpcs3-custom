@@ -2695,7 +2695,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 			{
 				switch (group)
 				{
-				case thread_class::sha: return 0b1;
+				case thread_class::sha: return all_cores_mask & 0b01010101010101010101010101010101; //only use virtual cores
 				case thread_class::rsx: return 0b1010;
 				case thread_class::ppu: return 0b10100000;
 				default: return all_cores_mask;
