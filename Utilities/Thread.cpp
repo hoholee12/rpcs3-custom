@@ -2695,18 +2695,16 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 			{
 				switch (group)
 				{
-				case thread_class::sha: return (utils::get_thread_count() > 8) ? 0b1000000000 : 0b101; //use virtual cores close to rsx if no more than 8, else stick to extra core
 				case thread_class::rsx: return 0b1010;
 				case thread_class::ppu: return 0b10100000;
-				default: return all_cores_mask;
+				default: return all_cores_mask & 0b1111111110101010;
 				}
 			}
 			else
 			{
 				switch (group){
-				case thread_class::sha: return 0b1;
-				case thread_class::rsx: return 0b110;
-				case thread_class::ppu: return 0b11000;
+				case thread_class::rsx: return 0b11;
+				case thread_class::ppu: return 0b1100;
 				default: return all_cores_mask;
 				}
 			}
