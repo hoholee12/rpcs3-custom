@@ -2688,15 +2688,17 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	if (const auto thread_count = utils::get_thread_count())
 	{
 		const u64 all_cores_mask = process_affinity_mask;
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::three
+			&& utils::get_thread_count() >= 6)
 		{
 			if(g_native_core_layout == native_core_arrangement::intel_ht)
 			{
 				switch (group)
 				{
 				case thread_class::sha: return 0b1;
-				case thread_class::rsx: return 0b10100;
-				case thread_class::rec: return all_cores_mask ^ 0b10101;
+				case thread_class::rsx: return 0b1010;
+				case thread_class::ppu: return 0b10100000;
+				default: return all_cores_mask;
 				}
 			}
 			else
@@ -2704,7 +2706,8 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				switch (group){
 				case thread_class::sha: return 0b1;
 				case thread_class::rsx: return 0b110;
-				case thread_class::rec: return all_cores_mask ^ 0b111;
+				case thread_class::ppu: return 0b11000;
+				default: return all_cores_mask;
 				}
 			}
 		}

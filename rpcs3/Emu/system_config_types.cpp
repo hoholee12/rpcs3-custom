@@ -539,6 +539,7 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 		case thread_scheduler_mode::none: return "Default";
 		case thread_scheduler_mode::one: return "Subtle";
 		case thread_scheduler_mode::two: return "Harsh";
+		case thread_scheduler_mode::three: return "Extreme";
 		}
 
 		return unknown;

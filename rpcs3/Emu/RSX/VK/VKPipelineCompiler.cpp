@@ -240,7 +240,8 @@ namespace vk
 		}
 
 		// Set low priority
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two)
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two
+			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::three)
 		{
 			num_worker_threads = 1;
 		}

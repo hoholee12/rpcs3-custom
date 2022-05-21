@@ -237,6 +237,7 @@ enum class thread_scheduler_mode
 	none,
 	one,
 	two,
+	three,
 };
 
 enum class perf_graph_detail_level
