@@ -42,7 +42,7 @@ namespace gl
 		// Set low priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(-1);
+			thread_ctrl::set_native_priority(+1);
 		}
 		while (thread_ctrl::state() != thread_state::aborting)
 		{
@@ -129,15 +129,7 @@ namespace gl
 		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two
 			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::three)
 		{
-			thread_ctrl::detect_cpu_layout();
-			if (thread_ctrl::g_native_core_layout == native_core_arrangement::intel_ht)
-			{
-				num_worker_threads = utils::get_thread_count() / 2;
-			}
-			else
-			{
-				num_worker_threads = utils::get_thread_count();
-			}
+			num_worker_threads = 1;
 		}
 
 		ensure(num_worker_threads >= 1);

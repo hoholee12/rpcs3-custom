@@ -200,6 +200,9 @@ class thread_ctrl final
 	// Error handling details
 	static thread_local void(*g_tls_error_callback)();
 
+	// Target cpu core layout
+	static atomic_t<native_core_arrangement> g_native_core_layout;
+
 	// Internal waiting function, may throw. Infinite value is -1.
 	static void _wait_for(u64 usec, bool alert);
 
@@ -209,9 +212,6 @@ class thread_ctrl final
 	static std::string get_name_cached();
 
 public:
-	// Target cpu core layout
-	static atomic_t<native_core_arrangement> g_native_core_layout;
-
 	// Get current thread name
 	static std::string get_name()
 	{
