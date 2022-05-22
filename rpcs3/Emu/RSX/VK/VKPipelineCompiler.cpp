@@ -243,7 +243,16 @@ namespace vk
 		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two
 			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::three)
 		{
-			num_worker_threads = 1;
+			thread_ctrl::detect_cpu_layout();
+			if (thread_ctrl::g_native_core_layout == native_core_arrangement::intel_ht
+				&& utils::get_thread_count() <= 8)
+			{
+				num_worker_threads = 2;
+			}
+			else
+			{
+				num_worker_threads = 1;
+			}
 		}
 
 		ensure(num_worker_threads >= 1);
