@@ -2688,27 +2688,15 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	if (const auto thread_count = utils::get_thread_count())
 	{
 		const u64 all_cores_mask = process_affinity_mask;
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::three
-			&& utils::get_thread_count() >= 6)
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
 			if(g_native_core_layout == native_core_arrangement::intel_ht)
 			{
-				switch (group)
-				{
-				case thread_class::sha: return (utils::get_thread_count() > 8) ? 0b1000000000 : 0b101; //use virtual cores close to rsx if no more than 8, else stick to extra core
-				case thread_class::rsx: return 0b1010;
-				case thread_class::ppu: return 0b10100000;
-				default: return all_cores_mask;
-				}
+				return all_cores_mask & 0b10101010101010101010101010101010;
 			}
 			else
 			{
-				switch (group){
-				case thread_class::sha: return 0b1;
-				case thread_class::rsx: return 0b110;
-				case thread_class::ppu: return 0b11000;
-				default: return all_cores_mask;
-				}
+				return all_cores_mask;
 			}
 		}
 		return all_cores_mask;

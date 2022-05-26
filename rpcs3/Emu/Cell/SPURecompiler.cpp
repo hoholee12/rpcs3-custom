@@ -9938,7 +9938,7 @@ struct spu_llvm_worker
 		//set priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(0);
+			thread_ctrl::set_native_priority(+1);
 		}
 		// SPU LLVM Recompiler instance
 		const auto compiler = spu_recompiler_base::make_llvm_recompiler();
@@ -10105,10 +10105,41 @@ struct spu_llvm
 		u32 worker_index = 0;
 
 		//full power
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two
-			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::three)
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			worker_count = utils::get_thread_count();
+			u32 temp_count = 0;
+			thread_ctrl::detect_cpu_layout();
+			if (thread_ctrl::g_native_core_layout == native_core_arrangement::intel_ht)
+			{
+				switch (g_cfg.core.thread_scheduler)
+				{
+				case thread_scheduler_mode::one:
+					temp_count = 1;
+					break;
+				case thread_scheduler_mode::two:
+					temp_count = 2;
+					break;
+				case thread_scheduler_mode::three:
+					temp_count = 4;
+					break;
+				}
+			}
+			else
+			{
+				switch (g_cfg.core.thread_scheduler)
+				{
+				case thread_scheduler_mode::one:
+					temp_count = 2;
+					break;
+				case thread_scheduler_mode::two:
+					temp_count = 4;
+					break;
+				case thread_scheduler_mode::three:
+					temp_count = 8;
+					break;
+				}
+			}
+			worker_count = utils::get_thread_count() * temp_count;
 		}
 
 		named_thread_group<spu_llvm_worker> workers("SPUW.", worker_count);

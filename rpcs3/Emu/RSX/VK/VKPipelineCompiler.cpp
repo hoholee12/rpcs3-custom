@@ -239,20 +239,41 @@ namespace vk
 			}
 		}
 
-		// Set low priority
-		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::two
-			|| g_cfg.core.thread_scheduler == thread_scheduler_mode::three)
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
+			u32 temp_count = 0;
 			thread_ctrl::detect_cpu_layout();
-			if (thread_ctrl::g_native_core_layout == native_core_arrangement::intel_ht
-				&& utils::get_thread_count() <= 8)
+			if (thread_ctrl::g_native_core_layout == native_core_arrangement::intel_ht)
 			{
-				num_worker_threads = 2;
+				switch (g_cfg.core.thread_scheduler)
+				{
+				case thread_scheduler_mode::one:
+					temp_count = 1;
+					break;
+				case thread_scheduler_mode::two:
+					temp_count = 2;
+					break;
+				case thread_scheduler_mode::three:
+					temp_count = 4;
+					break;
+				}
 			}
 			else
 			{
-				num_worker_threads = 1;
+				switch (g_cfg.core.thread_scheduler)
+				{
+				case thread_scheduler_mode::one:
+					temp_count = 2;
+					break;
+				case thread_scheduler_mode::two:
+					temp_count = 4;
+					break;
+				case thread_scheduler_mode::three:
+					temp_count = 8;
+					break;
+				}
 			}
+			num_worker_threads = utils::get_thread_count() * temp_count;
 		}
 
 		ensure(num_worker_threads >= 1);
