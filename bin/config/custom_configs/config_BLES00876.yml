@@ -8,7 +8,7 @@ Core:
   Max LLVM Compile Threads: 3
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
-  Thread Scheduler Mode: Extreme
+  Thread Scheduler Mode: 8x
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
