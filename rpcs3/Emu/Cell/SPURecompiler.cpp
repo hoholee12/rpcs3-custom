@@ -10111,16 +10111,16 @@ struct spu_llvm
 			switch (g_cfg.core.thread_scheduler)
 			{
 			case thread_scheduler_mode::one:
-				temp_count = 2;
+				temp_count = 64;
 				break;
 			case thread_scheduler_mode::two:
-				temp_count = 4;
+				temp_count = 128;
 				break;
 			case thread_scheduler_mode::three:
-				temp_count = 8;
+				temp_count = 256;
 				break;
 			}
-			worker_count = utils::get_thread_count() * temp_count;
+			worker_count = temp_count;
 		}
 
 		named_thread_group<spu_llvm_worker> workers("SPUW.", worker_count);
