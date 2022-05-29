@@ -1,1 +1,84 @@
-{}
+PPU-507b9d34380cff4bc03d7c64ce6342180779c84b:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      NPUA80661:
+        01.06: true
+PPU-1658c7e4b1bfe52d6ec02443f8feed9b295ff9dc:
+  Disable Dynamic Resolution Scaling:
+    Motorstorm Demo:
+      NPUA80017:
+        01.01: true
+PPU-a1f33132af387c49d452e64fcb0704cb06b6d084:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Pacific Rift":
+      BCES00129:
+        01.03: true
+      BCUS98155:
+        01.03: true
+PPU-9f001199a7f23695cd41a2b25c1d0325da7565b5:
+  Disable Dynamic Resolution Scaling:
+    Motorstorm:
+      BCES00006:
+        All: true
+PPU-ce27dc64b44242beebb44c097449dd035de18e8b:
+  Disable Dynamic Resolution Scaling:
+    Motorstorm Update 3.1 (Complete Edition):
+      BCJS30019:
+        All: true
+      BCES00006:
+        All: true
+PPU-e962bc16978b776063858254ae49aed7eac2a4f6:
+  Disable Dynamic Resolution Scaling:
+    Motorstorm:
+      BCUS98137:
+        All: true
+PPU-f5136a68b1293dd7341878005674f05ffa5ff16a:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCES01104:
+        01.06: true
+PPU-34984cacd60f2ee2a380157a009122698d470056:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Pacific Rift":
+      BCES00129:
+        01.00: true
+PPU-f62bdccfbca93730c2fcd484f65ead6f3c7878be:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Pacific Rift Demo 2.0":
+      NPEA90033:
+        All: true
+PPU-c3a2c4075b9ff3c2b142c2df606bb1663c097d5b:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCES00484:
+        01.00: true
+PPU-69a95ded717d716cdcd77ed0b51fa90bf1cb4fa3:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCES01104:
+        01.00: true
+PPU-bc3b923ec314051c7c61d3134ea9c01f24eaf4f7:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCUS98242:
+        01.00: true
+PPU-41644f9f5fda72efc62e7146620db9679969bff6:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCES00484:
+        01.06: true
+PPU-d39f3ed2bf15a49d28486c7bad52b72c8933cbe8:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      BCUS98242:
+        01.06: true
+PPU-fe5be566e6cf8bb0b405c8f2b6689e33c471b143:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      NPEA00315:
+        01.06: true
+PPU-afb6e2e47e170711041775e0280707e503469d85:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse Singleplayer Demo":
+      NPEA90090:
+        01.00: true
