@@ -5,7 +5,7 @@ Core:
   PPU Calling History: false
   Save LLVM logs: false
   Use LLVM CPU: ""
-  Max LLVM Compile Threads: 3
+  Max LLVM Compile Threads: 0
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
   Thread Scheduler Mode: 256 threads
