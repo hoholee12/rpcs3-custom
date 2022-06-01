@@ -10044,6 +10044,12 @@ struct spu_llvm
 
 	void operator()()
 	{
+		// Set low priority
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(+1);
+		}
+
 		if (g_cfg.core.spu_decoder != spu_decoder_type::llvm)
 		{
 			return;
