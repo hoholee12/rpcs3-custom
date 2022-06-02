@@ -102,11 +102,6 @@ namespace gl
 		std::function<void(draw_context_t)> context_destroy_func,
 		int num_worker_threads)
 	{
-		// Set low priority
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
-		{
-			thread_ctrl::set_native_priority(+1);
-		}
 
 		if (num_worker_threads == 0)
 		{
