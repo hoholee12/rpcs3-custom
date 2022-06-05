@@ -346,8 +346,6 @@ namespace spu
 					{
 						if (remaining >= native_jiffy_duration_us)
 							std::this_thread::sleep_for(1ms);
-						else
-							std::this_thread::yield();
 
 						const auto now = get_system_time();
 						const auto elapsed = now - start;
@@ -1911,7 +1909,6 @@ void spu_thread::do_dma_transfer(spu_thread* _this, const spu_mfc_cmd& args, u8*
 				else
 				{
 					_cpu->state += cpu_flag::wait + cpu_flag::temp;
-					std::this_thread::yield();
 					_cpu->check_state();
 				}
 			}())
@@ -2838,10 +2835,6 @@ void do_cell_atomic_128_store(u32 addr, const void* to_write)
 					{
 						busy_wait(500);
 					}
-					else
-					{
-						std::this_thread::yield();
-					}
 				}
 
 				return static_cast<void>(cpu->test_stopped());
@@ -2854,10 +2847,6 @@ void do_cell_atomic_128_store(u32 addr, const void* to_write)
 			else if (j < 15)
 			{
 				busy_wait(500);
-			}
-			else
-			{
-				std::this_thread::yield();
 			}
 		}
 
@@ -3252,7 +3241,6 @@ bool spu_thread::process_mfc_cmd()
 			else
 			{
 				state += cpu_flag::wait + cpu_flag::temp;
-				std::this_thread::yield();
 				static_cast<void>(check_state());
 			}
 		}())

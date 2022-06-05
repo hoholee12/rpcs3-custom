@@ -570,10 +570,6 @@ namespace rsx
 			// Wait 16ms during emulation pause. This reduces cpu load while still giving us the chance to render overlays.
 			thread_ctrl::wait_on(state, old, 16000);
 		}
-		else
-		{
-			std::this_thread::yield();
-		}
 	}
 
 	void thread::on_task()
@@ -705,10 +701,6 @@ namespace rsx
 				else if (wait_sleep)
 				{
 					thread_ctrl::wait_for(wait_sleep);
-				}
-				else if (wait_for >= host_min_quantum / 3 * 2)
-				{
-					std::this_thread::yield();
 				}
 
 				if (Emu.IsPaused())
@@ -2673,11 +2665,6 @@ namespace rsx
 				// Wait on multiple of min quantum for large durations to avoid overloading low thread cpus
 				thread_ctrl::wait_for(remaining - (remaining % host_min_quantum), false);
 #endif
-			}
-			// TODO: Determine best value for yield delay
-			else if (remaining >= host_min_quantum / 2)
-			{
-				std::this_thread::yield();
 			}
 			else
 			{

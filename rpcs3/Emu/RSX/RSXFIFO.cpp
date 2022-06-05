@@ -32,7 +32,6 @@ namespace rsx
 
 				while (read_put() == m_internal_get && !Emu.IsStopped())
 				{
-					std::this_thread::yield();
 				}
 			}
 		}
@@ -407,10 +406,6 @@ namespace rsx
 				{
 					performance_counters.FIFO_idle_timestamp = get_system_time();
 					performance_counters.state = FIFO_state::empty;
-				}
-				else
-				{
-					std::this_thread::yield();
 				}
 
 				return;
