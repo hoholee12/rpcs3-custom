@@ -61,7 +61,6 @@ public:
     QVBoxLayout *coreTabMiddleLayout;
     QGroupBox *checkboxes;
     QVBoxLayout *checkboxes_layout;
-    QCheckBox *spuLoopDetection;
     QCheckBox *accurateXFloat;
     QCheckBox *approximateXFloat;
     QCheckBox *fullWidthAVX512;
@@ -712,11 +711,6 @@ public:
         checkboxes->setObjectName(QString::fromUtf8("checkboxes"));
         checkboxes_layout = new QVBoxLayout(checkboxes);
         checkboxes_layout->setObjectName(QString::fromUtf8("checkboxes_layout"));
-        spuLoopDetection = new QCheckBox(checkboxes);
-        spuLoopDetection->setObjectName(QString::fromUtf8("spuLoopDetection"));
-
-        checkboxes_layout->addWidget(spuLoopDetection);
-
         accurateXFloat = new QCheckBox(checkboxes);
         accurateXFloat->setObjectName(QString::fromUtf8("accurateXFloat"));
 
@@ -3367,7 +3361,6 @@ public:
         gb_ppu->setTitle(QCoreApplication::translate("settings_dialog", "PPU Decoder", nullptr));
         gb_spu->setTitle(QCoreApplication::translate("settings_dialog", "SPU Decoder", nullptr));
         checkboxes->setTitle(QCoreApplication::translate("settings_dialog", "Additional Settings", nullptr));
-        spuLoopDetection->setText(QCoreApplication::translate("settings_dialog", "Enable SPU loop detection", nullptr));
         accurateXFloat->setText(QCoreApplication::translate("settings_dialog", "Accurate xfloat", nullptr));
         approximateXFloat->setText(QCoreApplication::translate("settings_dialog", "Approximate xfloat", nullptr));
         fullWidthAVX512->setText(QCoreApplication::translate("settings_dialog", "Full Width AVX-512", nullptr));

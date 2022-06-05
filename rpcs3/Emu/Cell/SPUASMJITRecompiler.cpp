@@ -1471,7 +1471,7 @@ void spu_recompiler::RDCH(spu_opcode_t op)
 		c->mov(SPU_OFF_32(pc), *addr);
 		c->lea(*arg1, SPU_OFF_128(gpr, op.rt));
 		c->mov(*arg0, *cpu);
-		c->call(g_cfg.core.spu_loop_detection ? +sub1 : +sub2);
+		c->call(+sub2);
 		return;
 	}
 	case SPU_RdEventMask:

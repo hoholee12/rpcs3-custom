@@ -5578,19 +5578,6 @@ public:
 	static u32 exec_read_dec(spu_thread* _spu)
 	{
 		const u32 res = _spu->ch_dec_value - static_cast<u32>(get_timebased_time() - _spu->ch_dec_start_timestamp);
-
-		if (res > 1500 && g_cfg.core.spu_loop_detection)
-		{
-			_spu->state += cpu_flag::wait;
-			std::this_thread::yield();
-
-			if (_spu->test_stopped())
-			{
-				_spu->pc += 4;
-				spu_runtime::g_escape(_spu);
-			}
-		}
-
 		return res;
 	}
 
