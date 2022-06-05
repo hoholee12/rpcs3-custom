@@ -735,6 +735,18 @@ bool cpu_thread::check_state() noexcept
 			return retval;
 		}
 
+		if (state0 & cpu_flag::memory)
+		{
+			if (auto& ptr = vm::g_tls_locked)
+			{
+				ptr->compare_and_swap(this, nullptr);
+				ptr = nullptr;
+			}
+			state -= cpu_flag::memory;
+		}
+
+		state += cpu_flag::memory;
+
 		if (cpu_can_stop && !cpu_sleep_called && state0 & cpu_flag::suspend)
 		{
 			cpu_sleep();
