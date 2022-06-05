@@ -23,7 +23,7 @@ Core:
   Accurate GETLLAR: false
   Accurate SPU DMA: false
   Accurate Cache Line Stores: false
-  Accurate RSX reservation access: false
+  Accurate RSX reservation access: true
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
