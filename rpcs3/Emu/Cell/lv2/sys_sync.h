@@ -378,11 +378,6 @@ public:
 					escape = wait_for(remaining - (remaining % host_min_quantum));
 #endif
 				}
-				else
-				{
-					// Try yielding. May cause long wake latency but helps weaker CPUs a lot by alleviating resource pressure
-					std::this_thread::yield();
-				}
 			}
 
 			if (auto cpu0 = get_current_cpu_thread(); cpu0 && cpu0->is_stopped())
