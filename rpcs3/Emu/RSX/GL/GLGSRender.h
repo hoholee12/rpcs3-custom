@@ -49,7 +49,6 @@ namespace gl
 		{
 			while (!processed)
 			{
-				std::this_thread::yield();
 			}
 
 			received = true;
