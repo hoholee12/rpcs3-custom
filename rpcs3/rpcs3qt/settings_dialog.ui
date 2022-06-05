@@ -2084,13 +2084,6 @@
                 </widget>
                </item>
                <item>
-                <widget class="QCheckBox" name="accurateRSXAccess">
-                 <property name="text">
-                  <string>Accurate RSX reservation access</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
                 <widget class="QCheckBox" name="ppuNJFixup">
                  <property name="text">
                   <string>PPU Non-Java Mode Fixup</string>

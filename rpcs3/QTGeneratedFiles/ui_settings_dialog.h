@@ -352,7 +352,6 @@ public:
     QVBoxLayout *gb_advanced_core_layout;
     QCheckBox *debugConsoleMode;
     QCheckBox *accurateDFMA;
-    QCheckBox *accurateRSXAccess;
     QCheckBox *ppuNJFixup;
     QCheckBox *accuratePPUSAT;
     QCheckBox *accuratePPUNJ;
@@ -2090,11 +2089,6 @@ public:
 
         gb_advanced_core_layout->addWidget(accurateDFMA);
 
-        accurateRSXAccess = new QCheckBox(gb_advanced_core);
-        accurateRSXAccess->setObjectName(QString::fromUtf8("accurateRSXAccess"));
-
-        gb_advanced_core_layout->addWidget(accurateRSXAccess);
-
         ppuNJFixup = new QCheckBox(gb_advanced_core);
         ppuNJFixup->setObjectName(QString::fromUtf8("ppuNJFixup"));
 
@@ -3489,7 +3483,6 @@ public:
         gb_advanced_core->setTitle(QCoreApplication::translate("settings_dialog", "Core", nullptr));
         debugConsoleMode->setText(QCoreApplication::translate("settings_dialog", "Debug Console Mode", nullptr));
         accurateDFMA->setText(QCoreApplication::translate("settings_dialog", "Accurate DFMA", nullptr));
-        accurateRSXAccess->setText(QCoreApplication::translate("settings_dialog", "Accurate RSX reservation access", nullptr));
         ppuNJFixup->setText(QCoreApplication::translate("settings_dialog", "PPU Non-Java Mode Fixup", nullptr));
         accuratePPUSAT->setText(QCoreApplication::translate("settings_dialog", "Accurate PPU Saturation Bit", nullptr));
         accuratePPUNJ->setText(QCoreApplication::translate("settings_dialog", "Accurate PPU Non-Java Mode", nullptr));
