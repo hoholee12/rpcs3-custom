@@ -319,6 +319,7 @@ namespace vk
 		{
 			while (pending_state.load())
 			{
+				std::this_thread::yield();
 			}
 		}
 	};
