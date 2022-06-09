@@ -70,6 +70,7 @@ namespace rsx
 				if (m_enqueued_count.load() == m_processed_count.load())
 				{
 					m_processed_count.notify_all();
+					std::this_thread::yield();
 				}
 			}
 
