@@ -735,9 +735,11 @@ namespace vm
 		{
 			utils::memory_protect(g_base_addr + addr, size, prot);
 		}
-		else if (shm->map_critical(g_base_addr + addr, prot) != g_base_addr + addr || shm->map_critical(g_sudo_addr + addr) != g_sudo_addr + addr)
-		{
-			fmt::throw_exception("Memory mapping failed - blame Windows (addr=0x%x, size=0x%x, flags=0x%x)", addr, size, flags);
+		else{
+			while (shm->map_critical(g_base_addr + addr, prot) != g_base_addr + addr || shm->map_critical(g_sudo_addr + addr) != g_sudo_addr + addr)
+			{
+				//loop until memory allocation succeeds
+			}
 		}
 
 		if (flags & page_executable)

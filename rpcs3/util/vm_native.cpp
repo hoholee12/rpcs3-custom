@@ -273,9 +273,9 @@ namespace utils
 			const u64 boundary = (addr + 0x10000) & -0x10000;
 			const u64 block_size = std::min(boundary, end) - addr;
 
-			if (!::VirtualProtect(reinterpret_cast<LPVOID>(addr), block_size, +prot, &old))
+			while (!::VirtualProtect(reinterpret_cast<LPVOID>(addr), block_size, +prot, &old))
 			{
-				//fmt::throw_exception("VirtualProtect failed (%p, 0x%x, addr=0x%x, error=%#x)", pointer, size, addr, GetLastError());
+				//loop until memory protect succeeds
 			}
 
 			// Next region
