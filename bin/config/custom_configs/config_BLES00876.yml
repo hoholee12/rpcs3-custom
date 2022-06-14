@@ -16,12 +16,14 @@ Core:
   MFC Debug: false
   Preferred SPU Threads: 2
   SPU delay penalty: 3
-  Max SPURS Threads: 6
+  SPU loop detection: false
+  Max SPURS Threads: 4
   SPURS Urgent Queue Size: 0
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
   Accurate Cache Line Stores: false
+  Accurate RSX reservation access: false
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
@@ -71,8 +73,6 @@ Core:
   Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
-  SPU loop detection: false
-  Accurate RSX reservation access: false
   LLVM Accurate DFMA: true
   PPU LLVM Accurate Vector NaN values: true
   Lower SPU thread priority: true
@@ -113,7 +113,7 @@ Video:
   Strict Texture Flushing: false
   Disable native float16 support: false
   Multithreaded RSX: false
-  Relaxed ZCULL Sync: true
+  Relaxed ZCULL Sync: false
   Enable 3D: false
   Debug Program Analyser: false
   Accurate ZCULL stats: false
