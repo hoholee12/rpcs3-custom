@@ -314,7 +314,7 @@ u64 memory_string_searcher::OnSearch(std::string wstr, int mode)
 
 	static constexpr u32 block_size = 0x2000000;
 
-	vm::reader_lock rlock;
+	vm::writer_lock rlock;
 
 	const named_thread_group workers("Memory Searcher "sv, max_threads, [&]()
 	{
