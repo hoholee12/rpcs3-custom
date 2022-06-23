@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "vm_locking.h"
 #include "vm_ptr.h"
 #include "vm_ref.h"
@@ -574,6 +574,8 @@ namespace vm
 				{
 					return -1;
 				}
+
+				std::this_thread::yield();
 			}
 		}
 	}
@@ -605,6 +607,10 @@ namespace vm
 			else if (i < 15)
 			{
 				busy_wait(500);
+			}
+			else
+			{
+				std::this_thread::yield();
 			}
 		}
 	}
