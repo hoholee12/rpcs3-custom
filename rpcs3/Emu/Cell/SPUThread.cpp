@@ -3214,10 +3214,9 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr)
-			&& cmp_rdata(rdata, data) && !g_cfg.video.write_color_buffers && false)
+			&& cmp_rdata(rdata, data) && !g_cfg.video.write_color_buffers)
 		{
-			// Spinning, might as well yield cpu resources
-			std::this_thread::yield();
+			busy_wait(300);
 
 			// Reset perf
 			perf0.restart();
