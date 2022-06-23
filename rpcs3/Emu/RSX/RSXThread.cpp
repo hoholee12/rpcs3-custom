@@ -728,7 +728,11 @@ namespace rsx
 		});
 
 		thread_ctrl::set_thread_affinity_mask(thread_ctrl::get_affinity_mask(thread_class::rsx));
-		
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			thread_ctrl::set_native_priority(0);
+		}
+
 		while (!test_stopped())
 		{
 			// Wait for external pause events

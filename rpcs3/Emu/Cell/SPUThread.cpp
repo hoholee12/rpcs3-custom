@@ -3214,7 +3214,7 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr)
-			&& cmp_rdata(rdata, data) && !g_cfg.video.write_color_buffers)
+			&& cmp_rdata(rdata, data) && !g_cfg.video.write_color_buffers && false)
 		{
 			// Spinning, might as well yield cpu resources
 			std::this_thread::yield();
@@ -4764,7 +4764,7 @@ bool spu_thread::stop_and_signal(u32 code)
 	}
 	}
 
-	return true;
+	fmt::throw_exception("Unknown STOP code: 0x%x (op=0x%x, Out_MBox=%s)", code, _ref<u32>(pc), ch_out_mbox);
 }
 
 void spu_thread::halt()
