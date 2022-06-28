@@ -3234,6 +3234,18 @@ bool spu_thread::process_mfc_cmd()
 					return;
 				}
 			}
+
+			if (++i < 25) [[likely]]
+			{
+				busy_wait(300);
+			}
+			else
+			{
+				state += cpu_flag::wait + cpu_flag::temp;
+				std::this_thread::yield();
+				static_cast<void>(check_state());
+			}
+
 		}())
 		{
 			ntime = vm::reservation_acquire(addr);
