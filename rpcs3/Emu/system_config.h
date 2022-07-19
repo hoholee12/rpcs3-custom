@@ -36,6 +36,7 @@ struct cfg_root : cfg::node
 		cfg::_bool mfc_debug{ this, "MFC Debug" };
 		cfg::_int<0, 6> preferred_spu_threads{ this, "Preferred SPU Threads", 0, true }; // Number of hardware threads dedicated to heavy simultaneous spu tasks
 		cfg::_int<0, 16> spu_delay_penalty{ this, "SPU delay penalty", 3 }; // Number of milliseconds to block a thread if a virtual 'core' isn't free
+		cfg::_bool accurate_rsx_reservation{ this, "Accurate RSX Reservation", false, true };
 		cfg::_int<0, 6> max_spurs_threads{ this, "Max SPURS Threads", 6 }; // HACK. If less then 6, max number of running SPURS threads in each thread group.
 		cfg::_int<0, 4> spurs_urgent_queue_size{this, "SPURS Urgent Queue Size", 0}; // HACK. If not 0, max number of queued urgent SPURS commands per JobChain
 		cfg::_enum<spu_block_size_type> spu_block_size{ this, "SPU Block Size", spu_block_size_type::safe };

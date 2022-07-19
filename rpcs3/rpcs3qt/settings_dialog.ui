@@ -159,6 +159,13 @@
               </property>
               <layout class="QVBoxLayout" name="checkboxes_layout">
                <item>
+                <widget class="QCheckBox" name="accurateRSXReservation">
+                 <property name="text">
+                  <string>Accurate RSX Reservation</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QCheckBox" name="accurateXFloat">
                  <property name="text">
                   <string>Accurate xfloat</string>

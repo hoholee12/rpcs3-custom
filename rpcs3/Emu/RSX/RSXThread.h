@@ -1015,7 +1015,7 @@ namespace rsx
 	public:
 		reservation_lock(u32 addr, u32 length)
 		{
-			if (!g_cfg.video.write_color_buffers &&
+			if (g_cfg.core.accurate_rsx_reservation &&
 				addr < constants::local_mem_base)
 			{
 				lock_range(addr, length);
@@ -1026,7 +1026,7 @@ namespace rsx
 		// If ranges do not overlap, the first range that is in main memory will be acquired.
 		reservation_lock(u32 dst_addr, u32 dst_length, u32 src_addr, u32 src_length)
 		{
-			if (!g_cfg.video.write_color_buffers)
+			if (g_cfg.core.accurate_rsx_reservation)
 			{
 				const auto range1 = utils::address_range::start_length(dst_addr, dst_length);
 				const auto range2 = utils::address_range::start_length(src_addr, src_length);

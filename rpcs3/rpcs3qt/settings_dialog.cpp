@@ -203,6 +203,9 @@ settings_dialog::settings_dialog(std::shared_ptr<gui_settings> gui_settings, std
 
 	// Checkboxes
 
+	m_emu_settings->EnhanceCheckBox(ui->accurateRSXReservation, emu_settings_type::AccurateRSXReservation);
+	SubscribeTooltip(ui->accurateRSXReservation, tooltips.settings.accurate_rsx_reservation);
+
 	m_emu_settings->EnhanceCheckBox(ui->accurateXFloat, emu_settings_type::AccurateXFloat);
 	SubscribeTooltip(ui->accurateXFloat, tooltips.settings.accurate_xfloat);
 
