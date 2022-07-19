@@ -94,13 +94,6 @@ rpcs3/Emu/rpcs3_emu_CXX_cotire.cmake
 *.kdev4
 .kdev4/*
 
-# Qt
-moc_*.cpp
-qrc_*.cpp
-rpcs3_automoc.cpp
-#ui_*.h
-rpcs3/rpcs3_autogen/*
-
 # QtCreator
 CMakeLists.txt.user
 
