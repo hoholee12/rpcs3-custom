@@ -114,3 +114,7 @@ yaml-cpp.pc
 cacert.pem
 
 _ReSharper.*/
+rpcs3/QTGeneratedFiles/qrc_resources.cpp
+rpcs3/QTGeneratedFiles/qrc_windows.cpp
+*.lib
+*.exp
