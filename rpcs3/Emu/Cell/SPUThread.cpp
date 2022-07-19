@@ -1904,6 +1904,16 @@ void spu_thread::do_dma_transfer(spu_thread* _this, const spu_mfc_cmd& args, u8*
 				{
 					_cpu->check_state();
 				}
+				else if (++i < 25) [[likely]]
+				{
+					busy_wait(300);
+				}
+				else
+				{
+					_cpu->state += cpu_flag::wait + cpu_flag::temp;
+					std::this_thread::yield();
+					_cpu->check_state();
+				}
 			}())
 			{
 				const u64 time0 = vm::reservation_acquire(eal);
@@ -3203,6 +3213,14 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
+		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && !g_cfg.video.write_color_buffers)
+		{
+			busy_wait(100);
+
+			// Reset perf
+			perf0.restart();
+		}
+
 		alignas(64) spu_rdata_t temp;
 		u64 ntime;
 		rsx::reservation_lock rsx_lock(addr, 128);
@@ -3245,7 +3263,6 @@ bool spu_thread::process_mfc_cmd()
 				std::this_thread::yield();
 				static_cast<void>(check_state());
 			}
-
 		}())
 		{
 			ntime = vm::reservation_acquire(addr);
