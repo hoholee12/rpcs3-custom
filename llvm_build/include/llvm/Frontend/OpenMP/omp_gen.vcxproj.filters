@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\a\1\s\llvm_build\CMakeFiles\4d6b2009314bf58e653b55b10f3a7f38\OMP.h.inc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\a\1\s\llvm_build\CMakeFiles\4d6b2009314bf58e653b55b10f3a7f38\OMP.inc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\a\1\s\llvm_build\CMakeFiles\06437e278d7b80663db356fba745de13\omp_gen.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\a\1\s\include\llvm\Frontend\OpenMP\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\a\1\s\llvm_build\include\llvm\Frontend\OpenMP\CMakeFiles\omp_gen" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B14701AD-1173-3762-9446-86D0FA8FFB77}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -36,7 +36,6 @@
 /ipch
 /rpcs3/Debug
 /rpcs3/Release
-/llvm_build
 
 #!/bin
 #/bin/*
