@@ -3213,12 +3213,21 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
+		static const u64 delay_repeat = 1000000; // 1 yield per (delay_repeat - 1) cycles
+		static u64 repeat             = delay_repeat - 1;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			busy_wait(100);
-
-			// Reset perf
-			perf0.restart();
+			if (++repeat == delay_repeat)
+			{
+				spu_log.todo("Yielding in %u cycles", delay_repeat);
+				std::this_thread::yield();
+				perf0.restart();
+				repeat = 0;
+			}
+			else
+			{
+				busy_wait(100);
+			}
 		}
 
 		alignas(64) spu_rdata_t temp;
