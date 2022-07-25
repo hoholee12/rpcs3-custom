@@ -35,8 +35,6 @@
 
 using spu_rdata_t = decltype(spu_thread::rdata);
 
-static bool yield_flag = false;
-
 template <>
 void fmt_class_string<mfc_atomic_status>::format(std::string& out, u64 arg)
 {
@@ -347,15 +345,9 @@ namespace spu
 					while (atomic_instruction_table[pc_offset].observe() >= max_concurrent_instructions)
 					{
 						if (remaining >= native_jiffy_duration_us)
-						{
 							std::this_thread::sleep_for(1ms);
-						}
 						else
-						{
-							yield_flag = true;
 							std::this_thread::yield();
-						}
-
 
 						const auto now = get_system_time();
 						const auto elapsed = now - start;
@@ -1918,7 +1910,6 @@ void spu_thread::do_dma_transfer(spu_thread* _this, const spu_mfc_cmd& args, u8*
 				}
 				else
 				{
-					yield_flag = true;
 					_cpu->state += cpu_flag::wait + cpu_flag::temp;
 					std::this_thread::yield();
 					_cpu->check_state();
@@ -2849,7 +2840,6 @@ void do_cell_atomic_128_store(u32 addr, const void* to_write)
 					}
 					else
 					{
-						yield_flag = true;
 						std::this_thread::yield();
 					}
 				}
@@ -2867,7 +2857,6 @@ void do_cell_atomic_128_store(u32 addr, const void* to_write)
 			}
 			else
 			{
-				yield_flag = true;
 				std::this_thread::yield();
 			}
 		}
@@ -3224,16 +3213,20 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
+		static const u64 delay_repeat = 1000000; // 1 yield per (delay_repeat - 1) cycles
+		static u64 repeat             = delay_repeat - 1;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			if (yield_flag)
+			if (++repeat == delay_repeat)
 			{
-				yield_flag = false;
+				spu_log.todo("Yielding in %u cycles", delay_repeat);
+				std::this_thread::yield();
+				perf0.restart();
+				repeat = 0;
 			}
 			else
 			{
-				std::this_thread::yield();
-				perf0.restart();
+				busy_wait(100);
 			}
 		}
 
@@ -3275,7 +3268,6 @@ bool spu_thread::process_mfc_cmd()
 			}
 			else
 			{
-				yield_flag = true;
 				state += cpu_flag::wait + cpu_flag::temp;
 				std::this_thread::yield();
 				static_cast<void>(check_state());
