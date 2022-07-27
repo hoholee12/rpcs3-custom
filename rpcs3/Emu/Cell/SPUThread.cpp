@@ -3213,12 +3213,30 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
+		static u64 repeat = 0;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			busy_wait(100);
+			if (repeat == 0)
+			{
+				busy_wait(100);
+			}
+			else if (repeat < 101)
+			{
+				std::this_thread::yield();
+			}
+			else
+			{
+				std::this_thread::sleep_for(1ms);
+			}
 
 			// Reset perf
 			perf0.restart();
+
+			repeat++;
+		}
+		else
+		{
+			repeat = 0;
 		}
 
 		alignas(64) spu_rdata_t temp;
