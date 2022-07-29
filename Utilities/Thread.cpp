@@ -2688,6 +2688,17 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	if (const auto thread_count = utils::get_thread_count())
 	{
 		const u64 all_cores_mask = process_affinity_mask;
+		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		{
+			if (g_native_core_layout == native_core_arrangement::intel_ht && utils::get_thread_count() > 8)
+			{
+				return all_cores_mask & 0b101010101010;
+			}
+			else if (g_native_core_layout != native_core_arrangement::intel_ht && utils::get_thread_count() > 6)
+			{
+				return all_cores_mask & 0b111111;
+			}
+		}
 		return all_cores_mask;
 	}
 
