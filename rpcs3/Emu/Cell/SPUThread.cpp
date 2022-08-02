@@ -3221,13 +3221,11 @@ bool spu_thread::process_mfc_cmd()
 			if (repeat == 0)
 			{
 				now = get_system_time();
-				busy_wait(100);
 			}
 			else if ((get_system_time() - now) < native_jiffy_duration_us)
 			{
-				if (repeat < 30)
+				if (repeat < 3000)
 				{
-					busy_wait(100);
 				}
 				else
 				{

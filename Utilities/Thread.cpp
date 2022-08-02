@@ -2688,18 +2688,37 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	if (const auto thread_count = utils::get_thread_count())
 	{
 		const u64 all_cores_mask = process_affinity_mask;
+		if (!g_cfg.core.accurate_rsx_reservation) return all_cores_mask;
+
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			if (g_native_core_layout == native_core_arrangement::intel_ht && utils::get_thread_count() > 8)
+			if (g_native_core_layout == native_core_arrangement::intel_ht)
 			{
-				return all_cores_mask & 0b101010101010;
+				if (thread_count > 8)
+				{
+					switch (group)
+					{
+					case thread_class::rsx: return 0b11;
+					default: return (all_cores_mask & 0b111111111111) ^ 0b11;
+					}
+				}
+				else
+				{
+					switch (group)
+					{
+					case thread_class::rsx: return 0b11;
+					default: return (all_cores_mask & 0b11111111) ^ 0b11;
+					}
+				}
 			}
-			else if (g_native_core_layout != native_core_arrangement::intel_ht && utils::get_thread_count() > 6)
+			else
 			{
-				return all_cores_mask & 0b111111;
+				switch(group){
+					case thread_class::rsx: return 0b1;
+					default: return (all_cores_mask & 0b111111) ^ 0b1;
+				}
 			}
 		}
-		return all_cores_mask;
 	}
 
 	return -1;
