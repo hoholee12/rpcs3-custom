@@ -16,14 +16,13 @@ Core:
   MFC Debug: false
   Preferred SPU Threads: 2
   SPU delay penalty: 3
-  SPU loop detection: false
+  Accurate RSX Reservation: true
   Max SPURS Threads: 4
   SPURS Urgent Queue Size: 0
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
   Accurate Cache Line Stores: false
-  Accurate RSX reservation access: false
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
@@ -73,6 +72,8 @@ Core:
   Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
+  SPU loop detection: false
+  Accurate RSX reservation access: false
 VFS:
   Enable /host_root/: false
   Initialize Directories: true
@@ -116,7 +117,7 @@ Video:
   Accurate ZCULL stats: false
   Consecutive Frames To Draw: 1
   Consecutive Frames To Skip: 1
-  Resolution Scale: 100
+  Resolution Scale: 150
   Anisotropic Filter Override: 0
   Texture LOD Bias Addend: 0
   Minimum Scalable Dimension: 16
