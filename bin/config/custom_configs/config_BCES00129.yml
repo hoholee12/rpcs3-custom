@@ -117,7 +117,7 @@ Video:
   Accurate ZCULL stats: false
   Consecutive Frames To Draw: 1
   Consecutive Frames To Skip: 1
-  Resolution Scale: 150
+  Resolution Scale: 100
   Anisotropic Filter Override: 0
   Texture LOD Bias Addend: 0
   Minimum Scalable Dimension: 16
