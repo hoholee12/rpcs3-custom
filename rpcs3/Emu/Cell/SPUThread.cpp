@@ -3216,7 +3216,7 @@ bool spu_thread::process_mfc_cmd()
 		constexpr u32 native_jiffy_duration_us = 1500; //About 1ms resolution with a half offset
 		static u64 repeat = 0;
 		static u64 now = 0;
-		if (false && addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
+		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
 			if (repeat == 0)
 			{
