@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Emu/Memory/vm_ptr.h"
+#include "Emu/Cell/ErrorCodes.h"
+#include "cellSearch.h"
 
 // Error Codes
 enum CellMusicError : u32
@@ -133,4 +135,35 @@ using CellMusic2Callback = void(u32 event, vm::ptr<void> param, vm::ptr<void> us
 struct CellMusicSelectionContext
 {
 	char data[CELL_MUSIC_SELECTION_CONTEXT_SIZE];
+	struct music_selection_context
+	{
+		char magic[4] = "SUS";
+		std::string hash;
+		CellSearchContentType content_type     = CELL_SEARCH_CONTENTTYPE_MUSIC;
+		CellSearchRepeatMode repeat_mode       = CELL_SEARCH_REPEATMODE_NONE;
+		CellSearchContextOption context_option = CELL_SEARCH_CONTEXTOPTION_NONE;
+		u32 first_track{0};
+		u32 current_track{0};
+		std::vector<std::string> playlist;
+
+		static constexpr u32 max_depth                = 2; // root + 1 folder + file
+		static constexpr const char* target_file_type = "Music Playlist";
+		static constexpr const char* target_version   = "1.0";
+		static std::string get_next_hash();
+		static std::string context_to_hex(const CellMusicSelectionContext& context);
+
+		bool set(const CellMusicSelectionContext& in);
+		CellMusicSelectionContext get() const;
+
+		std::string to_string() const;
+		std::string get_yaml_path() const;
+
+		void set_playlist(const std::string& path);
+		void create_playlist(const std::string& new_hash);
+		bool load_playlist();
+		u32 step_track(bool next);
+
+		// Helper
+		error_code find_content_id(vm::ptr<CellSearchContentId> contents_id);
+	};
 };

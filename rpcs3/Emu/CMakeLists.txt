@@ -246,6 +246,7 @@ target_sources(rpcs3_emu PRIVATE
     Cell/Modules/cellMsgDialog.cpp
     Cell/Modules/cellMusic.cpp
     Cell/Modules/cellMusicDecode.cpp
+	Cell/Modules/cellMusicSelectionContext.cpp
     Cell/Modules/cellMusicExport.cpp
     Cell/Modules/cellNetAoi.cpp
     Cell/Modules/cellNetCtl.cpp
@@ -419,6 +420,7 @@ target_sources(rpcs3_emu PRIVATE
     RSX/Overlays/overlay_edit_text.cpp
     RSX/Overlays/overlay_fonts.cpp
     RSX/Overlays/overlay_list_view.cpp
+	RSX/Overlays/overlay_media_list_dialog.cpp
     RSX/Overlays/overlay_message_dialog.cpp
     RSX/Overlays/overlay_osk.cpp
     RSX/Overlays/overlay_osk_panel.cpp

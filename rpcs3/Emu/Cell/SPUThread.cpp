@@ -3213,41 +3213,10 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
-		constexpr u32 native_jiffy_duration_us = 1500; //About 1ms resolution with a half offset
-		static u64 repeat = 0;
-		static u64 now = 0;
+		
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			if (repeat == 0)
-			{
-				now = get_system_time();
-			}
-			else if ((get_system_time() - now) < native_jiffy_duration_us)
-			{
-				if (repeat < 3000)
-				{
-				}
-				else
-				{
-					//yield on 3000th cycle
-					std::this_thread::yield();
-				}
-			}
-			else
-			{
-				//spu_log.todo("%d repeat", repeat);
-				std::this_thread::sleep_for(1ms);
-				now = get_system_time();
-			}
-
-			// Reset perf
-			perf0.restart();
-
-			repeat++;
-		}
-		else
-		{
-			repeat = 0;
+			std::this_thread::yield();
 		}
 
 		alignas(64) spu_rdata_t temp;

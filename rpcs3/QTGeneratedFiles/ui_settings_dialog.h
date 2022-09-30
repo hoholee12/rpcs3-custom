@@ -195,6 +195,10 @@ public:
     QCheckBox *audioDump;
     QCheckBox *convert;
     QSpacerItem *spacer_audio_settings;
+    QGroupBox *gb_music_handler;
+    QVBoxLayout *gb_music_handler_layout;
+    QComboBox *musicHandlerBox;
+    QSpacerItem *verticalSpacerAudioLeft;
     QVBoxLayout *audioTabLayoutTopMiddle;
     QGroupBox *gb_audio_volume;
     QVBoxLayout *gb_audio_volume_layout;
@@ -216,6 +220,7 @@ public:
     QVBoxLayout *layout_time_stretching_threshold;
     QLabel *timeStretchingThresholdLabel;
     QSlider *timeStretchingThreshold;
+    QSpacerItem *verticalSpacerAudioRight;
     QGroupBox *gb_microphone_settings;
     QVBoxLayout *gb_microphone_settings_layout;
     QHBoxLayout *microphoneLayoutTop;
@@ -711,8 +716,8 @@ public:
         checkboxes->setObjectName(QString::fromUtf8("checkboxes"));
         checkboxes_layout = new QVBoxLayout(checkboxes);
         checkboxes_layout->setObjectName(QString::fromUtf8("checkboxes_layout"));
-		accurateRSXReservation = new QCheckBox(checkboxes);
-		accurateRSXReservation->setObjectName(QString::fromUtf8("accurateRSXReservation"));
+        accurateRSXReservation = new QCheckBox(checkboxes);
+        accurateRSXReservation->setObjectName(QString::fromUtf8("accurateRSXReservation"));
 
         checkboxes_layout->addWidget(accurateRSXReservation);
 
@@ -1351,6 +1356,22 @@ public:
 
         audioTabLayoutTopLeft->addWidget(gb_audio_settings);
 
+        gb_music_handler = new QGroupBox(audioTab);
+        gb_music_handler->setObjectName(QString::fromUtf8("gb_music_handler"));
+        gb_music_handler_layout = new QVBoxLayout(gb_music_handler);
+        gb_music_handler_layout->setObjectName(QString::fromUtf8("gb_music_handler_layout"));
+        musicHandlerBox = new QComboBox(gb_music_handler);
+        musicHandlerBox->setObjectName(QString::fromUtf8("musicHandlerBox"));
+
+        gb_music_handler_layout->addWidget(musicHandlerBox);
+
+
+        audioTabLayoutTopLeft->addWidget(gb_music_handler);
+
+        verticalSpacerAudioLeft = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+
+        audioTabLayoutTopLeft->addItem(verticalSpacerAudioLeft);
+
 
         audioTabLayoutTop->addLayout(audioTabLayoutTopLeft);
 
@@ -1448,6 +1469,10 @@ public:
 
 
         gb_audio_buffering_layout->addWidget(time_stretching_threshold);
+
+        verticalSpacerAudioRight = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);
+
+        gb_audio_buffering_layout->addItem(verticalSpacerAudioRight);
 
 
         audioTabLayoutTopRight->addWidget(gb_audio_buffering);
@@ -3349,7 +3374,7 @@ public:
 
         retranslateUi(settings_dialog);
 
-        tab_widget_settings->setCurrentIndex(0);
+        tab_widget_settings->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(settings_dialog);
@@ -3361,7 +3386,7 @@ public:
         gb_ppu->setTitle(QCoreApplication::translate("settings_dialog", "PPU Decoder", nullptr));
         gb_spu->setTitle(QCoreApplication::translate("settings_dialog", "SPU Decoder", nullptr));
         checkboxes->setTitle(QCoreApplication::translate("settings_dialog", "Additional Settings", nullptr));
-		accurateRSXReservation->setText(QCoreApplication::translate("settings_dialog", "Accurate RSX Reservation", nullptr));
+        accurateRSXReservation->setText(QCoreApplication::translate("settings_dialog", "Accurate RSX Reservation", nullptr));
         accurateXFloat->setText(QCoreApplication::translate("settings_dialog", "Accurate xfloat", nullptr));
         approximateXFloat->setText(QCoreApplication::translate("settings_dialog", "Approximate xfloat", nullptr));
         fullWidthAVX512->setText(QCoreApplication::translate("settings_dialog", "Full Width AVX-512", nullptr));
@@ -3422,6 +3447,7 @@ public:
         gb_audio_settings->setTitle(QCoreApplication::translate("settings_dialog", "Audio Settings", nullptr));
         audioDump->setText(QCoreApplication::translate("settings_dialog", "Dump to File", nullptr));
         convert->setText(QCoreApplication::translate("settings_dialog", "Convert to 16-bit", nullptr));
+        gb_music_handler->setTitle(QCoreApplication::translate("settings_dialog", "Music Handler", nullptr));
         gb_audio_volume->setTitle(QCoreApplication::translate("settings_dialog", "Volume", nullptr));
         masterVolumeLabel->setText(QCoreApplication::translate("settings_dialog", "Master: 0%", nullptr));
         gb_audio_buffering->setTitle(QCoreApplication::translate("settings_dialog", "Buffering", nullptr));

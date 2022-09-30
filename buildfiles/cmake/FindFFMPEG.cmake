@@ -29,6 +29,7 @@ else (FFMPEG_LIBRARIES AND FFMPEG_INCLUDE_DIR)
     pkg_check_modules(_FFMPEG_AVFORMAT libavformat)
     pkg_check_modules(_FFMPEG_AVUTIL libavutil)
     pkg_check_modules(_FFMPEG_SWSCALE libswscale)
+	pkg_check_modules(_FFMPEG_SWRESAMPLE libswresample)
   endif (PKG_CONFIG_FOUND)
 
   find_path(FFMPEG_AVCODEC_INCLUDE_DIR
@@ -57,7 +58,12 @@ else (FFMPEG_LIBRARIES AND FFMPEG_INCLUDE_DIR)
     PATHS ${_FFMPEG_SWSCALE_LIBRARY_DIRS} /usr/lib /usr/local/lib /opt/local/lib /sw/lib
   )
 
-  if (FFMPEG_LIBAVCODEC AND FFMPEG_LIBAVFORMAT AND FFMPEG_LIBSWSCALE)
+  find_library(FFMPEG_LIBSWRESAMPLE
+    NAMES swresample
+    PATHS ${_FFMPEG_SWRESAMPLE_LIBRARY_DIRS} /usr/lib /usr/local/lib /opt/local/lib /sw/lib
+  )
+
+  if (FFMPEG_LIBAVCODEC AND FFMPEG_LIBAVFORMAT AND FFMPEG_LIBSWSCALE AND FFMPEG_LIBSWRESAMPLE)
     set(FFMPEG_FOUND TRUE)
   endif()
 
@@ -69,6 +75,7 @@ else (FFMPEG_LIBRARIES AND FFMPEG_INCLUDE_DIR)
       ${FFMPEG_LIBAVFORMAT}
       ${FFMPEG_LIBAVUTIL}
       ${FFMPEG_LIBSWSCALE}
+	  ${FFMPEG_LIBSWRESAMPLE}
     )
 
   endif (FFMPEG_FOUND)

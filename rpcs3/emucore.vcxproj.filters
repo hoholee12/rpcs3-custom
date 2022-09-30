@@ -1027,6 +1027,12 @@
     <ClCompile Include="Emu\Audio\audio_resampler.cpp">
       <Filter>Emu\Audio</Filter>
     </ClCompile>
+	<ClCompile Include="Emu\RSX\Overlays\overlay_media_list_dialog.cpp">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClCompile>
+	 <ClCompile Include="Emu\Cell\Modules\cellMusicSelectionContext.cpp">
+      <Filter>Emu\Cell\Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crypto\aes.h">
@@ -2040,6 +2046,18 @@
     </ClInclude>
     <ClInclude Include="Emu\NP\np_helpers.h">
       <Filter>Emu\NP</Filter>
+    </ClInclude>
+	 <ClInclude Include="Emu\Io\music_handler_base.h">
+      <Filter>Emu\Io</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\Io\Null\null_music_handler.h">
+      <Filter>Emu\Io\Null</Filter>
+    </ClInclude>
+    <ClInclude Include="Emu\RSX\Overlays\overlay_media_list_dialog.h">
+      <Filter>Emu\GPU\RSX\Overlays</Filter>
+    </ClInclude>
+	<ClInclude Include="Emu\Cell\Modules\cellMusicDecode.h">
+      <Filter>Emu\Cell\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
