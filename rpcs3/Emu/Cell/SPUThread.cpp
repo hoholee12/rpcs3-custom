@@ -3214,7 +3214,7 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		
-		constexpr u32 native_jiffy_duration_us = 10000; //10ms
+		constexpr u32 native_jiffy_duration_us = 1500; //About 1ms resolution with a half offset
 		static u64 repeat                      = 0;
 		static u64 now                         = 0;
 		
