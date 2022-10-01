@@ -3214,9 +3214,28 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		
+		constexpr u32 native_jiffy_duration_us = 1500; //About 1ms resolution with a half offset
+		static u64 repeat                      = 0;
+		static u64 now                         = 0;
+		
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			std::this_thread::yield();
+			repeat++;
+			if (repeat == 1)
+			{
+				now = get_system_time();
+			}
+			else if ((get_system_time() - now) > native_jiffy_duration_us)
+			{
+				std::this_thread::sleep_for(1ms);
+				// Reset perf
+				perf0.restart();
+				repeat = 0;
+			}
+		}
+		else
+		{
+			repeat = 0;
 		}
 
 		alignas(64) spu_rdata_t temp;
