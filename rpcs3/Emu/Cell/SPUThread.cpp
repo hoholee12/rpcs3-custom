@@ -3214,7 +3214,7 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		
-		constexpr u32 native_jiffy_duration_us = 1500; //About 1ms resolution with a half offset
+		constexpr u32 native_jiffy_duration_us = 50;	//5% of 1ms
 		static u64 repeat                      = 0;
 		static u64 now                         = 0;
 		
@@ -3227,7 +3227,7 @@ bool spu_thread::process_mfc_cmd()
 			}
 			else if ((get_system_time() - now) > native_jiffy_duration_us)
 			{
-				std::this_thread::sleep_for(10ms);
+				std::this_thread::sleep_for(1ms);
 				// Reset perf
 				perf0.restart();
 				repeat = 0;
