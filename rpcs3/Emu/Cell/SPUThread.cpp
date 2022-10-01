@@ -3224,7 +3224,7 @@ bool spu_thread::process_mfc_cmd()
 			}
 			else if ((get_system_time() - now) > g_cfg.video.driver_wakeup_delay)
 			{
-				std::this_thread::yield();
+				std::this_thread::sleep_for(std::chrono::microseconds(g_cfg.video.driver_wakeup_delay));
 				// Reset perf
 				perf0.restart();
 				repeat = 0;
