@@ -3213,11 +3213,8 @@ bool spu_thread::process_mfc_cmd()
 			last_faddr = 0;
 		}
 
-		
-		constexpr u32 native_jiffy_duration_us = 50;	//5% of 1ms
-		static u64 repeat                      = 0;
-		static u64 now                         = 0;
-		
+		static u64 repeat = 0;
+		static u64 now = 0;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
 			repeat++;
@@ -3225,9 +3222,9 @@ bool spu_thread::process_mfc_cmd()
 			{
 				now = get_system_time();
 			}
-			else if ((get_system_time() - now) > native_jiffy_duration_us)
+			else if ((get_system_time() - now) > g_cfg.video.driver_wakeup_delay)
 			{
-				std::this_thread::sleep_for(1ms);
+				std::this_thread::yield();
 				// Reset perf
 				perf0.restart();
 				repeat = 0;
