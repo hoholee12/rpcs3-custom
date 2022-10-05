@@ -2697,27 +2697,29 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::spu: return (all_cores_mask & 0b111111111111);
-					case thread_class::rsx: return 0b11;
-					default: return (all_cores_mask & 0b111111111111) ^ 0b11;
+					case thread_class::ppu:
+					case thread_class::rec: 
+					case thread_class::spu: 
+					case thread_class::sha: 
+					case thread_class::rsx:					
+					default: return all_cores_mask & 0b111111111111;
 					}
 				}
 				else
 				{
-					switch (group)
-					{
-					case thread_class::spu: return (all_cores_mask & 0b11111111);
-					case thread_class::rsx: return 0b11;
-					default: return (all_cores_mask & 0b11111111) ^ 0b11;
-					}
+					return all_cores_mask;
 				}
 			}
 			else
 			{
-				switch(group){
-				case thread_class::spu: return (all_cores_mask & 0b111111);
-				case thread_class::rsx: return 0b1;
-				default: return (all_cores_mask & 0b111111) ^ 0b1;
+				switch (group)
+				{
+				case thread_class::ppu:
+				case thread_class::rec: 
+				case thread_class::spu: 
+				case thread_class::sha: 
+				case thread_class::rsx: 
+				default: return all_cores_mask & 0b111111;
 				}
 			}
 		}
