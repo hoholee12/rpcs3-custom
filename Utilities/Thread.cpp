@@ -2689,6 +2689,8 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	{
 		const u64 all_cores_mask = process_affinity_mask;
 
+		//desync can be significantly reduced by pinning spu out of one core.
+		//keep the threads pinned under 6 cores(or 12 virtual) to lessen the chance of desync
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
 			if (g_native_core_layout == native_core_arrangement::intel_ht)
@@ -2697,29 +2699,52 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
+					case thread_class::spu: return all_cores_mask & 0b1111111111;	//limit to 5 cores
+					case thread_class::rec:
+					case thread_class::sha:
+					case thread_class::rsx:
 					case thread_class::ppu:
-					case thread_class::rec: 
-					case thread_class::spu: 
-					case thread_class::sha: 
-					case thread_class::rsx:					
-					default: return all_cores_mask & 0b111111111111;
+					default: return all_cores_mask & 0b111111111111;	//limit to 6 cores
 					}
 				}
 				else
 				{
-					return all_cores_mask;
+					switch (group)
+					{
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 2) - 1);
+					case thread_class::rec:
+					case thread_class::sha:
+					case thread_class::rsx:
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
 				}
 			}
 			else
 			{
-				switch (group)
+				if (thread_count > 6)
 				{
-				case thread_class::ppu:
-				case thread_class::rec: 
-				case thread_class::spu: 
-				case thread_class::sha: 
-				case thread_class::rsx: 
-				default: return all_cores_mask & 0b111111;
+					switch (group)
+					{
+					case thread_class::spu: return all_cores_mask & 0b11111;	//limit to 5 cores
+					case thread_class::rec:
+					case thread_class::sha:
+					case thread_class::rsx:
+					case thread_class::ppu:
+					default: return all_cores_mask & 0b111111; //limit to 6 cores
+					}
+				}
+				else
+				{
+					switch (group)
+					{
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 1) - 1);
+					case thread_class::rec:
+					case thread_class::sha:
+					case thread_class::rsx:
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
 				}
 			}
 		}
