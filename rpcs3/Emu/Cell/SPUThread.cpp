@@ -3229,6 +3229,8 @@ bool spu_thread::process_mfc_cmd()
 				//std::this_thread::sleep_for(std::chrono::microseconds(g_cfg.video.driver_wakeup_delay - mytemp));
 				// Reset perf
 				perf0.restart();
+				//new cycle
+				now = get_system_time();
 			}
 			else
 			{
