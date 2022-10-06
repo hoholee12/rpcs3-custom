@@ -3215,7 +3215,6 @@ bool spu_thread::process_mfc_cmd()
 
 		static u64 repeat = 0;
 		static u64 now = 0;
-		static u64 mytemp = 0;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
 			repeat++;
@@ -3223,13 +3222,13 @@ bool spu_thread::process_mfc_cmd()
 			{
 				now = get_system_time();
 			}
-			else if ((mytemp = get_system_time() - now) < g_cfg.video.driver_wakeup_delay)
+			else if ((get_system_time() - now) < g_cfg.video.driver_wakeup_delay)
 			{
-				//std::this_thread::sleep_for(std::chrono::microseconds(g_cfg.video.driver_wakeup_delay - mytemp));
 				std::this_thread::yield();
+				now = get_system_time();
 				// Reset perf
 				perf0.restart();
-				repeat = 0;
+				repeat = 1;
 			}
 			else
 			{
