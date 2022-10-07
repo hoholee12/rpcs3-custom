@@ -2689,8 +2689,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	{
 		const u64 all_cores_mask = process_affinity_mask;
 
-		//desync can be significantly reduced by pinning spu out of one core.
-		//keep the threads pinned under 6 cores(or 12 virtual) to lessen the chance of desync
+		//desync can be significantly reduced by pinning spu/rsx out of one core.
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
 			if (g_native_core_layout == native_core_arrangement::intel_ht)
@@ -2699,10 +2698,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::spu: return all_cores_mask & 0b1111111111;	//limit to 5 cores
 					case thread_class::rec:
+					case thread_class::spu: return all_cores_mask & 0b1111111111;	//limit to 5 cores
 					case thread_class::sha:
-					case thread_class::rsx:
+					case thread_class::rsx: return all_cores_mask & 0b111111111100;	//limit to 5 cores
 					case thread_class::ppu:
 					default: return all_cores_mask & 0b111111111111;	//limit to 6 cores
 					}
@@ -2711,10 +2710,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 2) - 1);
 					case thread_class::rec:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 2) - 1);
 					case thread_class::sha:
-					case thread_class::rsx:
+					case thread_class::rsx: return all_cores_mask & (ipow(2, thread_count) - 4);
 					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
@@ -2726,10 +2725,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::spu: return all_cores_mask & 0b11111;	//limit to 5 cores
 					case thread_class::rec:
+					case thread_class::spu: return all_cores_mask & 0b11111;	//limit to 5 cores
 					case thread_class::sha:
-					case thread_class::rsx:
+					case thread_class::rsx: return all_cores_mask & 0b111110;	//limit to 5 cores
 					case thread_class::ppu:
 					default: return all_cores_mask & 0b111111; //limit to 6 cores
 					}
@@ -2738,10 +2737,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 1) - 1);
 					case thread_class::rec:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 1) - 1);
 					case thread_class::sha:
-					case thread_class::rsx:
+					case thread_class::rsx: return all_cores_mask & (ipow(2, thread_count) - 2);
 					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
