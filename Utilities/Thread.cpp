@@ -2711,9 +2711,9 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					switch (group)
 					{
 					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 2) - 1);
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 1) - 1);
 					case thread_class::sha:
-					case thread_class::rsx: return all_cores_mask & (ipow(2, thread_count) - 4);
+					case thread_class::rsx: return all_cores_mask & (ipow(2, thread_count) - 2);
 					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
