@@ -2660,26 +2660,11 @@ namespace rsx
 
 		while (true)
 		{
-#ifdef __linux__
-			// NOTE: Assumption that timer initialization has succeeded
-			u64 host_min_quantum = remaining <= 1000 ? 10 : 50;
-#else
 			// Host scheduler quantum for windows (worst case)
 			// NOTE: On ps3 this function has very high accuracy
 			constexpr u64 host_min_quantum = 500;
-#endif
-			if (remaining >= host_min_quantum)
-			{
-#ifdef __linux__
-				// Do not wait for the last quantum to avoid loss of accuracy
-				thread_ctrl::wait_for(remaining - ((remaining % host_min_quantum) + host_min_quantum), false);
-#else
-				// Wait on multiple of min quantum for large durations to avoid overloading low thread cpus
-				thread_ctrl::wait_for(remaining - (remaining % host_min_quantum), false);
-#endif
-			}
-			// TODO: Determine best value for yield delay
-			else if (remaining >= host_min_quantum / 2)
+
+			if (remaining >= host_min_quantum / 2)
 			{
 				std::this_thread::yield();
 			}

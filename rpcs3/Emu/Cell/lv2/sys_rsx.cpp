@@ -62,7 +62,7 @@ void rsx::thread::send_event(u64 data1, u64 event_flags, u64 data3) const
 		}
 
 		// Wait a bit before resending event
-		thread_ctrl::wait_for(100);
+		thread_ctrl::wait_for(1000);
 
 		if (cpu && cpu->id_type() == 0x55)
 			cpu->cpu_wait({});

@@ -3214,27 +3214,34 @@ bool spu_thread::process_mfc_cmd()
 		}
 
 		
-		static u64 now = 0;
-		//static u64 mytemp = 0;
+		static u64 until = 0;
+		static u64 remaining = 0;
+		constexpr u64 host_min_quantum = 500;
 		if (addr == raddr && !g_use_rtm && rtime == vm::reservation_acquire(addr) && cmp_rdata(rdata, data) && g_cfg.core.accurate_rsx_reservation)
 		{
-			if (now == 0)
+			if (until == 0)
 			{
 				//init
-				now = get_system_time();
+				remaining = g_cfg.video.driver_wakeup_delay;
+				until = get_system_time() + remaining;
 			}
-			else if ((get_system_time() - now) < g_cfg.video.driver_wakeup_delay)
+			if (remaining >= host_min_quantum / 2)
 			{
 				std::this_thread::yield();
-				//std::this_thread::sleep_for(std::chrono::microseconds(g_cfg.video.driver_wakeup_delay - mytemp));
 				// Reset perf
 				perf0.restart();
 			}
-			else
+			else if (remaining)	//not 0
 			{
-				//new cycle
-				now = get_system_time();
+				busy_wait(100);
 			}
+			u64 current = get_system_time();
+			if (current >= until){
+				//reset cycle
+				remaining = 0;
+				until = 0;
+			}
+			remaining = until - current;
 		}
 
 		alignas(64) spu_rdata_t temp;

@@ -2700,32 +2700,21 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::sha:
 					case thread_class::rsx: return all_cores_mask & 0b101;	//limit to 2 physical cores
+					case thread_class::sha:
 					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & 0b111111111010;	//xor rsx
+					case thread_class::spu: return all_cores_mask & 0b111111111010; //xor rsx
 					case thread_class::ppu:
 					default: return all_cores_mask & 0b111111111111;	//limit to 6 cores
 					}
 				}
 				else
 				{
-					/*
-					switch (group)
-					{
-					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count - 2) - 1);
-					case thread_class::sha:
-					case thread_class::rsx: return all_cores_mask & (ipow(2, thread_count) - 4);
-					case thread_class::ppu:
-					default: return all_cores_mask;
-					}
-					*/
 					//too few physical cores
 					switch (group)
 					{
-					case thread_class::sha:
 					case thread_class::rsx: return all_cores_mask & 0b101; //limit to 2 physical cores
+					case thread_class::sha:
 					case thread_class::rec:
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 6);	//xor rsx
 					case thread_class::ppu:
@@ -2739,10 +2728,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::sha:
 					case thread_class::rsx: return all_cores_mask & 0b11;	//limit to 2 cores
+					case thread_class::sha:
 					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & 0b111110;	//pin out one core
+					case thread_class::spu: return all_cores_mask & 0b111110; //pin out one core
 					case thread_class::ppu:
 					default: return all_cores_mask & 0b111111; //limit to 6 cores
 					}
@@ -2751,10 +2740,10 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::sha:
 					case thread_class::rsx: return all_cores_mask & 0b11;	//limit to 2 cores
+					case thread_class::sha:
 					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2);	//pin out one core
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2); //pin out one core
 					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
