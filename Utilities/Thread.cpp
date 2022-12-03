@@ -2689,22 +2689,21 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 	{
 		const u64 all_cores_mask = process_affinity_mask;
 
-		//limit the emulator thread to 6 physical cores, allowing the recompiler thread to correctly block the main thread.
-		//desync can be significantly reduced by pinning spu thread out of one core(physical or virtual).
-		//pinning rsx to 2 physical cores allows better stability. intel ht allows more cores for spu.
+		//rsx+recompiler threads should not interfere with ppu+spu thread.
+		//rsx uses 2 threads total(without multithreading).
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
 			if (g_native_core_layout == native_core_arrangement::intel_ht)
 			{
-				if (thread_count > 8)
+				if (thread_count > 12)
 				{
 					switch (group)
 					{
-					case thread_class::rsx: return all_cores_mask & 0b101;	//limit to 2 physical cores
-					case thread_class::sha:
-					case thread_class::rec:
+					case thread_class::rsx: 
+					case thread_class::sha: 
+					case thread_class::rec: return all_cores_mask & 0b101; //limit to 2 physical cores
 					case thread_class::spu: return all_cores_mask & 0b111111111010; //xor rsx
-					case thread_class::ppu:
+					case thread_class::ppu: 
 					default: return all_cores_mask & 0b111111111111;	//limit to 6 cores
 					}
 				}
@@ -2713,11 +2712,11 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					//too few physical cores
 					switch (group)
 					{
-					case thread_class::rsx: return all_cores_mask & 0b101; //limit to 2 physical cores
+					case thread_class::rsx:
 					case thread_class::sha:
-					case thread_class::rec:
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 6);	//xor rsx
-					case thread_class::ppu:
+					case thread_class::rec: return all_cores_mask & 0b101; //limit to 2 physical cores
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 6); //xor rsx
+					case thread_class::ppu: 
 					default: return all_cores_mask;
 					}
 				}
@@ -2728,11 +2727,11 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::rsx: return all_cores_mask & 0b11;	//limit to 2 cores
+					case thread_class::rsx: 
 					case thread_class::sha:
-					case thread_class::rec:
+					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
 					case thread_class::spu: return all_cores_mask & 0b111110; //pin out one core
-					case thread_class::ppu:
+					case thread_class::ppu: 
 					default: return all_cores_mask & 0b111111; //limit to 6 cores
 					}
 				}
@@ -2740,11 +2739,11 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 				{
 					switch (group)
 					{
-					case thread_class::rsx: return all_cores_mask & 0b11;	//limit to 2 cores
+					case thread_class::rsx: 
 					case thread_class::sha:
-					case thread_class::rec:
+					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2); //pin out one core
-					case thread_class::ppu:
+					case thread_class::ppu: 
 					default: return all_cores_mask;
 					}
 				}
