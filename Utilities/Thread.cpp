@@ -2701,8 +2701,8 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx: 
 					case thread_class::sha: 
-					case thread_class::rec: return all_cores_mask & 0b101; //limit to 2 physical cores
-					case thread_class::spu: return all_cores_mask & 0b111111111010; //xor rsx
+					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
+					case thread_class::spu: return all_cores_mask & 0b111111111100; //pin out one core
 					case thread_class::ppu: 
 					default: return all_cores_mask & 0b111111111111;	//limit to 6 cores
 					}
@@ -2714,8 +2714,8 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx:
 					case thread_class::sha:
-					case thread_class::rec: return all_cores_mask & 0b101; //limit to 2 physical cores
-					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 6); //xor rsx
+					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4); //pin out one core
 					case thread_class::ppu: 
 					default: return all_cores_mask;
 					}
