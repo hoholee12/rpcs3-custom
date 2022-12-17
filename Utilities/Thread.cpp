@@ -2691,7 +2691,68 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 
 		//rsx+recompiler threads should not interfere with ppu+spu thread.
 		//rsx uses 2 threads total(without multithreading).
-		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu)
+		{
+			if (g_native_core_layout == native_core_arrangement::intel_ht)
+			{
+				if (thread_count > 12)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 16);
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4); //pin out one core
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
+				}
+			}
+			else
+			{
+				if (thread_count > 6)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4);
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2); //pin out one core
+					case thread_class::ppu:
+					default: return all_cores_mask;
+					}
+				}
+			}
+		}
+		else if (g_cfg.core.thread_scheduler == thread_scheduler_mode::rsx)
 		{
 			if (g_native_core_layout == native_core_arrangement::intel_ht)
 			{
@@ -2702,7 +2763,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx:
 					case thread_class::sha:
-					case thread_class::rec: return all_cores_mask & 0b1111;                      //limit to 2 physical cores
+					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 16);
 					case thread_class::ppu:
 					default: return all_cores_mask;
@@ -2717,7 +2778,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					case thread_class::sha:
 					case thread_class::rec: return all_cores_mask & 0b1111; //limit to 2 physical cores
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4); //pin out one core
-					case thread_class::ppu: 
+					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
 				}
@@ -2731,7 +2792,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx:
 					case thread_class::sha:
-					case thread_class::rec: return all_cores_mask & 0b11;                        //limit to 2 cores
+					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4);
 					case thread_class::ppu:
 					default: return all_cores_mask;
@@ -2742,11 +2803,11 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					//too few physical cores
 					switch (group)
 					{
-					case thread_class::rsx: 
+					case thread_class::rsx:
 					case thread_class::sha:
 					case thread_class::rec: return all_cores_mask & 0b11; //limit to 2 cores
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2); //pin out one core
-					case thread_class::ppu: 
+					case thread_class::ppu:
 					default: return all_cores_mask;
 					}
 				}

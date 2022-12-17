@@ -8,7 +8,7 @@ Core:
   Max LLVM Compile Threads: 0
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
-  Thread Scheduler Mode: 256 threads
+  Thread Scheduler Mode: RSX
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
@@ -179,6 +179,7 @@ Audio:
   Time Stretching Threshold: 75
   Microphone Type: "Null"
   Microphone Devices: "@@@@@@@@@@@@"
+  Music Handler: Qt
 Input/Output:
   Keyboard: "Null"
   Mouse: Basic

@@ -8,7 +8,7 @@ Core:
   Max LLVM Compile Threads: 0
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
-  Thread Scheduler Mode: 256 threads
+  Thread Scheduler Mode: RSX
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
@@ -16,14 +16,13 @@ Core:
   MFC Debug: false
   Preferred SPU Threads: 2
   SPU delay penalty: 3
-  SPU loop detection: false
+  Accurate RSX Reservation: false
   Max SPURS Threads: 4
   SPURS Urgent Queue Size: 0
   SPU Block Size: Safe
   Accurate GETLLAR: false
   Accurate SPU DMA: false
   Accurate Cache Line Stores: false
-  Accurate RSX reservation access: false
   SPU Verification: true
   SPU Cache: true
   SPU Profiler: false
@@ -73,6 +72,8 @@ Core:
   Sleep Timers Accuracy: As Host
   Performance Report Threshold: 500
   Enable Performance Report: false
+  SPU loop detection: false
+  Accurate RSX reservation access: false
 VFS:
   Enable /host_root/: false
   Initialize Directories: true
@@ -177,6 +178,7 @@ Audio:
   Time Stretching Threshold: 75
   Microphone Type: "Null"
   Microphone Devices: "@@@@@@@@@@@@"
+  Music Handler: Qt
 Input/Output:
   Keyboard: "Null"
   Mouse: Basic

@@ -9926,7 +9926,7 @@ struct spu_llvm_worker
 		//set priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(+1);
+			thread_ctrl::set_native_priority(0);
 		}
 		// SPU LLVM Recompiler instance
 		const auto compiler = spu_recompiler_base::make_llvm_recompiler();
@@ -10095,20 +10095,7 @@ struct spu_llvm
 		//full power
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			u32 temp_count = 0;
-			switch (g_cfg.core.thread_scheduler)
-			{
-			case thread_scheduler_mode::one:
-				temp_count = 64;
-				break;
-			case thread_scheduler_mode::two:
-				temp_count = 128;
-				break;
-			case thread_scheduler_mode::three:
-				temp_count = 256;
-				break;
-			}
-			worker_count = temp_count;
+			worker_count = 256;
 		}
 
 		named_thread_group<spu_llvm_worker> workers("SPUW.", worker_count);

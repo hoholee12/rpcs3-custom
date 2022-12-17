@@ -42,7 +42,7 @@ namespace gl
 		// Set low priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(-1);
+			thread_ctrl::set_native_priority(0);
 		}
 		while (thread_ctrl::state() != thread_state::aborting)
 		{
@@ -127,20 +127,7 @@ namespace gl
 
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			u32 temp_count = 0;
-			switch (g_cfg.core.thread_scheduler)
-			{
-			case thread_scheduler_mode::one:
-				temp_count = 64;
-				break;
-			case thread_scheduler_mode::two:
-				temp_count = 128;
-				break;
-			case thread_scheduler_mode::three:
-				temp_count = 256;
-				break;
-			}
-			num_worker_threads = temp_count;
+			num_worker_threads = 256;
 		}
 
 		ensure(num_worker_threads >= 1);
