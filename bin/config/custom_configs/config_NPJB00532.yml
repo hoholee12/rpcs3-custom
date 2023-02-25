@@ -20,7 +20,7 @@ Core:
   Max SPURS Threads: 6
   SPURS Urgent Queue Size: 0
   SPU Block Size: Safe
-  Accurate GETLLAR: false
+  Accurate GETLLAR: true
   Accurate SPU DMA: false
   Accurate Cache Line Stores: false
   SPU Verification: true
@@ -46,23 +46,7 @@ Core:
   Debug Console Mode: false
   Hook static functions: false
   Libraries Control:
-    - libapostsrc_mini.sprx:hle
-    - libasfparser2_astd.sprx:hle
-    - libbeisobmf.sprx:hle
-    - libbemp2sys.sprx:hle
-    - libkey2char.sprx:hle
-    - libl10n.sprx:hle
-    - liblv2.sprx:hle
-    - liblv2coredump.sprx:hle
-    - liblv2dbg_for_cex.sprx:hle
-    - libpamf.sprx:hle
-    - libresc.sprx:hle
-    - libsjvtd.sprx:hle
-    - libsvc1d.sprx:hle
-    - libsync2.sprx:hle
-    - libvdec.sprx:lle
-    - libvpost.sprx:hle
-    - libvpost2.sprx:hle
+    []
   HLE lwmutex: false
   SPU LLVM Lower Bound: 0
   SPU LLVM Upper Bound: 18446744073709551615

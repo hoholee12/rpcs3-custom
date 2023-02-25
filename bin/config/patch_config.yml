@@ -1,3 +1,52 @@
+SPU-7cd211ff1cbd33163eb0711440dccbb3c1dbcf6c:
+  "Disable SPU MLAA - God of War: Ascension":
+    All:
+      All:
+        All: true
+SPU-6932af7adf79f31116fc28d71aae3e5e165d7f63:
+  Disable SPU MLAA - WWE '13, WWE 2K14:
+    All:
+      All:
+        All: true
+SPU-9001b44fd7278b5a6fa5385939fe928a0e549394:
+  Disable SPU MLAA - Multiple titles:
+    All:
+      All:
+        All: true
+SPU-702d0205a89d445d15dc0f96548546c4e2e7a59f:
+  Disable SPU MLAA - LittleBigPlanet 2, LittleBigPlanet 3:
+    All:
+      All:
+        All: true
+SPU-931132fd48a40bce0bec28e21f760b1fc6ca4364:
+  Disable SPU MLAA - Multiple titles:
+    All:
+      All:
+        All: true
+SPU-ac189d7f87091160a94e69803ac0cff0a8bb7813:
+  Disable SPU MLAA - ICO:
+    All:
+      All:
+        All: true
+PPU-9df60dc1aa5005a0c80e9066e4951dc0471553e6:
+  Disable in-built MLAA:
+    The Last of Us:
+      BCUS98174:
+        01.00: true
+  Speedboost:
+    The Last of Us:
+      BCUS98174:
+        01.00: true
+SPU-976d2128f08c362731413b75c934101b76c3d73b:
+  Disable SPU MLAA - LittleBigPlanet 2:
+    All:
+      All:
+        All: true
+PPU-fe5be566e6cf8bb0b405c8f2b6689e33c471b143:
+  Disable Dynamic Resolution Scaling:
+    "Motorstorm: Apocalypse":
+      NPEA00315:
+        01.06: true
 PPU-507b9d34380cff4bc03d7c64ce6342180779c84b:
   Disable Dynamic Resolution Scaling:
     "Motorstorm: Apocalypse":
@@ -8,12 +57,15 @@ PPU-1658c7e4b1bfe52d6ec02443f8feed9b295ff9dc:
     Motorstorm Demo:
       NPUA80017:
         01.01: true
+SPU-969cf3e9db75f52a6b41074ccbff74106b709854:
+  Disable SPU MLAA - Multiple titles:
+    All:
+      All:
+        All: true
 PPU-a1f33132af387c49d452e64fcb0704cb06b6d084:
   Disable Dynamic Resolution Scaling:
-    "Motorstorm: Pacific Rift":
+    "MotorStorm: Pacific Rift":
       BCES00129:
-        01.03: true
-      BCUS98155:
         01.03: true
 PPU-9f001199a7f23695cd41a2b25c1d0325da7565b5:
   Disable Dynamic Resolution Scaling:
@@ -37,15 +89,15 @@ PPU-f5136a68b1293dd7341878005674f05ffa5ff16a:
     "Motorstorm: Apocalypse":
       BCES01104:
         01.06: true
-PPU-34984cacd60f2ee2a380157a009122698d470056:
-  Disable Dynamic Resolution Scaling:
-    "Motorstorm: Pacific Rift":
-      BCES00129:
-        01.00: true
-PPU-f62bdccfbca93730c2fcd484f65ead6f3c7878be:
-  Disable Dynamic Resolution Scaling:
-    "Motorstorm: Pacific Rift Demo 2.0":
-      NPEA90033:
+SPU-5177cbc4bf45c8a0a6968c2a722da3a9e6cfb28b:
+  Disable SPU MLAA - Prince of Persia series:
+    All:
+      All:
+        All: true
+SPU-77ce25dab2a5ca1d96038cc3dc57c50c705ce38c:
+  "Disable SPU MLAA - God of War: Ascension":
+    All:
+      All:
         All: true
 PPU-c3a2c4075b9ff3c2b142c2df606bb1663c097d5b:
   Disable Dynamic Resolution Scaling:
@@ -72,13 +124,43 @@ PPU-d39f3ed2bf15a49d28486c7bad52b72c8933cbe8:
     "Motorstorm: Apocalypse":
       BCUS98242:
         01.06: true
-PPU-fe5be566e6cf8bb0b405c8f2b6689e33c471b143:
-  Disable Dynamic Resolution Scaling:
-    "Motorstorm: Apocalypse":
-      NPEA00315:
-        01.06: true
 PPU-afb6e2e47e170711041775e0280707e503469d85:
   Disable Dynamic Resolution Scaling:
     "Motorstorm: Apocalypse Singleplayer Demo":
       NPEA90090:
         01.00: true
+SPU-e3780fe1dc8953f849ac844ec9688ff4da3ca3ae:
+  Disable SPU MLAA - Metro Last Light:
+    All:
+      All:
+        All: true
+SPU-df5b1c3353cc36bb2f0fb59197d849bb99c3fecd:
+  Disable SPU MLAA - Multiple titles:
+    All:
+      All:
+        All: true
+SPU-794795c449beef176d076816284849d266f55f99:
+  Disable SPU MLAA - Macross 30:
+    All:
+      All:
+        All: true
+SPU-1549476fe258150ff9f902229ffaed69a932a9c1:
+  "Disable SPU MLAA - God of War: Ascension":
+    All:
+      All:
+        All: true
+SPU-45f98378f0837fc6821f63576f65d47d10f9bbcb:
+  Disable SPU MLAA - Yakuza 0, Yakuza Kiwami:
+    All:
+      All:
+        All: true
+SPU-82b3399c8e6533ba991eedb0e139bf20c7783bac:
+  Disable SPU MLAA - Twisted Metal:
+    All:
+      All:
+        All: true
+SPU-a129a01a270246c85df18eee0e959ef4263b6510:
+  Disable SPU MLAA - LittleBigPlanet 2:
+    All:
+      All:
+        All: true
