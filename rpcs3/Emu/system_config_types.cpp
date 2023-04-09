@@ -552,8 +552,8 @@ void fmt_class_string<thread_scheduler_mode>::format(std::string& out, u64 arg)
 		switch (value)
 		{
 		case thread_scheduler_mode::none: return "Default";
-		case thread_scheduler_mode::spu: return "SPU";
-		case thread_scheduler_mode::rsx: return "RSX";
+		case thread_scheduler_mode::normal: return "Normal";
+		case thread_scheduler_mode::reverse: return "Reverse";
 		}
 
 		return unknown;

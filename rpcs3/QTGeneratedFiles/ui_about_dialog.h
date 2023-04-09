@@ -49,6 +49,7 @@ public:
     QPushButton *gitHub;
     QPushButton *website;
     QPushButton *forum;
+    QPushButton *patreon;
     QSpacerItem *button_spacer;
     QPushButton *close;
 
@@ -213,6 +214,11 @@ public:
 
         button_section->addWidget(forum);
 
+        patreon = new QPushButton(about_dialog);
+        patreon->setObjectName(QString::fromUtf8("patreon"));
+
+        button_section->addWidget(patreon);
+
         button_spacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         button_section->addItem(button_spacer);
@@ -236,14 +242,43 @@ public:
     {
         about_dialog->setWindowTitle(QCoreApplication::translate("about_dialog", "About RPCS3", nullptr));
         title->setText(QCoreApplication::translate("about_dialog", "RPCS3 PlayStation 3 Emulator", nullptr));
-        description->setText(QCoreApplication::translate("about_dialog", "<html><head/><body><p>RPCS3 is an open-source Sony PlayStation 3 emulator and debugger.<br/>It is written in C++ for Windows and Linux funded with Patreon.<br/>Our developers and contributors are always working hard to ensure this project can be the best that it can be.<br/>There are still plenty of implementations to be made and optimizations to be done.<br/>Custom version made by hoholee12</p></body></html>", nullptr));
+        description->setText(QCoreApplication::translate("about_dialog", "<html><head/><body><p>RPCS3 is an open-source Sony PlayStation 3 emulator and debugger.<br/>It is written in C++ for Windows and Linux funded with <a href=\"https://www.patreon.com/Nekotekina\"><span style=\" text-decoration: underline; color:#0000ff;\">Patreon</span></a>.<br/>Our developers and contributors are always working hard to ensure this project can be the best that it can be.<br/>There are still plenty of implementations to be made and optimizations to be done.</p></body></html>", nullptr));
         version->setText(QString());
         developers->setText(QCoreApplication::translate("about_dialog", "<p><b>Developers:</b><br><br>\302\254DH<br>\302\254AlexAltea<br>\302\254Hykem<br>\302\254Oil<br>Nekotekina<br>\302\254Bigpet<br>\302\254gopalsr83<br>\302\254tambry<br>\302\254vlj<br>kd-11<br>\302\254jarveson<br>\302\254raven02<br>AniLeo<br>cornytrace<br>ssshadow<br>\302\254Numan<br>hcorion<br>Megamouse<br>\302\254flash-fire<br>DAGINATSUKO<br>GalCiv<br>eladash</p>", nullptr));
         contributors->setText(QCoreApplication::translate("about_dialog", "<p><b>Contributors:</b><br><br>BlackDaemon<br>elisha464<br>Aishou<br>krofna<br>xsacha<br>danilaml<br>unknownbrackets<br>Zangetsu38<br>lioncash<br>achurch<br>darkf<br>Syphurith<br>Blaypeg<br>Survanium90<br>georgemoralis<br>ikki84<br>scribam<br>TGE<br>velocity<br>Farseer<br>Dangles<br>ruipin<br>jbeich<br>CookiePLMonster<br>Whatcookie<br>rajkosto<br>Admiral Thrawn</p>", nullptr));
-
+        supporters->setText(QCoreApplication::translate("about_dialog", "<p><b>Supporters:</b><br><br>Howard Garrison<br>EXPotemkin<br>Marko V.<br>danhp<br>Jake (5315825)<br>Ian Reid<br>Tad Sherlock<br>Tyler Friesen<br>Folzar<br>Payton Williams<br>RedPill Australia<br>yanghong<br>Mohammed El-Serougi<br>\320\224\320\270\320\274\320\260 ~Ximer13~ \320\232\321\203\320\273\320\270\320\275<br>James Reed<br>BaroqueSonata<br>Bonzay0<br>Henrijs Kons<br>eoiz<br>Lena St\303\266ffler<br>Michael Holder<br>Max Bosse<br>Tyler Whisinnand<br>Gato Harvey<br>cain4355<br>Thomas Peltier<br>Loli Co.<br>MapleLoonie<br>Travis McEwen<br>Scott Singratsomboune<br>T.E<br>Lukas Rieger<br>Dane Madsen<br>JMS<br>Jonatan R<br>Luke Johnson<br>Thomas Zaorski<br>MyOwnFan<br>Alexandros Mandravillis<br>Socker Bopper<br>Faris Leonhart<br>Fabien Net<br>Raves<br>Barrowsx<br>kilsuton<br>Max Mason<br>Ethan Condon<br>jfidone<br>iaDRM<br>Kazer2.0<br>Bryce Quintin<br>Yuri Kunde Schlesner<br>Abdulla Altayer<br>Nicolas Jallamion<br>Vorvek<br>Ian Faddis<br>Leon<br>Mohammad Taleb<br>Jokez<br>crashX<br>Raveskirza<br>Grant Deacon<b"
+                        "r>michael<br>David Zech<br>Ben Manoochehri<br>Adnan Kovacevic<br>Mighty J<br>Sam Shan Jiang<br>TheAnig<br>Rodney Coleman<br>FiniteAce<br>Kian Soon Alex Chiam<br>yukkuri<br>Justin Chadwick<br>toxic Itzi<br>Templerror<br>Myles Wesley Carlson<br>Max Bosse<br>Ethan Clark<br>LupineDream<br>CheatCodesOfLife<br>Jan Zykmund<br>Francesco Cinquemani<br>Andylg<br>Julia H de Camargos<br>Suvodip Mitra<br>Goh<br>Dmitry<br>Steel Brain<br>VarieZ<br>William Swango<br>Matthew Messersmith<br>Duane Locsin<br>Shuddertrix<br>Loweys Litsman<br>Shuddertrix<br>Mason Ferrie<br>Richard Kaplan<br>Hugues Valois<br>richard(lath..ch@)<br>Johnathan (Virtuous John)<br>eoiz<br>Dany Huguenin<br>doobieashtray<br>dean(mag..94@)<br>Pommier Jean-Philippe<br>Douglas Alan Albino<br>Ryan Mull<br>Thor-Erling Engen<br>Nick Carpenter<br>curryking3<br>Jared Tracton<br>alex(koo..oh@)<br>Jason O'Brien<br>Skeletal Charizard<br>Ace00<br>Brandon Corujo<br>HyperBitHero<br>\344\275\263\346\226\207 \346\235\216<br>sorryboi\n"
+"          <br>Johnson Bui\n"
+"      "
+                        "    <br>itachi1986\n"
+"          <br>Mortano\n"
+"          <br>Xythera\n"
+"          <br>Albert Quinteros\n"
+"          <br>Uzair Sheikh\n"
+"          <br>Ethan Hoppins\n"
+"          <br>optic\n"
+"          <br>Quill Slyver\n"
+"          <br>Averie\n"
+"          <br>StevenCarson\n"
+"          <br>YuriNator557\n"
+"          <br>Deanmaxx\n"
+"          <br>linkQatar G\n"
+"          <br>Jack Collie\n"
+"          <br>TAL BERKOVITZ\n"
+"          <br>cjtk\n"
+"          <br>Comexzone\n"
+"          <br>mapleglass\n"
+"          <br>Liquidbings\n"
+"          <br>Dormant_Hero@0230\n"
+"          <br>Theodore Raney\n"
+"          <br>Morito\n"
+"          <br>Chaining Ten\n"
+"          <br>Xeropel\n"
+"          </p>", nullptr));
         gitHub->setText(QCoreApplication::translate("about_dialog", "GitHub", nullptr));
         website->setText(QCoreApplication::translate("about_dialog", "Website", nullptr));
         forum->setText(QCoreApplication::translate("about_dialog", "Forum", nullptr));
+        patreon->setText(QCoreApplication::translate("about_dialog", "Patreon", nullptr));
         close->setText(QCoreApplication::translate("about_dialog", "Close", nullptr));
     } // retranslateUi
 

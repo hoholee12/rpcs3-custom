@@ -99,7 +99,7 @@ Video:
   Accurate ZCULL stats: false
   Consecutive Frames To Draw: 1
   Consecutive Frames To Skip: 1
-  Resolution Scale: 100
+  Resolution Scale: 75
   Anisotropic Filter Override: 0
   Texture LOD Bias Addend: 0
   Minimum Scalable Dimension: 16
@@ -110,7 +110,7 @@ Video:
   Vblank NTSC Fixup: false
   DECR memory layout: false
   Vulkan:
-    Adapter: NVIDIA GeForce GTX 1660
+    Adapter: NVIDIA GeForce MX450
     Force FIFO present mode: false
     Force primitive restart flag: false
     Force Disable Exclusive Fullscreen Mode: false

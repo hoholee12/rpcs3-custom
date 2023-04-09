@@ -917,8 +917,8 @@ QString emu_settings::GetLocalizedSetting(const QString& original, emu_settings_
 		switch (static_cast<thread_scheduler_mode>(index))
 		{
 		case thread_scheduler_mode::none: return tr("Default", "Thread Scheduler Mode");
-		case thread_scheduler_mode::spu: return tr("SPU", "Thread Scheduler Mode");
-		case thread_scheduler_mode::rsx: return tr("RSX", "Thread Scheduler Mode");
+		case thread_scheduler_mode::normal: return tr("Normal", "Thread Scheduler Mode");
+		case thread_scheduler_mode::reverse: return tr("Reverse", "Thread Scheduler Mode");
 		}
 		break;
 	case emu_settings_type::EnableTSX:

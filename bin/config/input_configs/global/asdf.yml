@@ -27,6 +27,22 @@ Player 1 Input:
     L1: 1
     L2: 2
     L3: Q
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -43,9 +59,11 @@ Player 1 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -57,6 +75,7 @@ Player 1 Input:
     Device Class Type: 0
     Vendor ID: 1356
     Product ID: 616
+  Buddy Device: "Null"
 Player 2 Input:
   Handler: XInput
   Device: "XInput Pad #1"
@@ -86,6 +105,22 @@ Player 2 Input:
     L1: LB
     L2: LT
     L3: LS
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -102,9 +137,11 @@ Player 2 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -116,6 +153,7 @@ Player 2 Input:
     Device Class Type: 0
     Vendor ID: 1356
     Product ID: 616
+  Buddy Device: "Null"
 Player 3 Input:
   Handler: "Null"
   Device: "Null"
@@ -145,6 +183,22 @@ Player 3 Input:
     L1: ""
     L2: ""
     L3: ""
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -161,9 +215,11 @@ Player 3 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -175,6 +231,7 @@ Player 3 Input:
     Device Class Type: 0
     Vendor ID: 0
     Product ID: 0
+  Buddy Device: "Null"
 Player 4 Input:
   Handler: "Null"
   Device: "Null"
@@ -204,6 +261,22 @@ Player 4 Input:
     L1: ""
     L2: ""
     L3: ""
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -220,9 +293,11 @@ Player 4 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -234,6 +309,7 @@ Player 4 Input:
     Device Class Type: 0
     Vendor ID: 0
     Product ID: 0
+  Buddy Device: "Null"
 Player 5 Input:
   Handler: "Null"
   Device: "Null"
@@ -263,6 +339,22 @@ Player 5 Input:
     L1: ""
     L2: ""
     L3: ""
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -279,9 +371,11 @@ Player 5 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -293,6 +387,7 @@ Player 5 Input:
     Device Class Type: 0
     Vendor ID: 0
     Product ID: 0
+  Buddy Device: "Null"
 Player 6 Input:
   Handler: "Null"
   Device: "Null"
@@ -322,6 +417,22 @@ Player 6 Input:
     L1: ""
     L2: ""
     L3: ""
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -338,9 +449,11 @@ Player 6 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -352,6 +465,7 @@ Player 6 Input:
     Device Class Type: 0
     Vendor ID: 0
     Product ID: 0
+  Buddy Device: "Null"
 Player 7 Input:
   Handler: "Null"
   Device: "Null"
@@ -381,6 +495,22 @@ Player 7 Input:
     L1: ""
     L2: ""
     L3: ""
+    Motion Sensor X:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Y:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor Z:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
+    Motion Sensor G:
+      Axis: ""
+      Mirrored: false
+      Shift: 0
     Pressure Intensity Button: ""
     Pressure Intensity Percent: 50
     Left Stick Multiplier: 100
@@ -397,9 +527,11 @@ Player 7 Input:
     Blink LED when battery is below 20%: true
     Use LED as a battery indicator: false
     LED battery indicator brightness: 50
+    Player LED enabled: true
     Enable Large Vibration Motor: true
     Enable Small Vibration Motor: true
     Switch Vibration Motors: false
+    Mouse Movement Mode: Relative
     Mouse Deadzone X Axis: 60
     Mouse Deadzone Y Axis: 60
     Mouse Acceleration X Axis: 200
@@ -411,3 +543,4 @@ Player 7 Input:
     Device Class Type: 0
     Vendor ID: 0
     Product ID: 0
+  Buddy Device: "Null"

@@ -8,7 +8,7 @@ Core:
   Max LLVM Compile Threads: 0
   PPU LLVM Greedy Mode: false
   PPU LLVM Precompilation: true
-  Thread Scheduler Mode: RSX
+  Thread Scheduler Mode: Normal
   Set DAZ and FTZ: false
   SPU Decoder: Recompiler (LLVM)
   SPU GETLLAR polling detection: false
@@ -131,7 +131,7 @@ Video:
   Vblank NTSC Fixup: false
   DECR memory layout: false
   Vulkan:
-    Adapter: NVIDIA GeForce GTX 1660
+    Adapter: NVIDIA GeForce MX450
     Force FIFO present mode: false
     Force primitive restart flag: false
     Force Disable Exclusive Fullscreen Mode: false
