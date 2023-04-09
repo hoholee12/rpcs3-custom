@@ -242,7 +242,7 @@ enum class thread_scheduler_mode
 {
 	none,
 	normal,
-	reverse
+	extreme
 };
 
 enum class perf_graph_detail_level
