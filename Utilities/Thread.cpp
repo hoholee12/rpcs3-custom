@@ -2715,7 +2715,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx: return all_cores_mask & 0b1111; //limit to 2 physical cores
 					case thread_class::sha:
-					case thread_class::rec: 
+					case thread_class::rec: return all_cores_mask & (ipow(2, thread_count) - 16);
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 4); //pin out one core
 					case thread_class::ppu:
 					default: return all_cores_mask;
@@ -2744,7 +2744,7 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 					{
 					case thread_class::rsx: return all_cores_mask & 0b11; //limit to 2 cores
 					case thread_class::sha:
-					case thread_class::rec: 
+					case thread_class::rec: return all_cores_mask & (ipow(2, thread_count) - 4);
 					case thread_class::spu: return all_cores_mask & (ipow(2, thread_count) - 2); //pin out one core
 					case thread_class::ppu:
 					default: return all_cores_mask;
@@ -2815,6 +2815,145 @@ u64 thread_ctrl::get_affinity_mask(thread_class group)
 		}
 		else{
 			return all_cores_mask;
+		}
+	}
+
+	return -1;
+}
+
+u64 thread_ctrl::get_recommended_workercount(thread_class group)
+{
+	detect_cpu_layout();
+
+	if (const auto thread_count = utils::get_thread_count())
+	{
+		//rsx+recompiler threads should not interfere with ppu+spu thread.
+		//rsx uses 2 threads total(without multithreading).
+		if (g_cfg.core.thread_scheduler == thread_scheduler_mode::spu)
+		{
+			if (g_native_core_layout == native_core_arrangement::intel_ht)
+			{
+				if (thread_count > 12)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rsx: return 4; //limit to 2 physical cores
+					case thread_class::sha:
+					case thread_class::rec:
+					case thread_class::spu: return thread_count - 4;
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rsx: return 4; //limit to 2 physical cores
+					case thread_class::sha:
+					case thread_class::rec: return thread_count - 4;
+					case thread_class::spu: return thread_count - 2; //pin out one core
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+			}
+			else
+			{
+				if (thread_count > 6)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rsx: return 2; //limit to 2 cores
+					case thread_class::sha:
+					case thread_class::rec:
+					case thread_class::spu: return thread_count - 2;
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rsx: return 2; //limit to 2 cores
+					case thread_class::sha:
+					case thread_class::rec: return thread_count - 2;
+					case thread_class::spu: return thread_count - 1; //pin out one core
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+			}
+		}
+		else if (g_cfg.core.thread_scheduler == thread_scheduler_mode::rsx)
+		{
+			if (g_native_core_layout == native_core_arrangement::intel_ht)
+			{
+				if (thread_count > 12)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::rec: return 4; //limit to 2 physical cores
+					case thread_class::spu: return thread_count - 4;
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::rec: return 4;                      //limit to 2 physical cores
+					case thread_class::spu: return thread_count - 2; //pin out one core
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+			}
+			else
+			{
+				if (thread_count > 6)
+				{
+					//enough cores to separate rsx
+					switch (group)
+					{
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::rec: return 2; //limit to 2 cores
+					case thread_class::spu: return thread_count - 2;
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+				else
+				{
+					//too few physical cores
+					switch (group)
+					{
+					case thread_class::rsx:
+					case thread_class::sha:
+					case thread_class::rec: return 2;                        //limit to 2 cores
+					case thread_class::spu: return thread_count - 1; //pin out one core
+					case thread_class::ppu:
+					default: return thread_count;
+					}
+				}
+			}
+		}
+		else
+		{
+			return thread_count;
 		}
 	}
 

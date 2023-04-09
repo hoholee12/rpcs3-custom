@@ -310,6 +310,9 @@ public:
 	// Returns a core affinity mask. Set whether to generate the high priority set or not
 	static u64 get_affinity_mask(thread_class group);
 
+	// Returns recommended number of worker threads to spawn for shaders and recompiler threads
+	static u64 get_recommended_workercount(thread_class group);
+
 	// Sets the native thread priority
 	static void set_native_priority(int priority);
 

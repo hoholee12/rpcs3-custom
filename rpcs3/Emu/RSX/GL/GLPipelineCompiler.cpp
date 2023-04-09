@@ -42,7 +42,7 @@ namespace gl
 		// Set low priority
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(0);
+			thread_ctrl::set_native_priority(+1);
 		}
 		while (thread_ctrl::state() != thread_state::aborting)
 		{
@@ -102,7 +102,7 @@ namespace gl
 		std::function<void(draw_context_t)> context_destroy_func,
 		int num_worker_threads)
 	{
-
+		
 		if (num_worker_threads == 0)
 		{
 			// Select optimal number of compiler threads
@@ -127,7 +127,7 @@ namespace gl
 
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			num_worker_threads = 256;
+			num_worker_threads = thread_ctrl::get_recommended_workercount(thread_class::sha);
 		}
 
 		ensure(num_worker_threads >= 1);
