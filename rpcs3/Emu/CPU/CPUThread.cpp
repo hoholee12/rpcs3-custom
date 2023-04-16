@@ -415,13 +415,13 @@ void cpu_thread::operator()()
 	case 1:
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(0);
+			thread_ctrl::set_native_priority(-1);
 		}
 		break;
 	case 2:
 		if (g_cfg.core.thread_scheduler != thread_scheduler_mode::none)
 		{
-			thread_ctrl::set_native_priority(0);
+			thread_ctrl::set_native_priority(-1);
 		}
 		break;
 
